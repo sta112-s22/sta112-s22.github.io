@@ -8,7 +8,7 @@ February 21
 February 23
 : Polynomial regression
 
-: Textbook 3.2
+: Textbook 3.4
 
 February 25
 : Regression with a categorical predictor

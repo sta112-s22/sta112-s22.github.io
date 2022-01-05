@@ -10,7 +10,7 @@ February 28
 March 2
 : Regression with categorical and quantitative predictors
 
-: Textbook 3.1, 3.2, 3.3
+: Textbook 3.1, 3.3
 
 March 4
 : **Lab**{: .label .label-purple } Lab 5

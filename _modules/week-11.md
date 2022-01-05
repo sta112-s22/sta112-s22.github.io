@@ -8,8 +8,12 @@ March 21
 March 23
 : Nested F-tests
 
+: Textbook 3.3, 3.6
+
 March 25
 : Assumptions and diagnostics
+
+: Textbook 3.2
 
 : **HW 7 due**{: .label .label-red }
 
