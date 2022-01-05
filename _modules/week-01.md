@@ -1,0 +1,20 @@
+---
+title: Introduction to R
+---
+
+January 10
+: Welcome to STA 112
+  : [Slides](#), [Class activity](#)
+
+: Install R and RStudio 
+  : [R and RStudio setup](https://sta112-s22.github.io/software_installation/)
+
+January 12
+: Intro to R -- exploratory data analysis
+
+January 14
+: **Lab**{: .label .label-purple } Lab 1 -- beginning R
+
+: **HW 1 released**{: .label .label-yellow }
+
+: **Extra Credit 1 released**
