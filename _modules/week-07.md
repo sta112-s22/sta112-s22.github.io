@@ -3,7 +3,7 @@ title: Polynomial regression and categorical predictors
 ---
 
 February 21
-: **Exam 1** {: .label .label-red }
+: **Exam 1**{: .label .label-red }
 
 February 23
 : Polynomial regression
