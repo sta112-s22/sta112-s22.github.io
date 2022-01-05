@@ -1,22 +1,20 @@
 ---
-title: Beginning multiple regression
+title: Polynomial regression and categorical predictors
 ---
 
-October 4
-: Multiple regression models
-  : [Slides](https://sta112-f21.github.io/slides/lecture_19.html)
-  
-: Textbook 3.1, 3.2, 3.3
+February 21
+: **Exam 1** {: .label .label-red }
 
-: **HW 4 due**{: .label .label-red }
+February 23
+: Polynomial regression
 
-October 6
-: Nested F-tests
-  : [Slides](https://sta112-f21.github.io/slides/lecture_20.html), [Class activity](https://sta112-f21.github.io/class_activities/ca_lecture_20.html)
+: Textbook 3.2
 
-: Textbook 3.3, 3.6
+February 25
+: Regression with a categorical predictor
 
-: **Quiz 3**{: .label .label-red}
+: Textbook 3.3, 4.5, 5
 
-October 7
-: **Fall break!**{: .label .label-pink }
+: **Project 1, part 3 due**{: .label .label-red }
+
+: **HW 5 released**{: .label .label-yellow }

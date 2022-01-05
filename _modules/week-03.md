@@ -15,4 +15,6 @@ January 28
 
 : Textbook 1.1
 
-: **Project 1, part I due**{: .label .label-red }
+: **Project 1, part 1 due**{: .label .label-red }
+
+: **HW 2 released**{: .label .label-yellow }

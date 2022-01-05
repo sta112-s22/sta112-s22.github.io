@@ -1,20 +1,20 @@
 ---
-title: Logistic regression fitting and inference
+title: Wrapping up multiple linear regression
 ---
 
-November 8
-: Project 2 and HW 6 work day
+March 28
+: Multicollinearity and variance inflation factors
 
-November 10
-: Fitting logistic regression
-  : [Slides](https://sta112-f21.github.io/slides/lecture_33.html), [Class activity](https://sta112-f21.github.io/class_activities/ca_lecture_33.html)
-  
-: Textbook 11.1
+March 30
+: Multicollinearity and variance inflation factors
 
-November 12
-: Logistic regression inference
-  : [Slides](https://sta112-f21.github.io/slides/lecture_34.html), [Class activity](https://sta112-f21.github.io/class_activities/ca_lecture_34.html)
+April 1
+: Choosing a model
 
-: Textbook 9.4
+: **HW 8 due**{: .label .label-red }
 
-: **HW 6 due**{: .label .label-red }
+: **Project 1, part 4 due**{: .label .label-red }
+
+: **Project 1, part 5**{: .label .label-green } (due in 1 week)
+
+: **Project 1, part 6**{: .label .label-green } (due in 2 weeks)

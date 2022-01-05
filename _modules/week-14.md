@@ -1,16 +1,16 @@
 ---
-title: Work day and break
+title: Logistic regression assumptions
 ---
 
-November 22
-: Work day
+April 11
+: Logistic regression assumptions
 
-: **Project 3 released**{: .label .label-green }
-  : [Project 3](https://sta112-f21.github.io/projects/project_3.html)
+April 13
+: **Lab**{: .label .label-purple } Lab 7
 
-November 24
-: Thanksgiving break!
+April 15
+: **No class**{: .label .label-blue }
 
+: **Project 1, part 6 due**{: .label .label-red }
 
-November 26
-: Thanksgiving break!
+: **HW 9 released**{: .label .label-yellow }

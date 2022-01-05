@@ -1,22 +1,20 @@
 ---
-title: Continuing multiple regression
+title: Beginning multiple linear regression
 ---
 
-October 11
-: Project 1 work day
-  : [Slides](https://sta112-f21.github.io/slides/lecture_21.html)
+February 28
+: Partitioning variability, F-tests
 
-October 13
+: Textbook 2.2, 3.3, 4.5, 5
 
-: Polynomial regression and exploring multivariate data
-  : [Slides](https://sta112-f21.github.io/slides/lecture_22.html)
-  
-: Textbook 3.2, 3.4
+March 2
+: Regression with categorical and quantitative predictors
 
-October 15
-: Exploring multivariate data and interactions
-  : [Slides](https://sta112-f21.github.io/slides/lecture_23.html)
-  
-: Textbook 3.2, 3.4
+: Textbook 3.1, 3.2, 3.3
 
-: **Project 1 due**{: .label .label-red }
+March 4
+: **Lab**{: .label .label-purple } Lab 5
+
+: **HW 5 due**{: .label .label-red }
+
+: **HW 6 released**{: .label .label-yellow }

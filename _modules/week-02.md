@@ -17,4 +17,4 @@ January 21
 
 : **HW 1 due**{: .label .label-red }
 
-: **Project 1, part I**{: .label .label-green }
+: **Project 1, part 1**{: .label .label-green }

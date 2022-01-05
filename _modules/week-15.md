@@ -1,18 +1,16 @@
 ---
-title: Wrapping up multiple logistic regression
+title: Likelihoods and inference
 ---
 
-November 29
-: Likelihood ratio tests
-  : [Slides](https://sta112-f21.github.io/slides/lecture_38.html), [Class activity](https://sta112-f21.github.io/class_activities/ca_lecture_38.html)
-  
-: Textbook 10.4
+April 18
+: Fitting logistic regression
 
-December 1
-: Regression beyond 112
-  : [Slides](https://sta112-f21.github.io/slides/lecture_39.html)
+April 20
+: Logistic regression inference
 
-: Course evaluations
+April 22
+: Wrap up logistic regression
 
-December 3
-: Project 3 work day
+: **HW 9 due**{: .label .label-red }
+
+: **Project 2**{: .label .label-green }

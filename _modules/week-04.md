@@ -1,21 +1,22 @@
 ---
-title: Assumptions, diagnostics, and transformations
+title: Using linear regression
 ---
 
-September 13
-: Assumptions and diagnostics
-  : [Slides](https://sta112-f21.github.io/slides/lecture_10.html), [Class activity](https://sta112-f21.github.io/class_activities/ca_lecture_10.html)
+January 31
+: Predictions, confidence intervals, p-values
   
-: Textbook 1.2, 1.3
+: Textbook 2.1
 
-September 15
-: Assumptions, diagnostics, and transformations
-  : [Slides](https://sta112-f21.github.io/slides/lecture_11.html), [Class activity](https://sta112-f21.github.io/class_activities/ca_lecture_11.html)
+February 2
+: Prediction intervals
   
-: Textbook 1.2, 1.3, 1.4
+: Textbook 2.4
 
-September 17
-: **Lab**{: .label .label-purple } Lab 4 -- assessing model assumptions
-  : [Slides](https://sta112-f21.github.io/slides/lecture_12.html), [Lab 4](https://sta112-f21.github.io/labs/lab_4.html)
-  
-: Textbook 1.5
+February 4
+: **Lab**{: .label .label-purple } Lab 3 
+
+: **HW 2 due**{: .label .label-red }
+
+: **HW 3 released**{: .label .label-yellow }
+
+: **Project 1, part 2**{: .label .label-green }
