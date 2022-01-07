@@ -1,0 +1,125 @@
+---
+title: "Homework 1"
+output: 
+  rmdformats::robobook:
+    css: "homework.css"
+    highlight: pygments
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F)
+library(nycflights13)
+library(tidyverse)
+```
+
+**Due:** Friday, January 21, 12:00pm (noon) on Canvas
+
+**Instructions:** 
+
+* There are two parts to this assignment. In part I, you will write your responses, and include any code, in an R Markdown file. 
+* As in Lab 1, a template R Markdown file will be provided, with set-up instructions below.
+* When you are done with part I, knit the R Markdown file containing all your code and responses. Submit the knitted HTML file on Canvas.
+* For part II, there is nothing to include in R Markdown or submit on Canvas. You will be asked to complete a tutorial from the ZSR library and send me the results. Full instructions are in part II.
+* Remember to acknowledge any collaborators, and to cite outside sources
+
+## Setup
+
+1. Open RStudio, and install the `nycflights13` package, which provides data on flights from New York airports, which you will explore in this assignment. (See the class activity from January 12 for examples installing R packages). You only need to install packages once, so the installation code should be run in the console, not included in your R Markdown document.
+2. Download the R Markdown template file for this assignment: [hw_01_template.Rmd](https://sta112-f21.github.io/homework/hw_01_template.Rmd). Save it to your computer, and change the file name to `hw_01_your_name.Rmd`
+3. Open `hw_01_your_name.Rmd` in RStudio. Change the `author` in YAML to your name.
+4. Fill in answers to questions 1 -- 5. I recommend you save and knit as you answer each question, to avoid losing any work and to catch any knitting issues early.
+5. When you are done, knit and submit your HTML file on Canvas (Assignments -> Homework 1).
+
+# Part I: Practice with exploratory data analysis
+
+In this section, we'll practice exploratory data analysis in R, using data on flights departing from New York City's three major airports. These questions can be answered by adapting code from Lab 1 and the class activity on January 12. 
+
+### Some helpful resources
+
+If you're not sure how to make a particular plot, a good resource is the `ggplot2` webpage ([https://ggplot2.tidyverse.org/index.html](https://ggplot2.tidyverse.org/index.html)). At the search bar in the top, you can search for the type of plot you would like to make. The `ggplot2` cheat sheet ([click here](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-visualization.pdf)) is also useful. (What's the difference between `ggplot` and `ggplot2`? `ggplot` is the name of the function we use to make plots, `ggplot2` is the package which provides that function. `ggplot2` is one of several packages included in the tidyverse).
+
+### Questions
+
+The questions in this section follow the general EDA steps discussed in [lecture 2](https://sta112-s22.github.io/slides/lecture_2.html). We'll begin exploratory data analysis by summarizing the data. 
+
+:::{.question}
+#### Question 1
+
+Summarize the `flights` data. Describe:
+
+* Who (or which organization) originally collected the data?
+* What does a row in the data represent?
+* How many rows and columns are in the data?
+* What information do the variables record?
+* Are there any missing data?
+:::
+
+Now let's look at the distribution of some of the variables. For quantitative variables, we can visualize the distribution with a histogram. 
+
+:::{.question}
+#### Question 2
+
+Create a histogram for the distribution of departure delay, and describe the distribution.
+:::
+
+For categorical variables, we can visualize the distribution through a bar chart.
+
+:::{.question}
+#### Question 3
+
+Create a bar chart showing the number of flights departing from each of the three New York airports (EWR, LGA, and JFK). Which airport had the most flights? *Hint: the code for making a bar chart with `ggplot` is very similar to the code for making a histogram in Question 2. Just change the variable being plotted, and replace `geom_histogram` with something else.*
+:::
+
+Now let's look at the relationship between airport and departure delay.
+
+:::{.question}
+#### Question 4
+
+Create a plot showing the distribution of departure delay for each airport. For each airport, also report the mean departure delay and the standard deviation of departure delays. How does the distribution of departure delay differ across the three New York airports (EWR, LGA, and JFK)? *Hint: you can answer this question by adapting code from Lab 1.*
+:::
+
+Finally, let's visualize the relationship between departure delay from New York, and arrival delay at the flight's destination. 
+
+:::{.question}
+#### Question 5
+
+Below is a scatterplot showing arrival delay vs. departure delay. I have:
+
+* colored each flight by the New York airport it departed from
+* changed the axis labels
+* added a title
+* changed the legend label (to "Origin airport")
+* changed the plot theme (e.g., notice the background is white, not gray)
+* changed the opacity of the points
+* changed the colors used to represent each airport
+
+Recreate this plot as closely as possible. (Note that because the data is large, the `ggplot` function may take longer than usual to run.) You will need to look up how to make some of these changes. *Hint: google searches for things like "ggplot change opacity" often produce good results. We will also cover some of this material next week.*
+:::
+
+```{r, fig.width = 6, fig.height = 4}
+flights %>%
+  drop_na() %>%
+  ggplot(aes(x = dep_delay, y = arr_delay, color = origin)) +
+  geom_point(alpha = 0.7) +
+  labs(x = "Departure delay (minutes)", 
+       y = "Arrival delay (minutes)",
+       color = "Origin airport",
+       title = "Arrival delay vs. departure delay in NYC airports") +
+  theme_bw() +
+  scale_color_manual(values = c("#999999", "#E69F00", "#56B4E9"))
+```
+
+# Part II: ZSR plagiarism tutorial
+
+An important part of data analysis is communicating your results, which may require citations for data sources, software packages, existing literature, and statistical methods. However, it can be tricky to know when citations are needed!
+
+The ZSR library has a great tutorial on citations. While the tutorial isn't focused on data analysis, it still provides useful guidance about what constitutes plagiarism. 
+
+**Instructions:** For this part of the assignment, do the following.
+
+1. Go to [https://zsr.wfu.edu/tutorials/plagiarism/](https://zsr.wfu.edu/tutorials/plagiarism/)
+2. Complete the tutorial
+3. At the end of the tutorial, enter both your WFU email and my email (evansc@wfu.edu), so that a record of your completion is sent to me
+
+That's it for this part! You don't have to submit anything on Canvas for part II.
