@@ -17,7 +17,7 @@ In this activity, we'll get to know each other, and you'll answer some questions
 
 2. What are you studying at Wake? (This can be your declared major, intended major, or some of the classes you're taking)
 
-3. If you could appear on any reality tv show, which one would you choose?
+3. What TV show have you been watching lately?
 
 ## The impact of fans on NBA games
 
