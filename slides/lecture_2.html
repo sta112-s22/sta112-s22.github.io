@@ -19,9 +19,11 @@ class: center, middle, inverse, title-slide
 
 ## Agenda
 
+.large[
 * Overview of exploratory data analysis
 * Introduction to R and RStudio
 * Class activity: penguins!
+]
 
 ---
 
@@ -41,9 +43,11 @@ class: center, middle, inverse, title-slide
 
 --
 
+.large[
 *Understanding*:
 * Not a linear process
 * Begins with *exploratory data analysis*
+]
 
 ---
 
@@ -53,6 +57,7 @@ class: center, middle, inverse, title-slide
 &lt;img src="whole_game_highlight_understanding.png" width="500"&gt;
 ]
 
+.large[
 Goal: get familiar with the data
 
 * What does the data represent?
@@ -61,6 +66,7 @@ Goal: get familiar with the data
     * Where and when was it collected?
     * Who collected it, and what choices did they make?
     * Etc.
+]
 
 ---
 
@@ -70,11 +76,13 @@ Goal: get familiar with the data
 &lt;img src="whole_game_highlight_understanding.png" width="500"&gt;
 ]
 
+.large[
 Goal: get familiar with the data
 
 * What do the variables look like? (univariate EDA)
     * histograms, frequency tables, summary statistics, etc.
     * any outliers?
+]
     
 ---
 
@@ -84,10 +92,12 @@ Goal: get familiar with the data
 &lt;img src="whole_game_highlight_understanding.png" width="500"&gt;
 ]
 
+.large[
 Goal: get familiar with the data
 
 * How are the variables related? (multivariate EDA)
     * two-way tables, scatterplots, boxplots, etc.
+]
     
 ---
     
@@ -97,24 +107,28 @@ Goal: get familiar with the data
 &lt;img src="whole_game_highlight_understanding.png" width="500"&gt;
 ]
 
+.large[
 Goal: get familiar with the data
 
 * What relationships might we want to model?
     * generally informed by *why* we're looking at the data
+]
     
 ---
 
 ## Data: Penguins!
 
+.large[
 Data on 344 penguins from 3 species (Adelie, Chinstrap, Gentoo). Variables include
 
 * Species
 * Bill length
 * Bill depth
 * ...
+]
 
 .center[
-&lt;img src="penguin_art.png" width="500"&gt;
+&lt;img src="penguin_art.png" width="400"&gt;
 ]
 
 .footnote[
@@ -125,90 +139,104 @@ Artwork by @allison_horst
 
 ## Concept check
 
+.large[
 *Bill length* is a quantitative variable. What plot could we use to visualize the distribution of bill length in the penguins dataset?
 
 .abox[ 
-Scatterplot
+(A) Scatterplot
 ]
 
 .bbox[
-Histogram
+(B) Histogram
 ]
 
 .cbox[
-Bar chart
+(C) Bar chart
 ]
 
 .dbox[
-Pie chart
+(D) Pie chart
+]
 ]
 
 --
 
+.large[
 **Answer:** A histogram is a good choice for visualizing the distribution of a single quantitative variable.
+]
 
 ---
 
 ## Concept check
 
+.large[
 *Species* is a categorical variable. What plot could we use to visualize the distribution of species in the penguins dataset?
 
 .abox[ 
-Scatterplot
+(A) Scatterplot
 ]
 
 .bbox[
-Histogram
+(B) Histogram
 ]
 
 .cbox[
-Bar chart
+(C) Bar chart
 ]
 
 .dbox[
-Pie chart
+(D) Pie chart
+]
 ]
 
 --
 
+.large[
 **Answer:** A bar chart is a good choice for visualizing the distribution of a single categorical variable. Pie charts also work, but I find them harder to read.
+]
 
 ---
 
 ## Concept check
 
+.large[
 *Bill length* and *bill depth* are both quantitative variables. What plot could we use to visualize the relationship between these two variables?
 
 .abox[ 
-Scatterplot
+(A) Scatterplot
 ]
 
 .bbox[
-Histogram
+(B) Histogram
 ]
 
 .cbox[
-Bar chart
+(C) Bar chart
 ]
 
 .dbox[
-Box plots
+(D) Box plots
+]
 ]
 
 --
 
+.large[
 **Answer:** A scatterplot shows the relationship between two quantitative variables.
+]
 
 ---
 
 ## Tools for working with data
 
+.large[
 **R:** Statistical software for data manipulation, visualization, computing, modeling
 
 **RStudio:** Integrated development environment (IDE) that makes it easy to use R
+]
 
 .center[
-&lt;img src="r_vs_rstudio_engine_dashboard.png" width="700"&gt;
+&lt;img src="r_vs_rstudio_engine_dashboard.png" width="600"&gt;
 ]
 
 .footnote[
@@ -243,7 +271,9 @@ Source: [Modern Dive](https://moderndive.com/index.html)
 
 ## Class activity: EDA with penguins
 
+.large[
 [https://sta112-s22.github.io/class_activities/ca_lecture2.html](https://sta112-s22.github.io/class_activities/ca_lecture2.html)
+]
 
 .center[
 &lt;img src="penguin_art.png" width="600"&gt;
@@ -259,6 +289,7 @@ Artwork by @allison_horst
 
 ## Distribution of bill length
 
+.large[
 
 ```r
 penguins %&gt;%
@@ -267,6 +298,7 @@ penguins %&gt;%
 ```
 
 ![](lecture_2_files/figure-html/unnamed-chunk-1-1.png)&lt;!-- --&gt;
+]
 
 ---
 
@@ -274,14 +306,17 @@ penguins %&gt;%
 
 ![](lecture_2_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
 
+.large[
 * Most bill lengths between 35mm and 55mm
 * Multimodal, with peaks around 40mm, 45mm, and 50mm
 * Fairly symmetric, no clear outliers
+]
 
 ---
 
 ## Aside: changing the number of bins
 
+.large[
 
 ```r
 penguins %&gt;%
@@ -289,14 +324,14 @@ penguins %&gt;%
   geom_histogram(bins = 20)
 ```
 
-![](lecture_2_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
-
 When making histograms, it is good to try different numbers of bins. The default in `geom_histogram` is 30, but can be changed with `bins = ...`
+]
 
 ---
 
 ## Bill depth vs. bill length
 
+.large[
 
 ```r
 penguins %&gt;%
@@ -305,14 +340,17 @@ penguins %&gt;%
 ```
 
 ![](lecture_2_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+]
 
 ---
 
 ## Bill depth vs. bill length
 
+.large[
 ![](lecture_2_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
 
 * There does not appear to be a relationship between bill length and bill depth
+]
 
 ---
 
@@ -322,13 +360,15 @@ penguins %&gt;%
 ```r
 penguins %&gt;%
   ggplot(aes(x = bill_length_mm, y = bill_depth_mm, 
-             color = species)) +
+             color = species, shape=species)) +
   geom_point()
 ```
 
 ![](lecture_2_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
 
+.large[
 Within each species, there appears to be a positive, linear relationship between bill length and bill depth.
+]
 
 ---
 
@@ -336,9 +376,11 @@ Within each species, there appears to be a positive, linear relationship between
 
 &lt;img src="lecture_2_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
 
+.large[
 New penguin 🐧:
 * Bill length = 50mm, bill depth = 15mm
 * Predicted species = ?
+]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

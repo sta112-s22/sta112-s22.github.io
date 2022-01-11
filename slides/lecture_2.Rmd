@@ -13,9 +13,11 @@ output:
 
 ## Agenda
 
+.large[
 * Overview of exploratory data analysis
 * Introduction to R and RStudio
 * Class activity: penguins!
+]
 
 ---
 
@@ -35,9 +37,11 @@ output:
 
 --
 
+.large[
 *Understanding*:
 * Not a linear process
 * Begins with *exploratory data analysis*
+]
 
 ---
 
@@ -47,6 +51,7 @@ output:
 <img src="whole_game_highlight_understanding.png" width="500">
 ]
 
+.large[
 Goal: get familiar with the data
 
 * What does the data represent?
@@ -55,6 +60,7 @@ Goal: get familiar with the data
     * Where and when was it collected?
     * Who collected it, and what choices did they make?
     * Etc.
+]
 
 ---
 
@@ -64,11 +70,13 @@ Goal: get familiar with the data
 <img src="whole_game_highlight_understanding.png" width="500">
 ]
 
+.large[
 Goal: get familiar with the data
 
 * What do the variables look like? (univariate EDA)
     * histograms, frequency tables, summary statistics, etc.
     * any outliers?
+]
     
 ---
 
@@ -78,10 +86,12 @@ Goal: get familiar with the data
 <img src="whole_game_highlight_understanding.png" width="500">
 ]
 
+.large[
 Goal: get familiar with the data
 
 * How are the variables related? (multivariate EDA)
     * two-way tables, scatterplots, boxplots, etc.
+]
     
 ---
     
@@ -91,24 +101,28 @@ Goal: get familiar with the data
 <img src="whole_game_highlight_understanding.png" width="500">
 ]
 
+.large[
 Goal: get familiar with the data
 
 * What relationships might we want to model?
     * generally informed by *why* we're looking at the data
+]
     
 ---
 
 ## Data: Penguins!
 
+.large[
 Data on 344 penguins from 3 species (Adelie, Chinstrap, Gentoo). Variables include
 
 * Species
 * Bill length
 * Bill depth
 * ...
+]
 
 .center[
-<img src="penguin_art.png" width="500">
+<img src="penguin_art.png" width="400">
 ]
 
 .footnote[
@@ -119,90 +133,104 @@ Artwork by @allison_horst
 
 ## Concept check
 
+.large[
 *Bill length* is a quantitative variable. What plot could we use to visualize the distribution of bill length in the penguins dataset?
 
 .abox[ 
-Scatterplot
+(A) Scatterplot
 ]
 
 .bbox[
-Histogram
+(B) Histogram
 ]
 
 .cbox[
-Bar chart
+(C) Bar chart
 ]
 
 .dbox[
-Pie chart
+(D) Pie chart
+]
 ]
 
 --
 
+.large[
 **Answer:** A histogram is a good choice for visualizing the distribution of a single quantitative variable.
+]
 
 ---
 
 ## Concept check
 
+.large[
 *Species* is a categorical variable. What plot could we use to visualize the distribution of species in the penguins dataset?
 
 .abox[ 
-Scatterplot
+(A) Scatterplot
 ]
 
 .bbox[
-Histogram
+(B) Histogram
 ]
 
 .cbox[
-Bar chart
+(C) Bar chart
 ]
 
 .dbox[
-Pie chart
+(D) Pie chart
+]
 ]
 
 --
 
+.large[
 **Answer:** A bar chart is a good choice for visualizing the distribution of a single categorical variable. Pie charts also work, but I find them harder to read.
+]
 
 ---
 
 ## Concept check
 
+.large[
 *Bill length* and *bill depth* are both quantitative variables. What plot could we use to visualize the relationship between these two variables?
 
 .abox[ 
-Scatterplot
+(A) Scatterplot
 ]
 
 .bbox[
-Histogram
+(B) Histogram
 ]
 
 .cbox[
-Bar chart
+(C) Bar chart
 ]
 
 .dbox[
-Box plots
+(D) Box plots
+]
 ]
 
 --
 
+.large[
 **Answer:** A scatterplot shows the relationship between two quantitative variables.
+]
 
 ---
 
 ## Tools for working with data
 
+.large[
 **R:** Statistical software for data manipulation, visualization, computing, modeling
 
 **RStudio:** Integrated development environment (IDE) that makes it easy to use R
+]
 
 .center[
-<img src="r_vs_rstudio_engine_dashboard.png" width="700">
+<img src="r_vs_rstudio_engine_dashboard.png" width="600">
 ]
 
 .footnote[
@@ -237,7 +265,9 @@ Source: [Modern Dive](https://moderndive.com/index.html)
 
 ## Class activity: EDA with penguins
 
+.large[
 [https://sta112-s22.github.io/class_activities/ca_lecture2.html](https://sta112-s22.github.io/class_activities/ca_lecture2.html)
+]
 
 .center[
 <img src="penguin_art.png" width="600">
@@ -257,11 +287,13 @@ library(tidyverse)
 
 ## Distribution of bill length
 
+.large[
 ```{r, fig.width = 8, fig.height=5}
 penguins %>%
   ggplot(aes(x = bill_length_mm)) +
   geom_histogram()
 ```
+]
 
 ---
 
@@ -273,36 +305,43 @@ penguins %>%
   geom_histogram()
 ```
 
+.large[
 * Most bill lengths between 35mm and 55mm
 * Multimodal, with peaks around 40mm, 45mm, and 50mm
 * Fairly symmetric, no clear outliers
+]
 
 ---
 
 ## Aside: changing the number of bins
 
-```{r, fig.width = 6, fig.height=4}
+.large[
+```{r, fig.show='hide'}
 penguins %>%
   ggplot(aes(x = bill_length_mm)) +
   geom_histogram(bins = 20)
 ```
 
 When making histograms, it is good to try different numbers of bins. The default in `geom_histogram` is 30, but can be changed with `bins = ...`
+]
 
 ---
 
 ## Bill depth vs. bill length
 
+.large[
 ```{r, fig.width = 6, fig.height = 4}
 penguins %>%
   ggplot(aes(x = bill_length_mm, y = bill_depth_mm)) +
   geom_point()
 ```
+]
 
 ---
 
 ## Bill depth vs. bill length
 
+.large[
 ```{r, fig.width = 7, fig.height = 5, echo = F}
 penguins %>%
   ggplot(aes(x = bill_length_mm, y = bill_depth_mm)) +
@@ -310,6 +349,7 @@ penguins %>%
 ```
 
 * There does not appear to be a relationship between bill length and bill depth
+]
 
 ---
 
@@ -318,11 +358,13 @@ penguins %>%
 ```{r, fig.width = 7, fig.height = 4}
 penguins %>%
   ggplot(aes(x = bill_length_mm, y = bill_depth_mm, 
-             color = species)) +
+             color = species, shape=species)) +
   geom_point()
 ```
 
+.large[
 Within each species, there appears to be a positive, linear relationship between bill length and bill depth.
+]
 
 ---
 
@@ -331,10 +373,13 @@ Within each species, there appears to be a positive, linear relationship between
 ```{r, fig.width = 7, fig.height = 5, echo=F, fig.align='center'}
 penguins %>%
   ggplot(aes(x = bill_length_mm, y = bill_depth_mm, 
-             color = species)) +
-  geom_point()
+             color = species, shape=species)) +
+  geom_point(size=1.5) +
+  theme(text = element_text(size = 20))
 ```
 
+.large[
 New penguin 🐧:
 * Bill length = 50mm, bill depth = 15mm
 * Predicted species = ?
+]

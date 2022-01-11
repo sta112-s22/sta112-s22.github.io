@@ -101,10 +101,13 @@ penguins %>%
 Describe the relationship between bill length and bill depth.
 
 6. From Exercises 4 and 5, it looks like there could be different groups in the data. Perhaps different species of penguin?
-Fill in the `...` in the following code so that the points in the scatterplot are colored by penguin species:
+Fill in the `...` in the following code so that the color and shape depend on species:
 ```
 penguins %>%
-  ggplot(aes(x = bill_length_mm, y = bill_depth_mm, color = ...)) +
+  ggplot(aes(x = bill_length_mm, 
+  y = bill_depth_mm, 
+  color = ...,
+  shape = ...)) +
   geom_point()
 ```
 *Hint*: remember that you can find information on the variables in the dataset by running `?penguins`.
@@ -114,7 +117,10 @@ penguins %>%
 <DIV ID="q6_solution" STYLE="display:none">
 ```
 penguins %>%
-  ggplot(aes(x = bill_length_mm, y = bill_depth_mm, color = species)) +
+  ggplot(aes(x = bill_length_mm, 
+  y = bill_depth_mm, 
+  color = species,
+  shape = species)) +
   geom_point()
 ```
 </DIV>
@@ -126,6 +132,7 @@ This is an example of a *prediction* question, one important use for statistical
 ```
 
 **If you're finished early:** try to customize the plots! Search online to see if you can figure out how to change:
+
 * the axis labels
 * the theme
 * the colors of the points
