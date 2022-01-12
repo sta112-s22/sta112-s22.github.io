@@ -11,6 +11,7 @@ January 10
 
 January 12
 : Intro to R -- exploratory data analysis
+  : [Slides](https://sta112-s22.github.io/slides/lecture_2.html), [Class activity](https://sta112-s22.github.io/class_activities/ca_lecture2.html)
 
 January 14
 : **Lab**{: .label .label-purple } Lab 1 -- beginning R
