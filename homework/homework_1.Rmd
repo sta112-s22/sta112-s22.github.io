@@ -86,7 +86,7 @@ Finally, let's visualize the relationship between departure delay from New York,
 
 Below is a scatterplot showing arrival delay vs. departure delay. I have:
 
-* colored each flight by the New York airport it departed from
+* made the color and shape of each point depend on the New York airport it departed from
 * changed the axis labels
 * added a title
 * changed the legend label (to "Origin airport")
@@ -100,11 +100,13 @@ Recreate this plot as closely as possible. (Note that because the data is large,
 ```{r, fig.width = 6, fig.height = 4}
 flights %>%
   drop_na() %>%
-  ggplot(aes(x = dep_delay, y = arr_delay, color = origin)) +
+  ggplot(aes(x = dep_delay, y = arr_delay, 
+             color = origin, shape=origin)) +
   geom_point(alpha = 0.7) +
   labs(x = "Departure delay (minutes)", 
        y = "Arrival delay (minutes)",
        color = "Origin airport",
+       shape = "Origin airport",
        title = "Arrival delay vs. departure delay in NYC airports") +
   theme_bw() +
   scale_color_manual(values = c("#999999", "#E69F00", "#56B4E9"))
