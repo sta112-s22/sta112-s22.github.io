@@ -26,7 +26,7 @@ library(tidyverse)
 ## Setup
 
 1. Open RStudio, and install the `nycflights13` package, which provides data on flights from New York airports, which you will explore in this assignment. (See the class activity from January 12 for examples installing R packages). You only need to install packages once, so the installation code should be run in the console, not included in your R Markdown document.
-2. Download the R Markdown template file for this assignment: [hw_01_template.Rmd](https://sta112-f21.github.io/homework/hw_01_template.Rmd). Save it to your computer, and change the file name to `hw_01_your_name.Rmd`
+2. Download the R Markdown template file for this assignment: [hw_01_template.Rmd](https://sta112-s22.github.io/homework/hw_01_template.Rmd). Save it to your computer, and change the file name to `hw_01_your_name.Rmd`
 3. Open `hw_01_your_name.Rmd` in RStudio. Change the `author` in YAML to your name.
 4. Fill in answers to questions 1 -- 5. I recommend you save and knit as you answer each question, to avoid losing any work and to catch any knitting issues early.
 5. When you are done, knit and submit your HTML file on Canvas (Assignments -> Homework 1).
