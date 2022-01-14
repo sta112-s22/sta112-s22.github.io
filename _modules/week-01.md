@@ -21,4 +21,4 @@ January 14
   : [HW](https://sta112-s22.github.io/homework/homework_1.html)
 
 : **Extra Credit 1 released**
-  : [EC](https://sta112-s22.github.io/extra_credit/ec_1/)
+  : [EC](https://sta112-s22.github.io/extra_credit/ec1/)
