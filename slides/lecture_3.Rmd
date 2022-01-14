@@ -1,5 +1,4 @@
 ---
-author: "Dr. Ciaran Evans"
 title: Lab 1 
 output:
   xaringan::moon_reader:
@@ -13,22 +12,26 @@ output:
 
 ## Agenda
 
+.large[
 * Introduction to R Markdown
 * Lab 1
 * HW 1 released on course website, due January 21 at noon on Canvas
 * Extra Credit 1 release on course website, due at the end of the semester
+]
 
 ---
 
 ## Lab 1: Continuing with penguins
 
+.large[
 [https://sta112-s22.github.io/labs/lab1.html](https://sta112-s22.github.io/labs/lab1.html)
 
 * Welcome to work in groups
 * You may leave if done early, or start HW 1 in class
+]
 
 .center[
-<img src="penguin_art.png" width="600">
+<img src="penguin_art.png" width="400">
 ]
 
 .footnote[

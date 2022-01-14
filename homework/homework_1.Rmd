@@ -35,6 +35,8 @@ library(tidyverse)
 
 In this section, we'll practice exploratory data analysis in R, using data on flights departing from New York City's three major airports. These questions can be answered by adapting code from Lab 1 and the class activity on January 12. 
 
+Once you have loaded the `nycflights13` package, the data are contained in the `flights` dataset. Remember that you can use `?` to get help about functions and datasets in R, so `?flights` will tell you more about the flights data.
+
 ### Some helpful resources
 
 If you're not sure how to make a particular plot, a good resource is the `ggplot2` webpage ([https://ggplot2.tidyverse.org/index.html](https://ggplot2.tidyverse.org/index.html)). At the search bar in the top, you can search for the type of plot you would like to make. The `ggplot2` cheat sheet ([click here](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-visualization.pdf)) is also useful. (What's the difference between `ggplot` and `ggplot2`? `ggplot` is the name of the function we use to make plots, `ggplot2` is the package which provides that function. `ggplot2` is one of several packages included in the tidyverse).

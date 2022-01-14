@@ -15,7 +15,10 @@ January 12
 
 January 14
 : **Lab**{: .label .label-purple } Lab 1 -- beginning R
+  : [Slides](https://sta112-s22.github.io/slides/lecture_3.html), [Lab](https://sta112-s22.github.io/labs/lab1.html)
 
 : **HW 1 released**{: .label .label-yellow }
+  : [HW](https://sta112-s22.github.io/homework/homework_1.html)
 
 : **Extra Credit 1 released**
+  : [EC](https://sta112-s22.github.io/homework/extra_credit/ec_1/)

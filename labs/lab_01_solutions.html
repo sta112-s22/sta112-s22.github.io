@@ -205,9 +205,11 @@ pre code {
 <div id="exercise-4" class="section level2">
 <h2>Exercise 4</h2>
 <pre class="r"><code>penguins %&gt;%
-  pull(body_mass_g) %&gt;%
-  mean()</code></pre>
-<pre><code>## [1] NA</code></pre>
+  summarize(mean(body_mass_g))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   `mean(body_mass_g)`
+##                 &lt;dbl&gt;
+## 1                  NA</code></pre>
 <p>We get NA (which means “Not Available”), because the data contain missing observations.</p>
 </div>
 <div id="exercise-5" class="section level2">
@@ -244,10 +246,12 @@ pre code {
 <div id="exercise-7" class="section level2">
 <h2>Exercise 7</h2>
 <pre class="r"><code>penguins_no_nas %&gt;%
-  pull(body_mass_g) %&gt;%
-  mean()</code></pre>
-<pre><code>## [1] 4207.057</code></pre>
-<p>The mean body mass for penguins in the data, after removing any rows containing NAs, is 4207.06g.</p>
+  summarize(mean(body_mass_g))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   `mean(body_mass_g)`
+##                 &lt;dbl&gt;
+## 1               4207.</code></pre>
+<p>The mean body mass for penguins in the data, after removing any rows containing NAs, is 4207g.</p>
 </div>
 <div id="exercise-8" class="section level2">
 <h2>Exercise 8</h2>

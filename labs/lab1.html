@@ -197,12 +197,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>It can also be helpful to calculate summary statistics for distributions. Add the following code to your lab report, and run:</p></li>
 </ol>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(body_mass_g) <span class="sc">%&gt;%</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>()</span></code></pre></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(body_mass_g))</span></code></pre></div>
 <p>However, we don’t get a number when we run this code. What result do you get?</p>
 <div class="question">
 <p><em>What’s going on here?</em></p>
-<p><code>mean</code> is a function for calculating the mean, and <code>pull</code> extracts a column from the dataset. So <code>penguins %&gt;% pull(body_mass_g) %&gt;% mean()</code> takes <code>penguins</code>, extracts the body mass column, and then calculates the mean. Notice that pipes can be chained together!</p>
+<p><code>summarize</code> is used to calculated summary statistics for a data set, and <code>mean</code> is a function for calculating the mean. In <code>summarize</code>, we specify which statistics to calculate, and on which columns.</p>
 </div>
 <p><label for="tufte-mn-3" class="margin-toggle">⊕</label><input type="checkbox" id="tufte-mn-3" class="margin-toggle"><span class="marginnote"><span style="display: block;">Remember, you can learn more about a topic in R with <code>?</code>. Run <code>?NA</code> in the console to learn more about missing values.</span></span></p>
 <ol start="5" style="list-style-type: decimal">
@@ -238,7 +237,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Report the mean for each species.</p>
 <div class="question">
 <p><em>What’s going on here?</em></p>
-<p><code>summarize</code> calculates summary statistics for a dataset. In <code>summarize</code>, we specify which statistics to calculate, and on which columns. <code>group_by</code> is often used before <code>summarize</code>, and it means “group the data by the values of a column”. So, the code above means “take penguins_no_nas, group the penguins by their species, and within each group calculate the mean body mass”.</p>
+<p><code>summarize</code> calculates summary statistics for a dataset. <code>group_by</code> is often used before <code>summarize</code>, and it means “group the data by the values of a column”. So, the code above means “take penguins_no_nas, group the penguins by their species, and within each group calculate the mean body mass”.</p>
 </div>
 </div>
 

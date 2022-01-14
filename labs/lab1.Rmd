@@ -87,8 +87,7 @@ Now hit the `Run` button for that chunk. How many penguins of each species are t
 4. It can also be helpful to calculate summary statistics for distributions. Add the following code to your lab report, and run:
 ```r
 penguins %>%
-  pull(body_mass_g) %>%
-  mean()
+  summarize(mean(body_mass_g))
 ```
 
 However, we don't get a number when we run this code. What result do you get?
@@ -96,7 +95,7 @@ However, we don't get a number when we run this code. What result do you get?
 :::{.question}
 *What's going on here?*
 
-`mean` is a function for calculating the mean, and `pull` extracts a column from the dataset. So `penguins %>% pull(body_mass_g) %>% mean()` takes `penguins`, extracts the body mass column, and then calculates the mean. Notice that pipes can be chained together!
+`summarize` is used to calculated summary statistics for a data set, and `mean` is a function for calculating the mean. In `summarize`, we specify which statistics to calculate, and on which columns.
 :::
 
 ```{marginfigure}
@@ -146,5 +145,5 @@ Report the mean for each species.
 :::{.question}
 *What's going on here?*
 
-`summarize` calculates summary statistics for a dataset. In `summarize`, we specify which statistics to calculate, and on which columns. `group_by` is often used before `summarize`, and it means "group the data by the values of a column". So, the code above means "take penguins_no_nas, group the penguins by their species, and within each group calculate the mean body mass".
+`summarize` calculates summary statistics for a dataset. `group_by` is often used before `summarize`, and it means "group the data by the values of a column". So, the code above means "take penguins_no_nas, group the penguins by their species, and within each group calculate the mean body mass".
 :::

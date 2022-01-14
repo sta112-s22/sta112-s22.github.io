@@ -43,8 +43,7 @@ The distribution of body mass looks unimodal and right-skewed, with a peak aroun
 
 ```{r}
 penguins %>%
-  pull(body_mass_g) %>%
-  mean()
+  summarize(mean(body_mass_g))
 ```
 
 We get NA (which means "Not Available"), because the data contain missing observations.
@@ -70,11 +69,10 @@ We removed 11 (= 344 - 333) rows.
 
 ```{r}
 penguins_no_nas %>%
-  pull(body_mass_g) %>%
-  mean()
+  summarize(mean(body_mass_g))
 ```
 
-The mean body mass for penguins in the data, after removing any rows containing NAs, is 4207.06g.
+The mean body mass for penguins in the data, after removing any rows containing NAs, is 4207g.
 
 ## Exercise 8
 
