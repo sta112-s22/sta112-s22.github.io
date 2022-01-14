@@ -1,7 +1,7 @@
 ---
 ---
 ---
-title: "Lab 1"
+title: "HW 1"
 author: "Your Name"
 output: html_document
 ---
