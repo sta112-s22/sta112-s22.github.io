@@ -7,6 +7,7 @@ January 17
 
 January 19
 : Data visualization
+  : [Slides](https://sta112-s22.github.io/slides/lecture_4.html), [Class activity](https://sta112-s22.github.io/class_activities/ca_lecture_4.html)
   
 : [ggplot2 cheat sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-visualization.pdf)
 
