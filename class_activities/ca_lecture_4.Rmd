@@ -32,7 +32,7 @@ penguins %>%
   labs(x = "...",
        y = "...",
        color = "...",
-       shape = "...) +
+       shape = "...") +
   theme_...()
 ```
 
