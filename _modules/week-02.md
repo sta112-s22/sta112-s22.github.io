@@ -12,10 +12,12 @@ January 19
 : [ggplot2 cheat sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-visualization.pdf)
 
 January 21
-: Functions and data wrangling
+: Data wrangling
+  : [Slides](https://sta112-s22.github.io/slides/lecture_5.html), [Class activity](https://sta112-s22.github.io/class_activities/ca_lecture_5.html)
   
 : [dplyr cheat sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-transformation.pdf)
 
 : **HW 1 due**{: .label .label-red }
 
 : **Project 1, part 1**{: .label .label-green }
+  : [Project 1, part 1](https://sta112-s22.github.io/projects/project_1_part_1.html)

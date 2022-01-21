@@ -127,7 +127,7 @@ The dataset provided for this project contains the following columns:
 The data for this project is stored in a CSV file, and can be imported into R with the `read_csv` function in the `readr` package. The following code imports the data and saves it as a data frame called `scorecard`:
 
 ```r
-scorecard <- read_csv("https://sta112-f21.github.io/projects/scorecard.csv")
+scorecard <- read_csv("https://sta112-s22.github.io/projects/scorecard.csv")
 ```
 
 This code is included in the setup chunk of the R Markdown template for the project.
