@@ -514,7 +514,7 @@ What is the mean and standard deviation of body mass, for each species and sex?
 ]
 
 .large[
-```{r}
+```{r, output.lines=5:9, message=F}
 penguins %>%
   drop_na() %>%
   group_by(species, sex) %>%
@@ -536,6 +536,7 @@ How many penguins of each species and sex are there?
 .large[
 ```{r}
 penguins %>%
+  drop_na() %>%
   count(species, sex)
 ```
 ]
@@ -571,13 +572,12 @@ penguins %>%
 ```
 ]
 
-.large[
 ```{r, output.lines=2:10, echo=F, message=F, warning=F}
 penguins %>%
   mutate(bf_ratio = body_mass_g/flipper_length_mm) %>%
   select(species, island, body_mass_g, flipper_length_mm, bf_ratio)
 ```
-]
+
 
 ---
 
@@ -619,10 +619,9 @@ penguins_new <- penguins %>%
 
 ### Creating new variables
 
-**Step 3:** Exploratory data analysis
-]
-
 .large[
+**Step 3:** Exploratory data analysis
+
 ```{r}
 penguins_new <- penguins %>%
   mutate(bf_ratio = body_mass_g/flipper_length_mm)
@@ -651,4 +650,9 @@ penguins_new %>%
 
 ### Class Activity
 
-Practice with data wrangling functions:
+.large[
+Practice with data wrangling functions
+
+[https://sta112-s22.github.io/class_activities/ca_lecture_5.html](https://sta112-s22.github.io/class_activities/ca_lecture_5.html)
+
+]
