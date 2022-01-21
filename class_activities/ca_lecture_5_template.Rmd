@@ -1,9 +1,8 @@
 ---
 ---
 ---
-title: "Class activity, September 1"
+title: "Class activity, January 21"
 author: "Your Name"
-date: "8/30/2021"
 output: html_document
 ---
 
@@ -37,20 +36,14 @@ library(tidyverse)
 
 ```
 
-Answer to exercise 4...
-
 ## Exercise 5
 
 ```{r}
 
 ```
 
-Answer to exercise 5...
-
 ## Exercise 6
 
 ```{r}
 
 ```
-
-Answer to exercise 6...
