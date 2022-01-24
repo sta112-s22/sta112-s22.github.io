@@ -1,0 +1,28 @@
+---
+title: Lab 2
+output:
+  xaringan::moon_reader:
+    css: "lab-slides.css"
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+### Agenda
+
+.large[
+* Reminder: Project 1, Part 1 due Friday at 12pm (noon) on Canvas
+  * Please see assignment instructions for details about content, formatting, and style
+  * Start early and let me know if you have any questions
+* Today: Lab 2
+]
+
+---
+
+### Lab 2
+
+.large[
+[https://sta112-s22.github.io/labs/lab_2.html](https://sta112-s22.github.io/labs/lab_2.html)
+]
