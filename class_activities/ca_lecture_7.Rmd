@@ -1,0 +1,54 @@
+---
+title: "Class Activity, January 26"
+output: 
+  tufte::tufte_html:
+    css: "lab.css"
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+In this activity, you will practice using and interpreting a fitted regression line. We will work with data on 116 sparrows, which were observed on Kent Island, New Brunswick. For each sparrow, we have information including:
+
+* *Weight*: the weight of the sparrow (in grams)
+* *WingLength*: the sparrow's wing length (in mm)
+
+This data is included in the `Stat2Data` package (the R package for our class textbook).
+
+## Setup
+
+As with all class activities, there is nothing you will need to submit. However, in case it helps you work on the questions, an R Markdown template is provided for you: [activity template](https://sta112-f21.github.io/class_activities/ca_lecture_7_template.Rmd)
+
+## Questions
+
+```{r, echo=F, message=F, warning=F, fig.align='center', fig.width=7, fig.height=5}
+library(Stat2Data)
+library(tidyverse)
+data("Sparrows")
+
+Sparrows %>%
+  ggplot(aes(x = Weight,
+             y = WingLength)) +
+  geom_point(size=2) +
+  labs(x = "Weight (g)",
+       y = "Wing length (mm)",
+       title = "Wing length vs. weight for \n Kent Island sparrows") +
+  theme_bw() +
+  theme(text = element_text(size=20))
+```
+
+1. Based on the plot, is linear regression an appropriate choice for modeling the relationship between weight and wing length?
+
+We now fit a linear regression, with weight as the explanatory variable and wing length as the response. The equation of the fitted model is
+
+$\widehat{\text{wing length}} = 8.755 + 1.313 \ \text{weight}$
+
+2. What is our estimated intercept, $\widehat{\beta}_0$?
+
+3. What is our estimated slope, $\widehat{\beta}_1$?
+
+4. What is the estimated wing length for a sparrow which weighs 15g?
+
+5. What is the estimated wing length for a sparrow which weights 16g?
+
+6. Compare your answers to exercises 5 and 6 -- how much does the predicted wing length change when we increase weight by 1g?
