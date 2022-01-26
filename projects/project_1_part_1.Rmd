@@ -209,3 +209,34 @@ penguins %>%
 ```
 
 Captions should provide enough information to understand what is being plotted, but interpretation can be left to the main text. Refer to figures by their number in the text. Make sure that any figures you include are discussed in the text.
+
+
+# Checklist
+
+* Change name in R Markdown YAML
+* Three sections: Data Summary, Univariate EDA, Multivariate EDA
+* Data Summary:
+  * What does a row in the data represent? 
+  * How many rows and columns are there? 
+  * What information do the variables record? 
+  * Are there any missing data?
+* Univariate EDA:
+  * Pick three variables *relevant to research questions*
+  * Plot, appropriate summary statistics, and describe distribution for each variable
+  * See above for details on appropriate plots and summary statistics, and what to discuss when describing a distribution
+* Multivariate EDA:
+  * One or more plots that examine the relationships between the three variables from univariate EDA
+  * Plots allow you to address *both* research questions
+  * Discuss plots in context of research questions; see above for more details
+* Writing:
+  * Each section written as a paragraph, with full sentences
+  * No bullet points or lists
+* Code:
+  * Code is included in the R Markdown document, but *not* displayed in the knitted HTML
+  * The only R output shown in the report is figures and tables
+* Figures:
+  * Include meaningful caption and axis labels (see above for details on including a caption)
+  * Each figure included in the report is discussed in your writing, and referred to by its figure number
+* Submission:
+  * Submit *both* the knitted HMTL and the .Rmd file to Canvas
+  * Deadline is Friday, January 28 at 12pm (noon)

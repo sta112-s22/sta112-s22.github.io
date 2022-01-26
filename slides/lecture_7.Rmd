@@ -12,7 +12,13 @@ editor_options:
   chunk_output_type: console
 ---
 
-## Agenda
+### Agenda
+
+.large[
+* Project 1, Part 1 due Friday
+  * Checklist added to assignment instructions
+* Today: intro to regression
+]
     
 ---
 
