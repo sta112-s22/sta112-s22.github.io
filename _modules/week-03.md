@@ -14,6 +14,8 @@ January 26
 
 January 28
 : Least squares
+  : [Slides](https://sta112-s22.github.io/slides/lecture_8.html), [Class activity](https://sta112-s22.github.io/class_activities/ca_lecture_8.html)
+
 
 : Textbook 1.1
 
