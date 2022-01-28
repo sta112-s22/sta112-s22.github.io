@@ -52,7 +52,7 @@ Which values give the smallest SSE?
 We can use the lm function to fit a linear regression in R. Run the following code:
 
 ```{r}
-lm(Weight ~ WingLength, data = Sparrows)
+lm(WingLength ~ Weight, data = Sparrows)
 ```
 
 ## Question 2
