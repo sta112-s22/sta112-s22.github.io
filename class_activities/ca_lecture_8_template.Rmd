@@ -65,4 +65,4 @@ What is the SSE when using the estimated slope and intercept from question 2? Co
 
 ## Question 4
 
-If a sparrow has a wing length of 25cm, what is its predicted weight from the estimated regression line?
+If a sparrow has a weight of 10g, what is its predicted wing length from the estimated regression line?
