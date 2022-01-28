@@ -1,0 +1,160 @@
+---
+title: "Homework 2"
+output: 
+  rmdformats::robobook:
+    css: "homework.css"
+    highlight: pygments
+link-citations: yes
+---
+
+**Due:** Friday, February 4, 12:00pm (noon) on Canvas
+
+**Instructions:** In this homework assignment, you will use exploratory data analysis and linear regression to investigate the relationship between mass and metabolism for a species of marine bryozoan.
+
+* A template R Markdown file is provided in the setup below
+* When you are done with the assignment, knit and submit the HTML on Canvas
+* When making plots, make sure to nicely label all axes, provide units where applicable, and add a title
+* Refer to the [Data Exploration Cheat Sheet](https://sta112-s22.github.io/homework/data_visualization_summary_cheat_sheet.html) for information on how to summarize, visualize, and describe the distribution of variables and the relationships between variables
+* Remember to acknowledge any collaborators, and to cite outside sources
+
+# Setup
+
+### Template
+
+A template R Markdown file, which loads the data and packages you will need for the assignment, is provided: [hw_02_template.Rmd](https://sta112-s22.github.io/homework/hw_02_template.Rmd)
+
+### Data
+
+Researchers have observed many species for which larger offspring have a biological fitness advantage over smaller offspring, but there have been competing hypotheses for why this is the case, and there are exceptions. In the paper "Why does offspring size affect performance? Integrating metabolic scaling with life-history theory" (Pattersen et al. 2015, *Proc. R. Soc. B.*), the authors propose that larger offspring are more efficient in energy consumption and thus have greater fitness.
+
+To investigate, the authors collected data on two species of marine bryozoan, *Bugula neritina* and *Watersipora subtorquata*. After initial growth, the developmental process of these two species consists of three phases before they are considered mature - a larval stage (before the individual settles and begins metamorphosis), an early post-settlement stage, and a late post-settlement stage (as the individual nears the end of metamorphosis).
+
+Here we have data from 568 individuals from these two species, measured at the three different developmental stages. For each individual, the researchers recorded the mass (in micrograms) and the rate of oxygen consumption. The rate of oxygen consumption was then converted into the metabolic rate (rate of energy consumption), based on the amount of energy in oxygen.
+
+Note that the same individuals were measured at the early and late stages, so while there are 568 individuals in the data, the dataset has 823 rows.
+
+The different columns are:
+
+* *Species:* 	Species of the organism measured, either bugula (Bugula neritina) or watersipora (Watersipora subtorquata)
+* *Stage:* Developmental stage of the organism (larvae = larval stage, early = early post-settlement stage, late = late post-settlement stage)
+* *Run:* Which run of the study the individual was recorded in. Several runs were done for each species
+* *Mass:* Mass of the individual (in micrograms)
+* *Metabolic:* Recorded metabolic rate (rate of energy consumption) of the individual (in mJ per hour)
+
+### Downloading the data
+
+The data for this assignment comes from the paper by Pattersen *et al.*, and is stored in a CSV file. CSV files can be read into R with the `read_csv` function, which is part of the `readr` package in the tidyverse. The following code imports the data and saves it as a data frame called `bryozoan`:
+
+```r
+bryozoan <- read_csv("https://sta112-s22.github.io/homework/bryozoan_data.csv")
+```
+
+This code is included in the setup chunk of the R Markdown template for this assignment. The argument to the `read_csv` function here is the path to the CSV file we want to import. This can be either a local path (on your computer) or a url.
+
+**Note: since the data is imported from a csv file, rather than an R package, the `?bryozoan` command will not provide any information about the data. I have included background on the dataset and variables above.**
+
+# Research question
+
+The researchers hypothesize that larger individuals will have a higher metabolic rate than smaller individuals.
+
+Our goal is to investigate this hypothesis with exploratory data analysis and statistical modeling.
+
+# Questions
+
+## Exploratory data analysis
+
+Let's start by visualizing the relationship between mass and metabolism. This step is useful for choosing an appropriate regression model, and for identifying any unusual features in the relationship.
+
+:::{.question}
+#### Question 1: relationship between mass and metabolism
+
+The researchers are interested in the relationship between mass and metabolic rate. Create a plot showing the relationship, with mass on the x-axis and metabolic rate on the y-axis. Summarize the relationship:
+
+* does there appear to be a relationship?
+* if so, does the relationship appear to be positive or negative?
+* what is the general shape of the relationship? Does it look linear?
+:::
+
+We want to model the relationship between mass and metabolic rate. However, if this relationship differs between species and developmental stages, then we would need to include species and developmental stage in the model. Let's check whether the relationship looks different for different species and developmental stages.
+
+:::{.question}
+#### Question 2: species and developmental stage
+
+Create a plot showing the relationship between mass (on the x-axis) and metabolic rate (on the y-axis). This time, break it down by both species and developmental stage. (Options including using aesthetics like shape and color, faceting, etc. Choose the options you think make the plot easiest to read). Does it look like the relationship between mass and metabolic rate is different for different species and/or developmental stages (i.e., is the slope or intercept different)?
+:::
+
+:::{.question}
+#### Question 3: correlation
+
+Calculate the correlation between mass and metabolic rate, for each species and stage.
+:::
+
+To ensure that our analysis is not impacted by differences across species and developmental stages, for the rest of the assignment we will work only with *Bugula neritina* in the "early" stage.
+
+:::{.question}
+#### Question 4: filtering
+
+Create a new dataset that contains only the rows of the `bryozoan` data for which species is *bugula* and stage is *early*. Save your new dataset as `bugula_early`, and use it for the remaining questions below.
+:::
+
+## Regression
+
+We will begin by modeling the relationship between mass and metabolism with linear regression.
+
+:::{.question}
+#### Question 5: the model
+
+Write down the population linear regression model, which assumes a linear relationship between mass (the predictor) and metabolic rate (the response). Remember that the population regression model contains parameters, not estimates, and includes a noise term.
+:::
+
+:::{.question}
+#### Question 6: estimated line
+
+Use R (the `lm` function) to fit the simple linear regression model in question 5. Write down the equation of the estimated regression line.
+:::
+
+As we discussed in class, fitting linear regression only makes sense if the relationship is approximately linear. To check the shape assumption, we can make a **residual plot**.
+
+The code below will create a residual plot for our fitted linear regression:
+
+```r
+bugula_early_lm <- lm(Metabolic ~ Mass, data = bugula_early)
+
+bugula_early %>%
+  mutate(yhat = predict(bugula_early_lm),
+         residuals = residuals(bugula_early_lm)) %>%
+  ggplot(aes(x = yhat, y = residuals)) +
+  geom_point() +
+  geom_abline(slope = 0, intercept = 0, lwd=1.5, color="blue") +
+  labs(x = "Predicted Metabolic rate", y = "Residuals") +
+  theme_bw()
+```
+
+
+:::{.question}
+#### Question 7: shape assumption
+
+Use the code above to create a residual plot for your fitted model. Based on the residual plot, does the shape assumption appear reasonable?
+:::
+
+Now let's use our fitted regression model.
+
+:::{.question}
+#### Question 8: prediction
+
+What is the predicted metabolic rate for an early-stage bugula with mass 15 micrograms?
+:::
+
+:::{.question}
+#### Question 9: interpretation
+
+Interpret the estimated slope $\widehat{\beta}_1$ of your fitted regression model, in the context of the data.
+:::
+
+:::{.question}
+#### Question 10: hypothesis testing
+
+The researchers want to know whether there is a positive relationship between mass and metabolic rate. The null hypothesis is that there is no relationship, and the alternative hypothesis is that there is a positive relationship.
+
+Write down the null and alternative hypotheses in terms of a parameter from the regression model. Then test the hypotheses: calculate a test statistic and p-value, and report your conclusions in context of the research question.
+:::

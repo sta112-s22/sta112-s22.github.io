@@ -22,3 +22,4 @@ January 28
 : **Project 1, part 1 due**{: .label .label-red }
 
 : **HW 2 released**{: .label .label-yellow }
+  : [HW 2](https://sta112-s22.github.io/homework/homework_2.html)
