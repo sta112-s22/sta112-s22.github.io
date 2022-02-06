@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Linear regression assumptions</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.10/header-attrs.js"></script>
+    <link rel="stylesheet" href="lab-slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Linear regression assumptions
+
+---
+
+
+### Agenda
+
+---
+
+### Regression app
+
+.large[
+Go to the following link (also available through the course website):
+
+[https://ciarane.shinyapps.io/regression_app/](https://ciarane.shinyapps.io/regression_app/)
+]
+
+---
+
+### Class activity, Part I
+
+.large[
+[https://sta112-s22.github.io/class_activities/ca_lecture_10.html](https://sta112-s22.github.io/class_activities/ca_lecture_10.html)
+]
+
+---
+
+### Class activity
+
+.large[
+.question[
+If the sample size is fixed, what happens to the width of the intervals as you *increase* the confidence level?
+]
+
+.abox[
+(A) The width increases
+]
+
+.bbox[
+(B) The width decreases
+]
+
+.cbox[
+(C) The width stays the same
+]
+]
+
+--
+
+.large[
+**Answer:** The width increases
+]
+
+---
+
+### Class activity
+
+.large[
+.question[
+If the confidence level is fixed, what happens to the width of the intervals as you *increase* the sample size?
+]
+
+.abox[
+(A) The width increases
+]
+
+.bbox[
+(B) The width decreases
+]
+
+.cbox[
+(C) The width stays the same
+]
+]
+
+--
+
+.large[
+**Answer:** The width decreases
+]
+
+---
+
+### Class activity
+
+.large[
+.question[
+What happens to the coverage of the confidence intervals as you increase the sample size (keeping confidence level fixed)?
+]
+
+.abox[
+(A) The coverage increases
+]
+
+.bbox[
+(B) The coverage decreases
+]
+
+.cbox[
+(C) The coverage stays the same
+]
+]
+
+--
+
+.large[
+**Answer:** The coverage stays the same
+]
+
+---
+
+### Class activity
+
+.large[
+.question[
+What happens to the coverage of the confidence intervals as you increase the confidence level?
+]
+
+.abox[
+(A) The coverage increases
+]
+
+.bbox[
+(B) The coverage decreases
+]
+
+.cbox[
+(C) The coverage stays the same
+]
+]
+
+--
+
+.large[
+**Answer:** The coverage increases
+]
+
+---
+
+### Class activity, Part II
+
+.large[
+[https://ciarane.shinyapps.io/regression_app/](https://ciarane.shinyapps.io/regression_app/)
+
+[https://sta112-s22.github.io/class_activities/ca_lecture_10.html](https://sta112-s22.github.io/class_activities/ca_lecture_10.html)
+]
+
+---
+
+### Class activity
+
+.large[
+We want to test the hypotheses
+
+`$$H_0: \beta_1 = 0 \hspace{1cm} H_A: \beta_1 \neq 0$$`
+
+We observe `\(\widehat{\beta}_1 = -0.018\)` and `\(SE_{\widehat{\beta}_1} = 0.009\)`.
+
+So our, test statistic is `\(t = \dfrac{\widehat{\beta}_1 - 0}{SE_{\widehat{\beta}_1}} = \dfrac{-0.018}{0.009} = -2\)`
+]
+
+---
+
+### Class activity
+
+.large[
+.question[
+If `\(\beta_1 = 0\)` (i.e., if `\(H_0\)` is true), does `\(t = -2\)` seem unusual?
+]
+
+.abox[
+(A) Yes
+]
+
+.bbox[
+(A) No
+]
+]
+
+--
+
+.large[
+**Answer:** Looking at the histogram, `\(t = -2\)` seems somewhat unusual. We get a p-value of about 0.055
+]
+
+---
+
+### Class activity, Part III
+
+.large[
+* So far, our population scatterplot does not look unusual. Let's try changing what the population scatterplot looks like.
+
+[https://ciarane.shinyapps.io/regression_app/](https://ciarane.shinyapps.io/regression_app/)
+
+[https://sta112-s22.github.io/class_activities/ca_lecture_10.html](https://sta112-s22.github.io/class_activities/ca_lecture_10.html)
+]
+
+---
+
+### Class activity
+
+.large[
+.question[
+When the population scatterplot has non-constant variance, and the confidence level is set to 0.8, what fraction of the intervals contain the true `\(\beta_1\)`?
+]
+
+.abox[
+(A) About 80%
+]
+
+.bbox[
+(B) Less than 80%
+]
+
+.cbox[
+(C) More than 80%
+]
+]
+
+--
+
+.large[
+**Answer:** Less than 80%
+]
+
+---
+
+### Class activity
+
+.large[
+.question[
+Why is coverage less than 80%
+]
+]
+
+--
+
+.large[
+Because the actual sampling distribution of `\(\widehat{\beta}_1\)` doesn't quite match the `\(t\)` distribution.
+
+&lt;img src="lecture_10_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+### Linear regression assumptions
+
+.large[
+**Shape assumption:** the shape of the regression model is at least approximately correct
+* When we fit linear regression, we assume the relationship is approximately linear
+]
+
+---
+
+### Shape assumption
+
+.pull-left[
+&lt;img src="lecture_10_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="lecture_10_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+### Linear regression assumptions
+
+.large[
+* **Shape assumption:** the shape of the regression model is at least approximately correct
+
+To do *inference* (confidence intervals and hypothesis tests) we need some other assumptions:
+
+* Constant variance
+* Normality (with zero mean)
+* Randomness
+* Independence
+]
+
+---
+
+### Constant variance
+
+.large[
+.center[
+`\(y = \beta_0 + \beta_1 x + \varepsilon\)`
+]
+]
+
+.large[
+**Assumption:** Variance of the noise `\(\varepsilon\)` is the same for all values of the predictor `\(x\)`
+]
+
+.pull-left[
+&lt;img src="lecture_10_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="lecture_10_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+### Assessing shape and constant variance: residual plots
+
+.large[
+**Residual plot:** plot residuals `\(y - \widehat{y}\)` on vertical axis, and predicted values `\(\widehat{y}\)` on horizontal axis. Add a horizontal line at 0.
+]
+
+&lt;img src="lecture_10_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Residual plots
+
+&lt;img src="lecture_10_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+
+.large[
+Shape assumption is reasonable if: 
+* residuals appear to be scattered randomly above and below 0
+* no clear patterns in the residuals
+]
+
+---
+
+### Residual plots
+
+&lt;img src="lecture_10_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+
+.large[
+Constant variance assumption is reasonable if:
+* the band of residuals has relatively constant width
+]
+
+---
+
+### Concept check
+
+.pull-left[
+&lt;img src="lecture_10_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+.large[
+Which assumption looks reasonable?
+
+.abox[
+(A) Shape
+]
+
+.bbox[
+(B) Constant variance
+]
+
+.cbox[
+(C) Both shape and constant variance
+]
+
+.dbox[
+(D) Neither shape nor constant variance
+]
+]
+]
+
+--
+
+.large[
+**Answer:** Shape
+]
+
+---
+
+### Concept check
+
+.pull-left[
+&lt;img src="lecture_10_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+.large[
+Which assumption looks reasonable?
+
+.abox[
+(A) Shape
+]
+
+.bbox[
+(B) Constant variance
+]
+
+.cbox[
+(C) Both shape and constant variance
+]
+
+.dbox[
+(D) Neither shape nor constant variance
+]
+]
+]
+
+--
+
+.large[
+**Answer:** neither shape nor constant variance
+]
+
+---
+
+### Concept check
+
+.pull-left[
+&lt;img src="lecture_10_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+.large[
+Which assumption looks reasonable?
+
+.abox[
+(A) Shape
+]
+
+.bbox[
+(B) Constant variance
+]
+
+.cbox[
+(C) Both shape and constant variance
+]
+
+.dbox[
+(D) Neither shape nor constant variance
+]
+]
+]
+
+
+--
+
+.large[
+**Answer:** constant variance
+]
+
+---
+
+### Concept check
+
+.pull-left[
+&lt;img src="lecture_10_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+.large[
+Which assumption looks reasonable?
+
+.abox[
+(A) Shape
+]
+
+.bbox[
+(B) Constant variance
+]
+
+.cbox[
+(C) Both shape and constant variance
+]
+
+.dbox[
+(D) Neither shape nor constant variance
+]
+]
+]
+
+--
+
+.large[
+**Answer:** Both shape and constant variance
+]
+
+---
+
+### Normality (with zero mean)
+
+.large[
+**Linear regression model:**
+
+.center[
+`\(y = \beta_0 + \beta_1 x + \varepsilon\)`
+]
+]
+
+.large[
+**Assumption:** The noise term `\(\varepsilon\)` follows a &lt;ins&gt;normal&lt;/ins&gt; distribution, with mean 0
+
+
+Example of a normal distribution:
+]
+
+&lt;img src="lecture_10_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Normal distributions
+
+.large[
+Parameterized by mean `\(\mu\)` and variance `\(\sigma^2\)`:
+
+.center[
+`\(N(\mu, \sigma^2)\)`
+]
+]
+
+.pull-left[
+&lt;img src="lecture_10_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="lecture_10_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+### Assessing normality
+
+.large[
+**Quantile-quantile (QQ) plots:** quantiles of residuals on y-axis, quantiles of theoretical normal distribution on x-axis.
+
+If residuals are normal, plot should look approximately linear.
+]
+
+.pull-left[
+
+.large[
+&lt;ins&gt;Residuals look normal&lt;/ins&gt;
+]
+
+&lt;img src="lecture_10_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+.large[
+&lt;ins&gt;Residuals do not look normal&lt;/ins&gt;
+]
+
+&lt;img src="lecture_10_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+### QQ plot examples
+
+.pull-left[
+
+.large[
+&lt;ins&gt;Residuals look normal&lt;/ins&gt;
+]
+
+&lt;img src="lecture_10_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+.large[
+&lt;ins&gt;Residuals do not look normal&lt;/ins&gt;
+]
+
+&lt;img src="lecture_10_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+### Class activity
+
+.large[
+.question[
+What happens to coverage of the confidence intervals when the population relationship has non-normal noise?
+]
+]
+
+--
+
+.large[
+Turns out coverage is pretty good, provided sample size ( `\(n\)` ) is large enough
+* This is a consequence of central limit theorem
+* So we're not too worried about violations of normality if we have enough data
+]
+
+---
+
+### Class activity, Part IV
+
+.large[
+Based on this class activity, how would you rate the following linear regression assumptions, from most important to least important?
+
+* Constant variance
+* Normality
+* Shape
+
+[https://ciarane.shinyapps.io/regression_app/](https://ciarane.shinyapps.io/regression_app/)
+
+[https://sta112-s22.github.io/class_activities/ca_lecture_10.html](https://sta112-s22.github.io/class_activities/ca_lecture_10.html)
+]
+
+---
+
+### Ranking linear regression assumptions (so far)
+
+.large[
+From most important to least important:
+
+* Shape
+* Constant variance
+* Normality
+]
+
+---
+
+### Next time
+
+.large[
+* Independence
+* Randomness
+* Outliers and unusual observations
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

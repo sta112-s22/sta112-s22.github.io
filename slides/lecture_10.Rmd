@@ -1,0 +1,886 @@
+---
+title: Linear regression assumptions
+output:
+  xaringan::moon_reader:
+    css: "lab-slides.css"
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
+---
+
+### Agenda
+
+---
+
+### Regression app
+
+.large[
+Go to the following link (also available through the course website):
+
+[https://ciarane.shinyapps.io/regression_app/](https://ciarane.shinyapps.io/regression_app/)
+]
+
+---
+
+### Class activity, Part I
+
+.large[
+[https://sta112-s22.github.io/class_activities/ca_lecture_10.html](https://sta112-s22.github.io/class_activities/ca_lecture_10.html)
+]
+
+---
+
+### Class activity
+
+.large[
+.question[
+If the sample size is fixed, what happens to the width of the intervals as you *increase* the confidence level?
+]
+
+.abox[
+(A) The width increases
+]
+
+.bbox[
+(B) The width decreases
+]
+
+.cbox[
+(C) The width stays the same
+]
+]
+
+--
+
+.large[
+**Answer:** The width increases
+]
+
+---
+
+### Class activity
+
+.large[
+.question[
+If the confidence level is fixed, what happens to the width of the intervals as you *increase* the sample size?
+]
+
+.abox[
+(A) The width increases
+]
+
+.bbox[
+(B) The width decreases
+]
+
+.cbox[
+(C) The width stays the same
+]
+]
+
+--
+
+.large[
+**Answer:** The width decreases
+]
+
+---
+
+### Class activity
+
+.large[
+.question[
+What happens to the coverage of the confidence intervals as you increase the sample size (keeping confidence level fixed)?
+]
+
+.abox[
+(A) The coverage increases
+]
+
+.bbox[
+(B) The coverage decreases
+]
+
+.cbox[
+(C) The coverage stays the same
+]
+]
+
+--
+
+.large[
+**Answer:** The coverage stays the same
+]
+
+---
+
+### Class activity
+
+.large[
+.question[
+What happens to the coverage of the confidence intervals as you increase the confidence level?
+]
+
+.abox[
+(A) The coverage increases
+]
+
+.bbox[
+(B) The coverage decreases
+]
+
+.cbox[
+(C) The coverage stays the same
+]
+]
+
+--
+
+.large[
+**Answer:** The coverage increases
+]
+
+---
+
+### Class activity, Part II
+
+.large[
+[https://ciarane.shinyapps.io/regression_app/](https://ciarane.shinyapps.io/regression_app/)
+
+[https://sta112-s22.github.io/class_activities/ca_lecture_10.html](https://sta112-s22.github.io/class_activities/ca_lecture_10.html)
+]
+
+---
+
+### Class activity
+
+.large[
+We want to test the hypotheses
+
+$$H_0: \beta_1 = 0 \hspace{1cm} H_A: \beta_1 \neq 0$$
+
+We observe $\widehat{\beta}_1 = -0.018$ and $SE_{\widehat{\beta}_1} = 0.009$.
+
+So our, test statistic is $t = \dfrac{\widehat{\beta}_1 - 0}{SE_{\widehat{\beta}_1}} = \dfrac{-0.018}{0.009} = -2$
+]
+
+---
+
+### Class activity
+
+.large[
+.question[
+If $\beta_1 = 0$ (i.e., if $H_0$ is true), does $t = -2$ seem unusual?
+]
+
+.abox[
+(A) Yes
+]
+
+.bbox[
+(A) No
+]
+]
+
+--
+
+.large[
+**Answer:** Looking at the histogram, $t = -2$ seems somewhat unusual. We get a p-value of about 0.055
+]
+
+---
+
+### Class activity, Part III
+
+.large[
+* So far, our population scatterplot does not look unusual. Let's try changing what the population scatterplot looks like.
+
+[https://ciarane.shinyapps.io/regression_app/](https://ciarane.shinyapps.io/regression_app/)
+
+[https://sta112-s22.github.io/class_activities/ca_lecture_10.html](https://sta112-s22.github.io/class_activities/ca_lecture_10.html)
+]
+
+---
+
+### Class activity
+
+.large[
+.question[
+When the population scatterplot has non-constant variance, and the confidence level is set to 0.8, what fraction of the intervals contain the true $\beta_1$?
+]
+
+.abox[
+(A) About 80%
+]
+
+.bbox[
+(B) Less than 80%
+]
+
+.cbox[
+(C) More than 80%
+]
+]
+
+--
+
+.large[
+**Answer:** Less than 80%
+]
+
+---
+
+### Class activity
+
+.large[
+.question[
+Why is coverage less than 80%
+]
+]
+
+--
+
+.large[
+Because the actual sampling distribution of $\widehat{\beta}_1$ doesn't quite match the $t$ distribution.
+
+```{r echo=F, message=F, warning=F, fig.width=7, fig.height=4.5, fig.align='center'}
+library(tidyverse)
+
+set.seed(3)
+sample_stats <- c()
+for(i in 1:1000){
+  x = runif(30, 0, 150)
+  y = rnorm(30, 15, sd=4*(x/150)^2)
+  curr_samp <- data.frame(x = x, y = y)
+      curr_lm <- lm(curr_samp$y ~ curr_samp$x)
+      sample_stats[i] <- summary(curr_lm)$coefficients[2,3]
+}
+
+p <- data.frame(sample_stats = sample_stats) %>%
+      ggplot(aes(x = sample_stats)) +
+      geom_histogram(color="grey", alpha=0.5,
+                     aes(y = ..density..)) +
+      labs(x = "Test statistic", y = "Density",
+           title = "Test statistics from 1000 samples") +
+      theme_bw() +
+      theme(text = element_text(size = 25))
+
+dens_dat <- data.frame(x = seq(-5, 5, 0.1),
+                             y = dt(seq(-5, 5, 0.1), 
+                                    df=28))
+
+p + geom_line(aes(x = x, y = y), data=dens_dat, lwd=1.5)
+```
+]
+
+---
+
+### Linear regression assumptions
+
+.large[
+**Shape assumption:** the shape of the regression model is at least approximately correct
+* When we fit linear regression, we assume the relationship is approximately linear
+]
+
+---
+
+### Shape assumption
+
+.pull-left[
+```{r, echo=F, fig.align='center', fig.width=6, fig.height=4}
+data.frame(x = 1:100,
+           y = 1:100 + rnorm(100, sd=20)) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_point(size=2) +
+  labs(title = "Relationship could be linear") +
+  theme_bw() +
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank(),
+        text = element_text(size=25))
+```
+]
+
+.pull-right[
+```{r, echo=F, fig.align='center', fig.width=6, fig.height=4}
+data.frame(x = 1:100,
+           y = log(10*(1:100)) + rnorm(100, sd=0.3)) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_point(size=2) +
+  labs(title = "Relationship not linear") +
+  theme_bw() +
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank(),
+        text = element_text(size=25))
+```
+]
+
+---
+
+### Linear regression assumptions
+
+.large[
+* **Shape assumption:** the shape of the regression model is at least approximately correct
+
+To do *inference* (confidence intervals and hypothesis tests) we need some other assumptions:
+
+* Constant variance
+* Normality (with zero mean)
+* Randomness
+* Independence
+]
+
+---
+
+### Constant variance
+
+.large[
+.center[
+$y = \beta_0 + \beta_1 x + \varepsilon$
+]
+]
+
+.large[
+**Assumption:** Variance of the noise $\varepsilon$ is the same for all values of the predictor $x$
+]
+
+.pull-left[
+```{r, echo=F, fig.align='center', fig.width=6, fig.height=4}
+data.frame(x = 1:100,
+           y = 1:100 + rnorm(100, sd=20)) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_point(size=2) +
+  labs(title = "Constant variance") +
+  theme_bw() +
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank(),
+        text = element_text(size=25))
+```
+]
+
+.pull-right[
+```{r, echo=F, fig.align='center', fig.width=6, fig.height=4}
+data.frame(x = 1:100,
+           y = 1:100 + rnorm(100, sd=20)*(1:100)*0.02) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_point(size=2) +
+  labs(title = "Non-constant variance") +
+  theme_bw() +
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank(),
+        text = element_text(size=25))
+```
+]
+
+---
+
+### Assessing shape and constant variance: residual plots
+
+.large[
+**Residual plot:** plot residuals $y - \widehat{y}$ on vertical axis, and predicted values $\widehat{y}$ on horizontal axis. Add a horizontal line at 0.
+]
+
+```{r, echo = F, message=F, fig.align='center', fig.width=6, fig.height=4}
+library(latex2exp)
+data.frame(x = 1:100,
+           y = rnorm(100, sd=20)) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_point(size=2) +
+  geom_abline(slope = 0, intercept = 0,
+              color = "blue", lwd=1.2) +
+  labs(title = "Residual plot",
+       x = TeX("$\\widehat{y}$"),
+       y = TeX("$y - \\widehat{y}$")) +
+  theme_bw() +
+  theme(text = element_text(size=25))
+```
+
+---
+
+### Residual plots
+
+```{r, echo = F, message=F, fig.align='center', fig.width=6, fig.height=4}
+data.frame(x = 1:100,
+           y = rnorm(100, sd=20)) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_point(size=2) +
+  geom_abline(slope = 0, intercept = 0,
+              color = "blue", lwd=1.2) +
+  labs(title = "Residual plot",
+       x = TeX("$\\widehat{y}$"),
+       y = TeX("$y - \\widehat{y}$")) +
+  theme_bw() +
+  theme(text = element_text(size=25))
+```
+
+.large[
+Shape assumption is reasonable if: 
+* residuals appear to be scattered randomly above and below 0
+* no clear patterns in the residuals
+]
+
+---
+
+### Residual plots
+
+```{r, echo = F, message=F, fig.align='center', fig.width=6, fig.height=4}
+data.frame(x = 1:100,
+           y = rnorm(100, sd=20)) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_point(size=2) +
+  geom_abline(slope = 0, intercept = 0,
+              color = "blue", lwd=1.2) +
+  labs(title = "Residual plot",
+       x = TeX("$\\widehat{y}$"),
+       y = TeX("$y - \\widehat{y}$")) +
+  theme_bw() +
+  theme(text = element_text(size=25))
+```
+
+.large[
+Constant variance assumption is reasonable if:
+* the band of residuals has relatively constant width
+]
+
+---
+
+### Concept check
+
+.pull-left[
+```{r, echo = F, message=F, fig.align='center', fig.width=6, fig.height=6}
+data.frame(x = 1:100,
+           y = rnorm(100, sd=20)*(1:100)*0.02) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_point(size=2) +
+  geom_abline(slope = 0, intercept = 0,
+              color = "blue", lwd=1.2) +
+  labs(title = "Residual plot",
+       x = TeX("$\\widehat{y}$"),
+       y = TeX("$y - \\widehat{y}$")) +
+  theme_bw() +
+  theme(text = element_text(size=25))
+```
+]
+
+.pull-right[
+.large[
+Which assumption looks reasonable?
+
+.abox[
+(A) Shape
+]
+
+.bbox[
+(B) Constant variance
+]
+
+.cbox[
+(C) Both shape and constant variance
+]
+
+.dbox[
+(D) Neither shape nor constant variance
+]
+]
+]
+
+--
+
+.large[
+**Answer:** Shape
+]
+
+---
+
+### Concept check
+
+.pull-left[
+```{r, echo = F, message=F, fig.align='center', fig.width=6, fig.height=6}
+sim_dat <- data.frame(x = seq(-50, 50),
+           y = 0.02*seq(-50, 50)^2 + rnorm(101, sd=10)*(1:101)*0.02)
+sim_reg <- lm(y ~ x, data = sim_dat)
+
+data.frame(pred = sim_reg$fitted.values,
+           res = sim_reg$residuals) %>%
+  ggplot(aes(x = pred, y = res)) +
+  geom_point(size=2) +
+  geom_abline(slope = 0, intercept = 0,
+              color = "blue", lwd=1.2) +
+  labs(title = "Residual plot",
+       x = TeX("$\\widehat{y}$"),
+       y = TeX("$y - \\widehat{y}$")) +
+  theme_bw() +
+  theme(text = element_text(size=25))
+```
+]
+
+.pull-right[
+.large[
+Which assumption looks reasonable?
+
+.abox[
+(A) Shape
+]
+
+.bbox[
+(B) Constant variance
+]
+
+.cbox[
+(C) Both shape and constant variance
+]
+
+.dbox[
+(D) Neither shape nor constant variance
+]
+]
+]
+
+--
+
+.large[
+**Answer:** neither shape nor constant variance
+]
+
+---
+
+### Concept check
+
+.pull-left[
+```{r, echo = F, message=F, fig.align='center', fig.width=6, fig.height=6}
+sim_dat <- data.frame(x = seq(-50, 50),
+           y = 0.02*seq(-50, 50)^2 + rnorm(101, sd=10))
+sim_reg <- lm(y ~ x, data = sim_dat)
+
+data.frame(pred = sim_reg$fitted.values,
+           res = sim_reg$residuals) %>%
+  ggplot(aes(x = pred, y = res)) +
+  geom_point(size=2) +
+  geom_abline(slope = 0, intercept = 0,
+              color = "blue", lwd=1.2) +
+  labs(title = "Residual plot",
+       x = TeX("$\\widehat{y}$"),
+       y = TeX("$y - \\widehat{y}$")) +
+  theme_bw() +
+  theme(text = element_text(size=25))
+```
+]
+
+.pull-right[
+.large[
+Which assumption looks reasonable?
+
+.abox[
+(A) Shape
+]
+
+.bbox[
+(B) Constant variance
+]
+
+.cbox[
+(C) Both shape and constant variance
+]
+
+.dbox[
+(D) Neither shape nor constant variance
+]
+]
+]
+
+
+--
+
+.large[
+**Answer:** constant variance
+]
+
+---
+
+### Concept check
+
+.pull-left[
+```{r, echo = F, message=F, fig.align='center', fig.width=6, fig.height=6}
+data.frame(x = 1:100,
+           y = rnorm(100, sd=20)) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_point(size=2) +
+  geom_abline(slope = 0, intercept = 0,
+              color = "blue", lwd=1.2) +
+  labs(title = "Residual plot",
+       x = TeX("$\\widehat{y}$"),
+       y = TeX("$y - \\widehat{y}$")) +
+  theme_bw() +
+  theme(text = element_text(size=25))
+```
+]
+
+.pull-right[
+.large[
+Which assumption looks reasonable?
+
+.abox[
+(A) Shape
+]
+
+.bbox[
+(B) Constant variance
+]
+
+.cbox[
+(C) Both shape and constant variance
+]
+
+.dbox[
+(D) Neither shape nor constant variance
+]
+]
+]
+
+--
+
+.large[
+**Answer:** Both shape and constant variance
+]
+
+---
+
+### Normality (with zero mean)
+
+.large[
+**Linear regression model:**
+
+.center[
+$y = \beta_0 + \beta_1 x + \varepsilon$
+]
+]
+
+.large[
+**Assumption:** The noise term $\varepsilon$ follows a <ins>normal</ins> distribution, with mean 0
+
+
+Example of a normal distribution:
+]
+
+```{r, echo=F, message=F, warning=F, fig.align='center', fig.width=6, fig.height=4}
+library(tidyverse)
+data.frame(x = seq(-4, 4, 0.1),
+           y = dnorm(seq(-4, 4, 0.1))) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_line(lwd=1.2) +
+  theme_classic() +
+  labs(x = "x", y = "Density")
+```
+
+---
+
+### Normal distributions
+
+.large[
+Parameterized by mean $\mu$ and variance $\sigma^2$:
+
+.center[
+$N(\mu, \sigma^2)$
+]
+]
+
+.pull-left[
+```{r, echo=F, message=F, warning=F, fig.align='center', fig.width=6, fig.height=4}
+library(tidyverse)
+data.frame(x = seq(-10, 10, 0.1),
+           y = dnorm(seq(-10, 10, 0.1))) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_line(lwd=1.5) +
+  theme_classic() +
+  labs(x = "x", y = "Density",
+       title = "N(0, 1)") +
+  theme(text = element_text(size=25))
+```
+]
+
+.pull-right[
+```{r, echo=F, message=F, warning=F, fig.align='center', fig.width=6, fig.height=4}
+library(tidyverse)
+data.frame(x = seq(-8, 12, 0.1),
+           y = dnorm(seq(-8, 12, 0.1), 2, 3)) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_line(lwd=1.5) +
+  theme_classic() +
+  labs(x = "x", y = "Density",
+       title = "N(2, 9)") +
+  theme(text = element_text(size=25))
+```
+]
+
+---
+
+### Assessing normality
+
+.large[
+**Quantile-quantile (QQ) plots:** quantiles of residuals on y-axis, quantiles of theoretical normal distribution on x-axis.
+
+If residuals are normal, plot should look approximately linear.
+]
+
+.pull-left[
+
+.large[
+<ins>Residuals look normal</ins>
+]
+
+```{r, echo=F, fig.align='center', fig.width=6, fig.height=4}
+set.seed(2)
+temp_x = 1:50
+temp_y = 1:50 + rnorm(50, sd=10)
+temp_lm <- lm(temp_y ~ temp_x)
+
+data.frame(res = residuals(temp_lm)) %>%
+  ggplot(aes(sample = res)) +
+  geom_qq(size = 2) +
+  geom_qq_line(size = 1.5) +
+  labs(x = "Theoretical normal quantiles",
+       y = "Observed residual quantiles") +
+  theme_classic() +
+  theme(text = element_text(size=25))
+```
+]
+
+.pull-right[
+
+.large[
+<ins>Residuals do not look normal</ins>
+]
+
+```{r, echo=F, fig.align='center', fig.width=6, fig.height=4}
+set.seed(2)
+temp_x = 1:50
+temp_y = 1:50 + rexp(50, rate = 1)
+temp_lm <- lm(temp_y ~ temp_x)
+
+data.frame(res = residuals(temp_lm)) %>%
+  ggplot(aes(sample = res)) +
+  geom_qq(size = 2) +
+  geom_qq_line(size = 1.5) +
+  labs(x = "Theoretical normal quantiles",
+       y = "Observed residual quantiles") +
+  theme_classic() +
+  theme(text = element_text(size=25))
+```
+]
+
+---
+
+### QQ plot examples
+
+.pull-left[
+
+.large[
+<ins>Residuals look normal</ins>
+]
+
+```{r, echo=F, fig.align='center', fig.width=6, fig.height=4}
+set.seed(5)
+temp_x = seq(1, 50, 0.5)
+temp_y = seq(1, 50, 0.5) + rnorm(99, sd=10)
+temp_lm <- lm(temp_y ~ temp_x)
+
+data.frame(res = residuals(temp_lm)) %>%
+  ggplot(aes(sample = res)) +
+  geom_qq(size = 2) +
+  geom_qq_line(size = 1.5) +
+  labs(x = "Theoretical normal quantiles",
+       y = "Observed residual quantiles") +
+  theme_classic() +
+  theme(text = element_text(size=25))
+```
+]
+
+.pull-right[
+
+.large[
+<ins>Residuals do not look normal</ins>
+]
+
+```{r, echo=F, fig.align='center', fig.width=6, fig.height=4}
+set.seed(2)
+temp_x = seq(1, 50, 0.5)
+temp_y = seq(1, 50, 0.5) + runif(99)*10
+temp_lm <- lm(temp_y ~ temp_x)
+
+data.frame(res = residuals(temp_lm)) %>%
+  ggplot(aes(sample = res)) +
+  geom_qq(size = 2) +
+  geom_qq_line(size = 1.5) +
+  labs(x = "Theoretical normal quantiles",
+       y = "Observed residual quantiles") +
+  theme_classic() +
+  theme(text = element_text(size=25))
+```
+]
+
+---
+
+### Class activity
+
+.large[
+.question[
+What happens to coverage of the confidence intervals when the population relationship has non-normal noise?
+]
+]
+
+--
+
+.large[
+Turns out coverage is pretty good, provided sample size ( $n$ ) is large enough
+* This is a consequence of central limit theorem
+* So we're not too worried about violations of normality if we have enough data
+]
+
+---
+
+### Class activity, Part IV
+
+.large[
+Based on this class activity, how would you rate the following linear regression assumptions, from most important to least important?
+
+* Constant variance
+* Normality
+* Shape
+
+[https://ciarane.shinyapps.io/regression_app/](https://ciarane.shinyapps.io/regression_app/)
+
+[https://sta112-s22.github.io/class_activities/ca_lecture_10.html](https://sta112-s22.github.io/class_activities/ca_lecture_10.html)
+]
+
+---
+
+### Ranking linear regression assumptions (so far)
+
+.large[
+From most important to least important:
+
+* Shape
+* Constant variance
+* Normality
+]
+
+---
+
+### Next time
+
+.large[
+* Independence
+* Randomness
+* Outliers and unusual observations
+]

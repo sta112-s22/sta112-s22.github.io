@@ -1,0 +1,72 @@
+---
+title: "Class Activity, February 7"
+output: 
+  tufte::tufte_html:
+    css: "../labs/lab.css"
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+In this class activity, you will explore confidence intervals and hypothesis tests for the regression slope. We will be using a data simulation app: [https://ciarane.shinyapps.io/regression_app/](https://ciarane.shinyapps.io/regression_app/)
+
+# Part I
+
+In the app, go to the "100 samples" tab. Make sure the button next to "No relationship" is checked. Set the confidence level to 0.9 and the sample size to 30. Then click "Take 100 samples". You should see 100 confidence intervals appear in the right-hand plot.
+
+Now experiment with changing the confidence level and the sample size. Click "Take 100 samples" again after changing the confidence level and sample size.
+
+1. If the sample size is fixed, what happens to the width of the intervals as you *increase* the confidence level?
+
+2. If the confidence level is fixed, what happens to the width of the intervals as you *increase* the sample size?
+
+3. What happens to the coverage of the confidence intervals as you change the sample size and confidence level? (Click "Take 100 samples" a few times to get a good sense of the coverage)
+
+
+# Part II
+
+Now suppose we want to perform a hypothesis test. Our null and alternative hypotheses are
+
+$H_0: \beta_1 = 0 \hspace{1cm} H_A: \beta_1 \neq 0$
+
+Suppose we also observe data (with $n = 30$ observations), and calculate $\widehat{\beta}_1 = -0.018$ and $SE_{\widehat{\beta}_1} = 0.009$.
+
+4. Calculate the test statistic $t = \dfrac{\widehat{\beta}_1 - 0}{SE_{\widehat{\beta}_1}}$.
+
+Is $t$ unusual? In the app, go to the "Hypothesis testing" tab. The histogram on the right shows 1000 different $t$-statistics, each one calculated from a different sample, when $H_0: \beta_1 = 0$ is true.
+
+5. If $\beta_1 = 0$, does $t = -2$ seem unusual?
+
+We can calculate *how* unusual $t = -2$ is by calculating the p-value. Recall that if $H_0$ is true, then $t$ comes from a $t_{n-2}$ distribution. In the app, click "Overaly t distribution" -- notice how the histogram is close to the theoretical $t$-distribution.
+
+6. Run the R code below to calculate a p-value for the hypotheses $H_0: \beta_1 = 0$ vs. $H_A: \beta_1 \neq 0$.
+
+```r
+pt(-2, df = 28, lower.tail=T) + pt(2, df=28, lower.tail=F)
+```
+
+*The `pt` function calculates tail probabilities of a $t$-distribution. Here our alternative hypothesis is $\beta_1 \neq 0$, so we calculate the probability a test statistic is $> 2$ or $< -2$. The `df` argument specifies the degrees of freedom (here it is $n - 2$). The `lower.tail` argument tells us whether to calculate a left-tail (`lower.tail=T`) or right-tail (`lower.tail=F`) probability.*
+
+# Part III
+
+So far, we have been assuming that the relationship between $X$ and $Y$ looks "nice" -- that is, there is nothing unusual about the population scatterplot. Now let's change the population relationship, and see what happens to our confidence intervals.
+
+First, change the population relationship to "Non-constant variance", and notice how the population scatterplot changes.
+
+7. Set the sample size to 30 and the confidence level to 0.8. Then go to the "100 samples" tab, and click "Take 100 samples". What proportion of the intervals cover?
+
+8. Click "Take 100 samples" several more times. Does it look like you're getting 80% coverage?
+
+9. Now go to the "Hypothesis testing" tab, and overlay the $t$-distribution. Does the $t$-distribution look like a good fit for the histogram?
+
+10. Why might coverage of the confidence intervals be less than 80%?
+
+11. Finally, change the population relationship to "Non-normal noise", and generate confidence intervals. What kind of coverage do you get?
+
+# Part IV
+
+12. Based on this class activity, how would you rate the following linear regression assumptions, from most important to least important?
+
+* Constant variance
+* Normality
+* Shape
