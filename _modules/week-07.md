@@ -17,4 +17,4 @@ February 25
 
 : **Project 1, part 3 due**{: .label .label-red }
 
-: **HW 5 released**{: .label .label-yellow }
+: **HW 4 released**{: .label .label-yellow }

@@ -17,7 +17,7 @@ April 1
 
 : Textbook 4.2
 
-: **HW 8 due**{: .label .label-red }
+: **HW 7 due**{: .label .label-red }
 
 : **Project 1, part 4 due**{: .label .label-red }
 

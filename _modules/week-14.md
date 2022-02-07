@@ -15,4 +15,4 @@ April 15
 
 : **Project 1, part 6 due**{: .label .label-red }
 
-: **HW 9 released**{: .label .label-yellow }
+: **HW 8 released**{: .label .label-yellow }

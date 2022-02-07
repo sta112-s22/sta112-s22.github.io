@@ -15,6 +15,6 @@ April 20
 April 22
 : Wrap up logistic regression
 
-: **HW 9 due**{: .label .label-red }
+: **HW 8 due**{: .label .label-red }
 
 : **Project 2**{: .label .label-green }

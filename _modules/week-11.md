@@ -15,8 +15,8 @@ March 25
 
 : Textbook 3.2
 
-: **HW 7 due**{: .label .label-red }
+: **HW 6 due**{: .label .label-red }
 
 : **Project 1, part 4**{: .label .label-green }
 
-: **HW 8 released**{: .label .label-yellow }
+: **HW 7 released**{: .label .label-yellow }

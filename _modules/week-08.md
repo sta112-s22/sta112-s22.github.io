@@ -15,6 +15,6 @@ March 2
 March 4
 : **Lab**{: .label .label-purple } Lab 5
 
-: **HW 5 due**{: .label .label-red }
+: **HW 4 due**{: .label .label-red }
 
-: **HW 6 released**{: .label .label-yellow }
+: **HW 5 released**{: .label .label-yellow }

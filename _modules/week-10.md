@@ -17,6 +17,6 @@ March 18
 
 : Textbook 3.3, 3.4
 
-: **HW 6 due**{: .label .label-red }
+: **HW 5 due**{: .label .label-red }
 
-: **HW 7 released**{: .label .label-yellow }
+: **HW 6 released**{: .label .label-yellow }
