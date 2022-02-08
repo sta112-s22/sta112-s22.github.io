@@ -1,0 +1,107 @@
+---
+title: "Class Activity, February 9"
+output: 
+  tufte::tufte_html:
+    css: "lab.css"
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+In this activity, you will practice checking the assumptions for linear regression models.
+
+## Setup
+
+This activity investigates the relationship between the number of doctors in a county, and the number of hospitals. The data come from a random sample of 53 counties in the US, and are contained in the `CountyHealth` dataset from the `Stat2Data` package. The dataset includes the following variables: 
+
+* `County`: the name and state of the county
+* `MDs`: the number of medical doctors in the county
+* `Hospitals`: number of hospitals in the county
+* `Beds`: the number of beds in the hospital
+
+The activity template contains copies of the code below. Run the setup chunk in the template before you begin.
+
+Download the activity template: [activity template](https://sta112-s22.github.io/class_activities/ca_lecture_11_template.Rmd)
+
+# Questions
+
+We are interested in the relationship between the number of hospitals and the number of doctors in a county. To begin, we'll assume that the relationship is linear:
+
+$\text{doctors} = \beta_0 + \beta_1 \text{hospitals} + \varepsilon$
+
+1. Fill in the code below to fit the linear regression model, and save the fitted model as `health_lm` in R:
+
+```r
+health_lm <- lm(... ~ ..., data = ...)
+```
+
+<SCRIPT>
+function ShowAndHide(divid) {
+    var x = document.getElementById(divid);
+    if (x.style.display == 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
+}
+</SCRIPT>
+
+<BUTTON ONCLICK="ShowAndHide('q1_solution')">Solution</BUTTON>
+
+<DIV ID="q1_solution" STYLE="display:none">
+```r
+health_lm <- lm(MDs ~ Hospitals, data = CountyHealth)
+```
+</DIV>
+
+When we fit a linear model, we typically make certain assumptions about the data. In particular, we assume that true relationship is linear (the shape assumption), that the noise term $\varepsilon$ has constant variance (the constant variance assumption) and follows a normal distribution (the normality assumption), and that the observations are independent and come from a random process (the independence and randomness assumptions). 
+
+To assess shape, constant variance, and normality, we make a residual plot and a qq plot. Let's make these plots.
+
+```{marginfigure}
+The `predict` function takes in a fitted model (in this case, `health_lm`), and outputs predictions for the observed data. The `residuals` function takes in a fitted model, and outputs the observed residuals.
+```
+
+2. Run the code below to make a residual plot for the fitted model:
+
+```r
+CountyHealth %>%
+  mutate(yhat = predict(health_lm),
+         residuals = residuals(health_lm)) %>%
+  ggplot(aes(x = yhat, y = residuals)) +
+  geom_point() +
+  geom_abline(slope = 0, intercept = 0, 
+              color = "blue", lwd = 1.2) +
+  labs(x = "Predicted number of doctors",
+       y = "Residual") +
+  theme_bw()
+```
+
+```{marginfigure}
+`geom_qq` adds the points to the QQ plot, while `geom_qq_line` adds the ideal line. If the points fall close to the line, the normality assumption is reasonable.
+```
+
+3. Run the code below to make a QQ plot for the fitted model:
+
+```r
+CountyHealth %>%
+  mutate(residuals = residuals(health_lm)) %>%
+  ggplot(aes(sample = residuals)) +
+  geom_qq() +
+  geom_qq_line() +
+  labs(x = "Theoretical normal quantiles",
+       y = "Observed residual quantiles") +
+  theme_classic()
+```
+
+Recall that:
+
+* the shape assumption is reasonable if the residuals appear to be scattered randomly above and below 0, with no clear patterns.
+* the constant variance assumption is reasonable if the band of residuals has relatively constant width.
+* the normality assumption is reasonable if the QQ plot looks approximately linear (the points fall close to the line)
+
+4. Using the residual plot and the QQ plot, assess whether the shape, constant variance, and normality assumptions are reasonable.
+
+Finally, we want to assess the independence and randomness assumptions. Remember that neither assumption can be assessed with a plot; instead, we need to think about the data-generating process. The independence assumption is reasonable if observations in the data are independent, and the randomness assumption is reasonable if the data come from some kind of random process, such as a random sample or experiment.
+
+5. Do the independence and randomness assumptions seem reasonable for the `CountyHealth` data?
