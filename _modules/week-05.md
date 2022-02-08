@@ -9,11 +9,9 @@ February 7
 : Textbook 1.2, 1.3
 
 February 9
-: Assumptions and diagnostics, outliers
+: Assumptions and diagnostics
 
-: Textbook 1.2, 1.3, 1.5
-
-: **Project 1, part 2**{: .label .label-green }
+: Textbook 1.2, 1.3
 
 February 11
 : Transformations
@@ -22,4 +20,4 @@ February 11
 
 : **Lab**{: .label .label-purple } Lab 3
 
-: **HW 3 released**{: .label .label-yellow }
+: **Project 1, part 2**{: .label .label-green }
