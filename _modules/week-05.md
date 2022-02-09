@@ -11,6 +11,8 @@ February 7
 February 9
 : Assumptions and diagnostics
 
+  : [Slides](https://sta112-s22.github.io/slides/lecture_11.html), [Class activity](https://sta112-s22.github.io/class_activities/ca_lecture_11.html)
+
 : Textbook 1.2, 1.3
 
 February 11

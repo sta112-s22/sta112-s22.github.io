@@ -12,6 +12,18 @@ editor_options:
   chunk_output_type: console
 ---
 
+### Agenda
+
+.large[
+* Project 1, Part 1 grades released
+* Project 1, Part 2 assigned later this week
+* Faculty research presentations
+  * Friday, February 11, 3pm (Carswell 101)
+* Today: continuing linear regression assumptions
+]
+
+---
+
 ### Linear regression assumptions
 
 .large[
@@ -645,8 +657,8 @@ Is it reasonable to assume the observations are independent?
 * Shape
 * Constant variance
 * Normality (with zero mean)
-* **Independence**
-* Randomness
+* Independence
+* **Randomness**
 ]
 
 ---
