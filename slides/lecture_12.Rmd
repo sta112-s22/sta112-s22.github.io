@@ -1,0 +1,311 @@
+---
+title: Transformations
+output:
+  xaringan::moon_reader:
+    css: "lab-slides.css"
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
+---
+
+### Agenda
+
+.large[
+* Project 1, Part 2 released
+  * regression, diagnostics, and inference with the college scorecard data
+  * we will talk about studentized residuals and outliers on Monday
+  * due Friday, Feb 18, 12:00pm (noon) on Canvas
+* Today:
+  * Transformations
+  * Lab 3
+]
+
+---
+
+### Last time
+
+.large[
+Predicting the number of doctors from the number of hospitals in a county:
+
+```{r, echo=F, message=F, fig.align='center', fig.width=7, fig.height=5}
+library(Stat2Data)
+library(tidyverse)
+data("CountyHealth")
+CountyHealth %>%
+  ggplot(aes(x = Hospitals, 
+             y = MDs)) +
+  geom_point(size=2.5) +
+  labs(x = "Number of hospitals",
+       y = "Number of doctors") +
+  theme_bw() +
+  theme(text = element_text(size = 25))
+```
+]
+
+---
+
+### Regression diagnostics
+
+.pull-left[
+```{r, echo=F, message=F, fig.width=6, fig.height=5, fig.align='center'}
+health_lm <- lm(MDs ~ Hospitals, data = CountyHealth)
+CountyHealth %>%
+  mutate(yhat = predict(health_lm),
+         residuals = residuals(health_lm)) %>%
+  ggplot(aes(x = yhat, y = residuals)) +
+  geom_point(size=2) +
+  geom_abline(slope = 0, intercept = 0, 
+              color = "blue", lwd = 1.2) +
+  labs(x = "Predicted number of doctors",
+       y = "Residual") +
+  theme_bw() +
+  theme(text = element_text(size = 25))
+```
+]
+
+.pull-right[
+```{r, echo=F, message=F, fig.width=6, fig.height=5, fig.align='center'}
+CountyHealth %>%
+  mutate(residuals = residuals(health_lm)) %>%
+  ggplot(aes(sample = residuals)) +
+  geom_qq(size=2) +
+  geom_qq_line() +
+  labs(x = "Theoretical normal quantiles",
+       y = "Observed residual quantiles") +
+  theme_classic() +
+  theme(text = element_text(size=25))
+```
+]
+
+---
+
+### Transformations
+
+.large[
+What if we look at the square root of the number of doctors instead?
+]
+
+.pull-left[
+```{r, echo=F, fig.align='center', fig.width=6, fig.height=5}
+CountyHealth %>%
+  ggplot(aes(x = Hospitals, 
+             y = MDs)) +
+  geom_point(size=2.5) +
+  labs(x = "Number of hospitals",
+       y = "Number of doctors") +
+  theme_bw() +
+  theme(text = element_text(size = 25))
+```
+]
+
+.pull-right[
+```{r, echo=F, fig.align='center', fig.width=6, fig.height=5}
+CountyHealth %>%
+  ggplot(aes(x = Hospitals, 
+             y = sqrt(MDs))) +
+  geom_point(size=2.5) +
+  labs(x = "Number of hospitals",
+       y = "Sqrt(Number of doctors)") +
+  theme_bw() +
+  theme(text = element_text(size = 25))
+```
+]
+
+---
+
+### Diagnostic plots
+
+.pull-left[
+```{r, echo=F, message=F, fig.width=6, fig.height=5, fig.align='center'}
+health_lm <- lm(sqrt(MDs) ~ Hospitals, data = CountyHealth)
+CountyHealth %>%
+  mutate(yhat = predict(health_lm),
+         residuals = residuals(health_lm)) %>%
+  ggplot(aes(x = yhat, y = residuals)) +
+  geom_point(size=2) +
+  geom_abline(slope = 0, intercept = 0, 
+              color = "blue", lwd = 1.2) +
+  labs(x = "Predicted sqrt(number of doctors)",
+       y = "Residual") +
+  theme_bw() +
+  theme(text = element_text(size = 25))
+```
+]
+
+.pull-right[
+```{r, echo=F, message=F, fig.width=6, fig.height=5, fig.align='center'}
+CountyHealth %>%
+  mutate(residuals = residuals(health_lm)) %>%
+  ggplot(aes(sample = residuals)) +
+  geom_qq(size=2) +
+  geom_qq_line() +
+  labs(x = "Theoretical normal quantiles",
+       y = "Observed residual quantiles") +
+  theme_classic() +
+  theme(text = element_text(size=25))
+```
+]
+
+.large[
+.question[
+How do the shape, constant variance, and normality assumptions look now?
+]
+]
+
+---
+
+### Transformations
+
+.large[
+**Transformations** can sometimes be used to address violations of shape, constant variance, and normality assumptions.
+]
+
+.pull-left[
+```{r, echo=F, fig.align='center', fig.width=6, fig.height=5}
+data("SpeciesArea")
+SpeciesArea %>%
+  ggplot(aes(x = Area, 
+             y = Species)) +
+  geom_point(size=2.5) +
+  labs(x = "Area of island (sq km)",
+       y = "Number of species") +
+  theme_bw() +
+  theme(text = element_text(size = 25))
+```
+]
+
+.pull-right[
+```{r, echo=F, fig.align='center', fig.width=6, fig.height=5}
+SpeciesArea %>%
+  ggplot(aes(x = log(Area), 
+             y = log(Species))) +
+  geom_point(size=2.5) +
+  labs(x = "log(Area)",
+       y = "log(Number of species)") +
+  theme_bw() +
+  theme(text = element_text(size = 25))
+```
+]
+
+---
+
+### Using transformations
+
+.large[
+.center[
+$\sqrt{\widehat{\text{MDs}}} = -2.75 + 6.88 \text{Hospitals}$
+]
+]
+
+.large[
+.question[
+If a county has 8 hospitals, how many doctors do we predict?
+]
+
+.abox[
+(A) 52.59
+]
+
+.bbox[
+(B) 2734.24
+]
+
+.cbox[
+(C) 7.23
+]
+]
+
+--
+
+.large[
+**Answer:** $\widehat{\text{MDs}} = (-2.75 + 6.88 \cdot 8)^2 = 2734.24$
+]
+
+---
+
+### Using transformations
+
+.large[
+.center[
+$\sqrt{\widehat{\text{MDs}}} = -2.75 + 6.88 \text{Hospitals}$
+]
+]
+
+.large[
+.question[
+How should I interpret the estimated slope, 6.88?
+]
+
+.abox[
+(A) An increase of 1 hospital is associated with an increase of 6.88 doctors.
+]
+
+.bbox[
+(B) An increase of 1 hospital is associated with an increase of $6.88^2$ doctors.
+]
+
+.cbox[
+(C) An increase of 1 hospital is associated with an increase of 6.88 in the square root of the number of doctors.
+]
+]
+
+--
+
+.large[
+**Answer:** An increase of 1 hospital is associated with an increase of 6.88 in the square root of the number of doctors.
+]
+
+---
+
+### Choosing transformations
+
+.large[
+* Choose a transformation for $x$ that looks like the relationship
+* Experiment with transforming $x$ and/or $y$
+* See section 1.4 in book for intuition
+]
+
+```{r, echo=F, fig.align='center', fig.width=8, fig.height=5.5}
+library(patchwork)
+p1 <- data.frame(x = 1:100) %>%
+  ggplot(aes(x = x, y = sqrt(x))) +
+  geom_line(size = 1.2) +
+  theme_bw() +
+  theme(text = element_text(size = 20)) +
+  labs(title = "Square root")
+
+p2 <- data.frame(x = 1:100) %>%
+  ggplot(aes(x = x, y = x^2)) +
+  geom_line(size = 1.2) +
+  theme_bw() +
+  theme(text = element_text(size = 20)) +
+  labs(title = "Square")
+
+p3 <- data.frame(x = 1:100) %>%
+  ggplot(aes(x = x, y = log(x))) +
+  geom_line(size = 1.2) +
+  theme_bw() +
+  theme(text = element_text(size = 20)) +
+  labs(title = "Log")
+
+p4 <- data.frame(x = 1:100) %>%
+  ggplot(aes(x = x, y = 1/x)) +
+  geom_line(size = 1.2) +
+  theme_bw() +
+  theme(text = element_text(size = 20)) +
+  labs(title = "Reciprocal")
+
+(p1 + p2)/(p3 + p4)
+```
+
+---
+
+### Lab 3
+
+.large[
+[https://sta112-s22.github.io/labs/lab_3.html](https://sta112-s22.github.io/labs/lab_3.html)
+]

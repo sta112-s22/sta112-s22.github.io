@@ -1,0 +1,62 @@
+---
+title: "Lab 3"
+output: 
+  tufte::tufte_html:
+    css: "lab.css"
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+**Learning goals:** By the end of this lab, you will be able to
+
+* Make and interpret regression diagnostic plots
+* Transform variables to address violations of regression assumptions
+
+# Setup
+
+**Template file:** [lab_03_template.Rmd](https://sta112-s22.github.io/labs/lab_03_template.Rmd)
+
+**Data:** In this lab, we will continue working with the `gapminder` data from Lab 2. We are interested in the relationship between GDP and life expectancy, and we will use regression to model this relationship.
+
+Recall that the `gapminder` data contains information on 142 different countries, measured from 1952 to 2007 in increments of five years (so countries appear multiple times in the data). The available variables are
+
+* `country`: the name of the country
+* `continent`: which continent the country is located on
+* `year`: which year the data were recorded in
+* `lifeExp`: the life expectancy at birth, in years
+* `pop`: population of the country
+* `gdpPercap`: GDP per capita, in US dollars (adjusted for inflation)
+
+## Data
+
+1. Two of the assumptions we make for linear regression are independence and randomness. Thinking about the `gapminder` data, do those assumptions seem reasonable here?
+
+2. Let's focus only on data from 2007. Create a new dataset, called `gapminder_2007`, which contains only the 2007 data. Use the `gapminder_2007` data for the rest of the lab.
+
+## Initial model
+
+3. Fit a linear regression model with GDP per capita as the predictor, and life expectancy as the response. Save this fitted model as `gap_lm` in R.
+
+4. Adapt the code from the class activity on February 9 to create a residual plot and a QQ plot for the fitted model in Exercise 3.
+
+5. Using the residual plot and QQ plot from Exercise 4, assess the shape, constant variance, and normality assumptions for the model in Exercise 3.
+
+## Transformations
+
+Sometimes, transformations can be used to address violations of the linear regression assumptions. We'll start by trying a log transformation. Remember that when we use logs, we usually mean the *natural* log (and the `log` function in R calculates natural logs).
+
+6. Fill in the following code to add a new column to `gapminder_2007` which is the log of GDP per capita:
+
+```r
+gapminder_2007 <- gapminder_2007 %>%
+  mutate(log_gdp_percap = ...)
+```
+
+7. Fit a linear regression model with log(GDP per capita) as the predictor, and life expectancy as the response. Save this fitted model as `gap_lm_2` in R.
+
+8. Using your fitted model from Exercise 7, what is the predicted life expectancy for a country with a GDP per capita of $20000?
+
+9. Create a residual plot and a qq plot for the fitted model in Exercise 7. Do the regression assumptions look more reasonable after the log transformation?
+
+10. Experiment with some other transformations. Do other transformations do a better job at fixing violations of the regression assumptions?
