@@ -1,0 +1,69 @@
+---
+---
+---
+title: "Class Activity, February 14"
+author: "Your Name"
+output: html_document
+---
+
+## Setup
+
+Run the setup chunk:
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(gapminder)
+
+gapminder_2007 <- gapminder %>%
+  filter(year == 2007) %>%
+  mutate(log_gdp_percap = log(gdpPercap))
+  
+gap_lm <- lm(lifeExp ~ log_gdp_percap, data = gapminder_2007)
+
+studentized_residual_plot <- function(fitted_model, data){
+  data %>%
+    mutate(studentized_resids = rstudent(fitted_model),
+           yhat = predict(fitted_model)) %>%
+    ggplot(aes(x = yhat, y = studentized_resids)) +
+    geom_point(size = 2.5) +
+    geom_abline(slope = 0, intercept = 0, 
+                color = "blue", lwd=1.2) +
+    geom_abline(slope = 0, intercept = c(-3, -2, 2, 3),
+                color = "orange", lty = 2, lwd=1.2) +
+    labs(x = "Predicted response",
+         y = "Studentized residuals") +
+    theme_bw() +
+    theme(text = element_text(size = 20))
+}
+```
+
+## Question 1
+
+```{r}
+
+```
+
+
+## Question 2
+
+
+
+## Question 3
+
+```{r}
+
+```
+
+
+## Question 4
+
+
+```{r}
+
+```
+
+
+## Question 5
+
+

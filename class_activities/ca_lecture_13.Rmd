@@ -1,0 +1,95 @@
+---
+title: "Class Activity, February 14"
+output: 
+  tufte::tufte_html:
+    css: "lab.css"
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+In this activity, you will explore outliers for fitted linear regression models.
+
+## Setup
+
+In this lab, we will continue working with the `gapminder` data from Lab 3. We are interested in the relationship between GDP and life expectancy, and we will use regression to model this relationship.
+
+Recall that the `gapminder` data contains information on 142 different countries, measured from 1952 to 2007 in increments of five years (so countries appear multiple times in the data). The available variables are
+
+* `country`: the name of the country
+* `continent`: which continent the country is located on
+* `year`: which year the data were recorded in
+* `lifeExp`: the life expectancy at birth, in years
+* `pop`: population of the country
+* `gdpPercap`: GDP per capita, in US dollars (adjusted for inflation)
+
+Download the activity template: [activity template](https://sta112-s22.github.io/class_activities/ca_lecture_13_template.Rmd)
+
+# Questions
+
+Before we begin, run the following code to create `gapminder_2007` (which contains data from only 2007, and which has the transformed variable `log_gdp_percap`) and fit a linear regression of life expectancy on log GDP per capita:
+
+```r
+gapminder_2007 <- gapminder %>%
+  filter(year == 2007) %>%
+  mutate(log_gdp_percap = log(gdpPercap))
+  
+gap_lm <- lm(lifeExp ~ log_gdp_percap, data = gapminder_2007)
+```
+
+Now we want to create a studentized residual plot for our fitted model. Create an R chunk, copy the function below, paste it into an R chunk in your Markdown, and run it. You will notice that nothing seems to happen, but if you check the top Environment panel of your RStudio session, you should notice that a new function called `studentized_residual_plot` has appeared. R allows users to create functions as needed, and in essence you have just “taught” R a new function. This function was written by Dr. Evans, which means you will have the flexibility to adapt it later if needed!
+
+```r
+studentized_residual_plot <- function(fitted_model, data){
+  data %>%
+    mutate(studentized_resids = rstudent(fitted_model),
+           yhat = predict(fitted_model)) %>%
+    ggplot(aes(x = yhat, y = studentized_resids)) +
+    geom_point(size = 2.5) +
+    geom_abline(slope = 0, intercept = 0, 
+                color = "blue", lwd=1.2) +
+    geom_abline(slope = 0, intercept = c(-3, -2, 2, 3),
+                color = "orange", lty = 2, lwd=1.2) +
+    labs(x = "Predicted response",
+         y = "Studentized residuals") +
+    theme_bw() +
+    theme(text = element_text(size = 20))
+}
+```
+
+To use the function, you will need to specify the inputs, meaning the pieces of information the computer needs in order to run the code.
+
+* `fitted_model`: your fitted regression model in R (e.g., `gap_lm`)
+* `data`: the original data used to fit the model (e.g., `gapminder_2007`)
+
+1. Run the code below to create a studentized residual plot for the fitted linear regression model:
+
+```r
+studentized_residual_plot(gap_lm, gapminder_2007)
+```
+
+2. Based on the studentized residual plot, do you see any suspected outliers?
+
+3. Now let's investigate whether these potential outliers impact the fit of our line. First, run the following code to create a dataset called `gapminder_2007_small`, for which the suspected outliers are removed:
+
+```r
+gapminder_2007_small <- gapminder_2007 %>%
+  mutate(studentized_resids = rstudent(gap_lm)) %>%
+  filter(studentized_resids > -3, studentized_resids < 3)
+```
+
+4. Next, let's see if these points change the fitted line. Run the following code to create a scatterplot with two regression fits: the original fitted line (in blue), and the fitted line after removing outliers (in red):
+
+```r
+gapminder_2007 %>%
+  ggplot(aes(x = log_gdp_percap, y = lifeExp)) +
+  geom_point() +
+  geom_smooth(se=F, method="lm", color="blue") +
+  geom_smooth(data = gapminder_2007_small, 
+              se=F, method="lm", color = "red", lty = 2) +
+  labs(x = "log(GDP per capita)", 
+       y = "Life expectancy") +
+  theme_bw()
+```
+
+5. Based on your plot in Exercise 4, do the suspected outliers seem to substantially change the fitted line? What should we do about the suspected outliers?

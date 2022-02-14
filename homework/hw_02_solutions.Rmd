@@ -1,0 +1,150 @@
+---
+title: "Homework 3 Solutions"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+bryozoan <- read_csv("https://sta112-s22.github.io/homework/bryozoan_data.csv")
+```
+
+**Total: 25 pts**
+
+## Question 1 (2 pts)
+
+```{r}
+bryozoan %>%
+  ggplot(aes(x = Mass, y = Metabolic)) +
+  geom_point() +
+  theme_bw() +
+  labs(x = "Mass (ug)",
+       y = "Metabolic rate (mJ/hour)",
+       title = "Metabolic rate vs. mass for marine bryozoa")
+```
+
+There appears to be a fairly weak, positive, roughly linear relationship between mass and metabolic rate. 
+
+**Grading:** 1 pt for plot, 1 pt for interpretation
+
+They need to recognize that the relationship is positive and pretty weak. They can get credit if they say the relationship is slightly nonlinear, as long as they describe why they think it is slightly nonlinear.
+
+## Question 2 (4 pts)
+
+```{r}
+bryozoan %>%
+  ggplot(aes(x = Mass, y = Metabolic, 
+             color = Species)) +
+  geom_point() +
+  facet_wrap(~Stage) +
+  theme_bw() +
+  labs(x = "Mass (ug)",
+       y = "Metabolic rate (mJ/hour)",
+       title = "Metabolic rate vs. mass for marine bryozoa")
+```
+
+The relationship between mass and metabolic rate does appear to differ by species and stage. For a given mass, metabolic rate seems to be higher for larvae and late stages, compared to the early developmental stage. In the early stage, bugula also seem to have slightly smaller mass and metabolic rate than watersipora.
+
+**Grading:** (2 pts for plot, 2 pts for interpretation)
+
+They need to recognize that there are differences between species and stages. They can choose different plotting options (e.g., shape instead of color, or facet_grid instead of facet_wrap), as long as the resulting plot is readable and shows what they need it to. Lose 1 pt if plot is hard to read.
+
+## Question 3 (2 pts)
+
+```{r}
+bryozoan %>%
+  group_by(Species, Stage) %>%
+  summarize(correlation = cor(Mass, Metabolic))
+```
+
+**Grading:** Lose 1 pt if they don't group by both species and stage.
+
+
+## Question 4 (2 pts)
+
+```{r}
+bugula_early <- bryozoan %>%
+  filter(Stage == "early",
+         Species == "bugula")
+```
+
+**Grading:** Lose 1 pt if they don't filter by both species and stage. Lose 1 pt if they don't save the resulting data.
+
+
+## Question 5 (2 pts)
+
+$\text{metabolic rate} = \beta_0 + \beta_1 \text{mass} + \varepsilon$
+
+**Grading:**
+
+They just need to write the regression model for the population here. It is ok if they don't use LaTeX syntax to make it look nice, but there shouldn't be any hats, they need the right variable names, and they need to include the noise time $\varepsilon$.
+
+## Question 6 (2 pts)
+
+```{r}
+bugula_early_lm <- lm(Metabolic ~ Mass, data = bugula_early)
+bugula_early_lm
+```
+
+$\widehat{\text{metabolic rate}} = 0.083 + 0.0064 \ \text{mass}$
+
+
+**Grading:**
+
+They need to:
+* Fit the model (they can call it whatever they want, doesn't have to be `bugula_early_lm`)
+* Report the equation of the fitted line (needs to have the actual estimates 0.083 and 0.0064, not just written with $\widehat{\beta}_0$ and $\widehat{\beta}_1$. Doesn't have to be LaTeXed).
+
+## Question 7 (2 pts)
+
+```{r}
+bugula_early %>%
+  mutate(yhat = predict(bugula_early_lm),
+         residuals = residuals(bugula_early_lm)) %>%
+  ggplot(aes(x = yhat, y = residuals)) +
+  geom_point() +
+  geom_abline(slope = 0, intercept = 0, lwd=1.5, color="blue") +
+  labs(x = "Predicted Metabolic rate", y = "Residuals") +
+  theme_bw()
+```
+
+Yes, the shape assumption appears reasonable. There is a random scatter of residuals around the horizontal line, with no clear patterns to the residuals.
+
+## Question 8 (1 pt)
+
+The predicted metabolic rate is $0.083 + 0.0064 \cdot 15 = 0.179$ mJ/hr.
+
+**Grading:** Full points if answer is close (they might have rounded differently)
+
+## Question 9 (2 pt)
+
+The estimated slope is 0.0064, which means that an increase of 1 microgram in mass for early-stage bugula is associated with an increase of 0.0064 mJ/hr in metabolic rate.
+
+## Question 10 (6 pts)
+
+```{r}
+summary(bugula_early_lm)
+pt(4.946, df=195, lower.tail = F)
+```
+
+Hypotheses:
+
+$H_0: \beta_1 = 0 \hspace{0.5cm} H_A: \beta_1 > 0$
+
+Test statistic: $t = 4.946$
+
+Degrees of freedom: 197 - 2 = 195
+
+p-value: $8.15 \times 10^{-7}$
+
+Conclusion: We have strong evidence that there is a positive relationship between mass and metabolic rate.
+
+**Grading:** 2 pts for hypotheses, 2 pts for test statistic and p-value, 2 pts for conclusion
+
+* Lose 1 pt if hypotheses stated in terms of $\widehat{\beta}_1$ instead of $\beta_1$
+* Test statistic ok as long as it is close (people may round slightly differently)
+* Two ways they can calculate p-value: with the `pt` function, or by dividing the p-value in the R output by 2
+* Lose 1 point if they use R output and don't divide by 2
+* If they use `pt` function, lose 1 point for wrong degrees of freedom
+* Acceptable conclusions: strong evidence for a positive relationship, or strong evidence against the null hypothesis that there is no relationship
+* Unacceptable conclusions (lose 1 pt): rejecting/accepting/failing to reject $H_0$, or comparing to 0.05, 0.01, etc.

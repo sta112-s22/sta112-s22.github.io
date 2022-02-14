@@ -5,6 +5,7 @@ title: Wrapping up simple linear regression
 February 14
 
 : Outliers and unusual observations
+  : [Slides](https://sta112-s22.github.io/slides/lecture_13.html), [Class activity](https://sta112-s22.github.io/class_activities/ca_lecture_13.html)
 
 : Textbook 1.5
 
