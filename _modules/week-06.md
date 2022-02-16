@@ -11,9 +11,7 @@ February 14
 
 
 February 16
-: Bootstrapping
-
-: Textbook 4.7
+: Project work day
 
 February 18
 : Wrapping up simple linear regression

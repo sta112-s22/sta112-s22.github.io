@@ -1,0 +1,105 @@
+---
+title: "Lab 3 Solutions"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(gapminder)
+library(tidyverse)
+```
+
+## Exercise 1
+
+The randomness assumption doesn't really seem reasonable -- there's no reason to think these countries are a random sample of the different countries in the world, and countries for which it is easier to gather data are more likely to be included. However, it isn't necessarily an issue that randomness is violated here. If we're interested in the relationship between GDP and life expectancy for different countries, we have most of the countries in our dataset. So while we might not be able to generalize to countries which aren't included, we can still say something interesting.
+
+The independence assumption is not reasonable here, since we have multiple observations (in different years) for most countries.
+
+## Exercise 2
+
+```{r}
+gapminder_2007 <- gapminder %>%
+  filter(year == 2007)
+```
+
+## Exercise 3
+
+```{r}
+gap_lm <- lm(lifeExp ~ gdpPercap, data = gapminder_2007)
+```
+
+## Exercise 4
+
+```{r}
+gapminder_2007 %>%
+  mutate(yhat = predict(gap_lm),
+         residuals = residuals(gap_lm)) %>%
+  ggplot(aes(x = yhat, y = residuals)) +
+  geom_point() +
+  geom_abline(slope = 0, intercept = 0, 
+              color = "blue", lwd = 1.2) +
+  labs(x = "Predicted life expectancy",
+       y = "Residual") +
+  theme_bw()
+
+gapminder_2007 %>%
+  mutate(residuals = residuals(gap_lm)) %>%
+  ggplot(aes(sample = residuals)) +
+  geom_qq() +
+  geom_qq_line() +
+  labs(x = "Theoretical normal quantiles",
+       y = "Observed residual quantiles") +
+  theme_classic()
+```
+
+## Exercise 5
+
+The constant variance assumption looks ok, but the shape assumption is clearly violated. The normality assumption is also violated, with the right tail of the residuals falling away from the theoretical normal distribution.
+
+
+## Exercise 6
+
+```{r}
+gapminder_2007 <- gapminder_2007 %>%
+  mutate(log_gdp_percap = log(gdpPercap))
+```
+
+## Exercise 7
+
+```{r}
+gap_lm_2 <- lm(lifeExp ~ log_gdp_percap, data = gapminder_2007)
+```
+
+## Exercise 8
+
+```{r}
+summary(gap_lm_2)
+```
+
+The predicted life expectancy for a country with GDP per capita 20000 is $4.95 + 7.2 \cdot log(20000) = 76.26$ years.
+
+## Exercise 9
+
+```{r}
+gapminder_2007 %>%
+  mutate(yhat = predict(gap_lm_2),
+         residuals = residuals(gap_lm_2)) %>%
+  ggplot(aes(x = yhat, y = residuals)) +
+  geom_point() +
+  geom_abline(slope = 0, intercept = 0, 
+              color = "blue", lwd = 1.2) +
+  labs(x = "Predicted life expectancy",
+       y = "Residual") +
+  theme_bw()
+
+gapminder_2007 %>%
+  mutate(residuals = residuals(gap_lm_2)) %>%
+  ggplot(aes(sample = residuals)) +
+  geom_qq() +
+  geom_qq_line() +
+  labs(x = "Theoretical normal quantiles",
+       y = "Observed residual quantiles") +
+  theme_classic()
+```
+
+The shape assumption still isn't perfect, but it looks much better after the log transformation, which is the most important thing. There may be some non-constant variance, and the normality assumption is still violated (the left tail of the residuals falls away from the theoretical normal distribution).
