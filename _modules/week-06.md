@@ -20,3 +20,4 @@ February 18
 : **Project 1, part 2 due**{: .label .label-red }
 
 : **Homework 3 released**{: .label .label-yellow }
+  : [HW 3](https://sta112-s22.github.io/homework/homework_3.html)

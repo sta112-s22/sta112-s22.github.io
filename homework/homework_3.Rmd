@@ -1,0 +1,218 @@
+---
+title: "Homework 3"
+output: 
+  rmdformats::robobook:
+    css: "homework.css"
+    highlight: pygments
+link-citations: yes
+---
+
+**Due:** Friday, February 25, 12:00pm (noon) on Canvas
+
+**Instructions:** In this homework assignment, you will continue working with the bryozoan data from Homework 2.
+
+* A template R Markdown file is provided in the setup below
+* When you are done with the assignment, knit and submit the HTML on Canvas
+* When making plots, make sure to nicely label all axes, provide units where applicable, and add a title
+* Remember to acknowledge any collaborators, and to cite outside sources
+
+# Setup
+
+### Template
+
+A template R Markdown file, which loads the data and packages you will need for the assignment, is provided: [hw_03_template.Rmd](https://sta112-s22.github.io/homework/hw_03_template.Rmd)
+
+### Data
+
+Researchers have observed many species for which larger offspring have a biological fitness advantage over smaller offspring, but there have been competing hypotheses for why this is the case, and there are exceptions. In the paper "Why does offspring size affect performance? Integrating metabolic scaling with life-history theory" (Pattersen et al. 2015, *Proc. R. Soc. B.*), the authors propose that larger offspring are more efficient in energy consumption and thus have greater fitness.
+
+To investigate, the authors collected data on two species of marine bryozoan, *Bugula neritina* and *Watersipora subtorquata*. After initial growth, the developmental process of these two species consists of three phases before they are considered mature - a larval stage (before the individual settles and begins metamorphosis), an early post-settlement stage, and a late post-settlement stage (as the individual nears the end of metamorphosis).
+
+Here we have data from 568 individuals from these two species, measured at the three different developmental stages. For each individual, the researchers recorded the mass (in micrograms) and the rate of oxygen consumption. The rate of oxygen consumption was then converted into the metabolic rate (rate of energy consumption), based on the amount of energy in oxygen.
+
+Note that the same individuals were measured at the early and late stages, so while there are 568 individuals in the data, the dataset has 823 rows.
+
+The different columns are:
+
+* *Species:* 	Species of the organism measured, either bugula (Bugula neritina) or watersipora (Watersipora subtorquata)
+* *Stage:* Developmental stage of the organism (larvae = larval stage, early = early post-settlement stage, late = late post-settlement stage)
+* *Run:* Which run of the study the individual was recorded in. Several runs were done for each species
+* *Mass:* Mass of the individual (in micrograms)
+* *Metabolic:* Recorded metabolic rate (rate of energy consumption) of the individual (in mJ per hour)
+
+### Downloading the data
+
+The data for this assignment comes from the paper by Pattersen *et al.*, and is stored in a CSV file. CSV files can be read into R with the `read_csv` function, which is part of the `readr` package in the tidyverse. The following code imports the data and saves it as a data frame called `bryozoan`:
+
+```r
+bryozoan <- read_csv("https://sta112-s22.github.io/homework/bryozoan_data.csv")
+```
+
+This code is included in the setup chunk of the R Markdown template for this assignment. The argument to the `read_csv` function here is the path to the CSV file we want to import. This can be either a local path (on your computer) or a url.
+
+**Note: since the data is imported from a csv file, rather than an R package, the `?bryozoan` command will not provide any information about the data. I have included background on the dataset and variables above.**
+
+# Research question
+
+Last time, we investigated whether larger individuals have a higher metabolic rate than smaller individuals. This time, we will look at a different research question. Researchers hypothesize that, even though larger individuals have a higher metabolic rate, they are more *energy efficient* (that is, they use less energy proportional to their body size).
+
+### Proportional to body size?
+
+What does it mean for larger individuals to be more energy efficient, proportional to body size?
+
+Mathematically, this means that the shape of the relationship between mass and metabolic rate looks like the third plot below, with the curve flattening out as mass increases.
+
+```{r echo=F, message=F, fig.align='center', fig.width = 12, fig.height = 4}
+library(patchwork)
+library(tidyverse)
+p1 <- data.frame(x = 1:100, y = 1:100) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_line() +
+  theme_bw() +
+  labs(x = "Mass", 
+       y = "Metabolism",
+       title = "Efficiency is the same") +
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+
+p2 <- data.frame(x = 1:100, y = (1:100)^2) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_line() +
+  theme_bw() +
+  labs(x = "Mass", 
+       y = "Metabolism",
+       title = "Larger individuals are less efficient") +
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+
+p3 <- data.frame(x = 1:100, y = (1:100)^0.25) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_line() +
+  theme_bw() +
+  labs(x = "Mass", 
+       y = "Metabolism",
+       title = "Larger individuals are more efficient") +
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+
+p1 + p2 + p3
+```
+
+:::{.question}
+#### Question 1
+
+Explain why the model
+
+$\text{metabolic rate} = \beta_0 + \beta_1 \text{mass} + \varepsilon$
+
+is not a suitable choice to model the relationship between mass and metabolic rate, if the researchers think that larger individuals are more energy efficient, proportional to body size.
+:::
+
+### Transformation
+
+Instead of the linear model in Question 1, the researchers propose the following:
+
+$\text{metabolic rate} \approx \alpha (\text{mass})^\beta$,
+
+where $\alpha > 0$ and $\beta$ are unknown parameters. (I have written this model with the $\approx$ symbol to denote "approximately", since we haven't written a noise term yet). The plots below show how the value of $\beta$ corresponds to different shapes of the relationship:
+
+```{r echo=F, message=F, fig.align='center', fig.width = 12, fig.height = 4}
+library(latex2exp)
+p1 <- data.frame(x = 1:100, y = 1:100) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_line() +
+  theme_bw() +
+  labs(x = "Mass", 
+       y = "Metabolism",
+       title = TeX("$\\beta = 1$")) +
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+
+p2 <- data.frame(x = 1:100, y = (1:100)^2) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_line() +
+  theme_bw() +
+  labs(x = "Mass", 
+       y = "Metabolism",
+       title = TeX("$\\beta > 1$")) +
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+
+p3 <- data.frame(x = 1:100, y = (1:100)^0.25) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_line() +
+  theme_bw() +
+  labs(x = "Mass", 
+       y = "Metabolism",
+       title = TeX("$0 < \\beta < 1$")) +
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+
+p1 + p2 + p3
+```
+
+**Therefore, the researchers' hypothesis corresponds to $\beta < 1$.**
+
+So, how can we estimate $\beta$? If we transform the variables, it turns out that we can fit a linear model with transformed data!
+
+:::{.question}
+#### Question 2
+
+By taking the log of both sides and using properties of logarithms, show that if
+
+$\text{metabolic rate} = \alpha (\text{mass})^\beta$,
+
+then
+
+$\log(\text{metabolic rate}) = \log(\alpha) + \beta \log(\text{mass})$.
+:::
+
+Now we have a linear regression model! If we just let $\beta_0 = \log(\alpha)$ and $\beta_1 = \beta$, and bring back the noise term $\varepsilon$, then 
+
+$\log(\text{metabolic rate}) = \beta_0 + \beta_1 \log(\text{mass}) + \varepsilon$
+
+Now we can fit this model, and estimate $\beta_1$.
+
+:::{.question}
+#### Question 3
+
+Modify your `bugula_early` dataset from Homework 2 to have two new columns: `log_mass` (the `log` of mass), and `log_metabolic` (the `log` of metabolic rate). Use the modified dataset for the questions below.
+:::
+
+### Model fitting
+
+:::{.question}
+#### Question 4
+
+Fit a linear regression with `log_mass` as the predictor and `log_metabolic` as the response, and report the estimated slope $\widehat{\beta}_1$. Does your estimated slope support the researcher's hypothesis that larger organisms are more energy efficient, proportional to body size?
+:::
+
+:::{.question}
+#### Question 5
+
+Make a residual plot and QQ plot for the fitted model in Question 4, and assess the shape, constant variance, and normality assumptions.
+:::
+
+:::{.question}
+#### Question 6
+
+Remember that the researcher's hypotheses correspond to $\beta_1 < 1$. Test the hypotheses
+
+$H_0: \beta_1 = 1 \hspace{1cm} H_A: \beta_1 < 1$.
+
+Your test statistic will be $t = \dfrac{\widehat{\beta}_1 - 1}{SE_{\widehat{\beta}_1}}$, and you will calculate a one-side p-value.
+
+Report the test statistic and p-value, and conclude in context of the research question.
+:::

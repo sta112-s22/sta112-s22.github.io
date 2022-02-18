@@ -1,0 +1,52 @@
+---
+---
+---
+title: "Homework 3"
+author: "Your Name"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+bryozoan <- read_csv("https://sta112-s22.github.io/homework/bryozoan_data.csv")
+```
+
+## Question 1
+
+Type your answer to question 1 here...
+
+## Question 2
+
+Type your answer to question 2 here...
+
+## Question 3
+
+```{r}
+
+```
+
+## Question 4
+
+```{r}
+
+```
+
+Type your answer to question 4 here...
+
+
+## Question 5
+
+```{r}
+
+```
+
+Type your answer to question 5 here...
+
+## Question 6
+
+```{r}
+
+```
+
+Type your answer to question 6 here...
