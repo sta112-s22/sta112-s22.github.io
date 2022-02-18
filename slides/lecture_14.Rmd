@@ -1,0 +1,211 @@
+---
+title: Exam 1 Recap
+output:
+  xaringan::moon_reader:
+    css: "lab-slides.css"
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
+---
+
+### Agenda
+
+.large[
+* Exam 1 on Monday, in class
+  * Closed notes
+  * Bring a calculator (cannot use phone or laptop)
+  * I won't ask you to write R code, but you may need to interpret R output
+* Today:
+  * Topics for Exam 1
+  * Practice
+]
+
+---
+
+### Exam 1 Topics
+
+.large[
+* Data visualization
+  * Appropriate plots for univariate and multivariate EDA
+  * Appropriate summary statistics
+* Linear regression models
+  * Population model
+  * Equation of the fitted line
+  * Predictions with fitted line
+  * Interpretation of slope and intercept
+  * Least squares
+]
+
+---
+
+### Exam 1 Topics (continued)
+
+.large[
+* Inference
+  * Confidence intervals 
+  * Hypothesis tests and p-values
+  * Interpretation of confidence intervals and p-values
+* Regression assumptions and diagnostic plots
+  * Residual plots (shape and constant variance)
+  * QQ plot (normality)
+  * Independence and randomness
+  * Transformations
+* Unusual observations
+  * Studentized residual plot
+  * What to do with outliers?
+]
+
+---
+
+### Class activity, Part I
+
+.large[
+Some practice questions with linear regression
+
+[https://sta112-s22.github.io/class_activities/ca_lecture_14.html](https://sta112-s22.github.io/class_activities/ca_lecture_14.html)
+]
+
+---
+
+### Class activity
+
+.large[
+Population regression model for the relationship between distance and price:
+]
+
+--
+
+.large[
+$\text{Price} = \beta_0 + \beta_1 \text{Distance} + \varepsilon$
+]
+
+---
+
+### Class activity
+
+.large[
+Estimated regression line:
+]
+
+--
+
+.large[
+$\widehat{\text{Price}} = 352.16 - 53.01 \text{Distance}$
+]
+
+---
+
+### Class activity
+
+.large[
+Predicted prices:
+]
+
+--
+
+.large[
+* 0.5 miles away: $352.16 - 53.01 \cdot 0.5 = 325.66$, so we predict a price of $325,660
+* 2 miles away: $352.16 - 53.01 \cdot 2 = 246.14$, so we predict a price of $246,140
+]
+
+---
+
+### Class activity
+
+```{r, echo=F, message=F, warning=F, fig.align='center', fig.width=7, fig.height=4.5}
+library(tidyverse)
+library(Stat2Data)
+data("RailsTrails")
+
+rt_lm <- RailsTrails %>%
+  mutate(Price = Price2014) %>%
+  lm(Price ~ Distance, data = .)
+
+data.frame(x = predict(rt_lm),
+           y = residuals(rt_lm)) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_point(size=2) +
+  geom_abline(slope = 0, intercept = 0,
+              lwd = 1.2, color="blue") +
+  theme_bw() +
+  labs(x = "Predicted price ($1000's)",
+       y = "Residuals") +
+  theme(text = element_text(size = 25))
+```
+
+.large[
+.question[
+Which of the two houses do you think will have a sale price closer its prediction?
+]
+]
+
+--
+
+.large[
+The house 2 miles away
+]
+
+---
+
+### Class activity
+
+```{r, echo=F, fig.align='center', fig.width=7, fig.height=4.5}
+rt_lm <- RailsTrails %>%
+  mutate(Price = Price2014) %>%
+  lm(Price ~ Distance, data = .)
+
+data.frame(x = predict(rt_lm),
+           y = residuals(rt_lm)) %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_point(size=2) +
+  geom_abline(slope = 0, intercept = 0,
+              lwd = 1.2, color="blue") +
+  theme_bw() +
+  labs(x = "Predicted price ($1000's)",
+       y = "Residuals") +
+  theme(text = element_text(size = 25))
+```
+
+.large[
+.question[
+Do the shape and constant variance assumptions look reasonable?
+]
+]
+
+--
+
+.large[
+Shape looks reasonable, constant variance doesn't.
+]
+
+---
+
+### Class activity, Part II
+
+.large[
+Some practice questions with linear regression
+
+[https://sta112-s22.github.io/class_activities/ca_lecture_14.html](https://sta112-s22.github.io/class_activities/ca_lecture_14.html)
+]
+
+---
+
+### Class activity
+
+.large[
+Errors in interpretation:
+]
+
+--
+
+.large[
+* The p-value is *not* the probability that $H_0$ is true. It is the probability of the observed data, or something "more extreme", if $H_0$ is true
+* The *slope*, not the intercept, is the change in GPA associated with a one hour increase in sleep
+* The normality assumption refers to the residuals, not the predictor, and is checked with a QQ plot
+* Can't talk about shape/direction of a relationship when the predictor is categorical with no inherent ordering
+* We only have an observational study, so we can't conclude anything causal (we don't know whether changing sleep habits will change GPA)
+]
