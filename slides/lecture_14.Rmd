@@ -22,6 +22,7 @@ editor_options:
 * Today:
   * Topics for Exam 1
   * Practice
+* HW 3 released tonight, due next Friday
 ]
 
 ---
