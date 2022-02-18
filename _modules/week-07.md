@@ -15,6 +15,6 @@ February 25
 
 : Textbook 3.3, 4.5, 5
 
-: **Project 1, part 3 due**{: .label .label-red }
+: **Project 1, part 3 released**{: .label .label-green }
 
 : **Homework 3 due**{: .label .label-red }
