@@ -380,6 +380,10 @@ Yes (for a polynomial of order 2 specifically). The sign on $\text{Year}^2$ tell
 
 ### Class activity
 
+.large[
+[https://sta112-s22.github.io/class_activities/ca_lecture_15.html](https://sta112-s22.github.io/class_activities/ca_lecture_15.html)
+]
+
 ---
 
 ### Class activity

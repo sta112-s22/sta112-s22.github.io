@@ -7,6 +7,7 @@ February 21
 
 February 23
 : Polynomial regression
+  : [Slides](https://sta112-s22.github.io/slides/lecture_15.html), [Class activity](https://sta112-s22.github.io/class_activities/ca_lecture_15.html)
 
 : Textbook 3.4
 
