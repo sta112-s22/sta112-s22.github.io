@@ -1,0 +1,48 @@
+---
+---
+---
+title: "Project 1, Part 3"
+author: "Your Name"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+scorecard <- read_csv("https://sta112-s22.github.io/projects/scorecard.csv")
+```
+
+## Introduction
+
+
+
+## Data
+
+
+### Data Summary
+
+
+### Univariate EDA
+
+
+### Multivariate EDA
+
+
+
+
+## Modeling
+
+
+### Model
+
+
+### Assumption Diagnostics
+
+
+### Inference
+
+
+
+## Discussion
+
+
