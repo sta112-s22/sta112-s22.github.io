@@ -13,6 +13,7 @@ February 23
 
 February 25
 : Regression with a categorical predictor
+  : [Slides](https://sta112-s22.github.io/slides/lecture_16.html), [Class activity](https://sta112-s22.github.io/class_activities/ca_lecture_16.html)
 
 : Textbook 3.3, 4.5, 5
 
