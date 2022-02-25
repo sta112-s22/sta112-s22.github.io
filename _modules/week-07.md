@@ -19,6 +19,6 @@ February 25
 
 : **Project 1, part 3 released**{: .label .label-green }
 
-: [Project 1, Part 3](https://sta112-s22.github.io/projects/project_1_part_3.html)
+  : [Project 1, Part 3](https://sta112-s22.github.io/projects/project_1_part_3.html)
 
 : **Homework 3 due**{: .label .label-red }
