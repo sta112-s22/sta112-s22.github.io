@@ -15,9 +15,13 @@ editor_options:
 ### Agenda
 
 .large[
-* Recap: regression with a categorical predictor
-* Partitioning variance
-* Hypothesis testing
+* Math/Stats alumni panel 
+  * Tuesday, March 1 (tomorrow), 5-6pm Manchester 121
+* Project 1, Part 3 due Friday
+* Today:
+  * Recap: regression with a categorical predictor
+  * Partitioning variance
+  * Hypothesis testing
 ]
     
 ---
@@ -85,6 +89,10 @@ penguins_no_nas %>%
 
 .large[
 $$\text{bill length} = \begin{cases} \beta_0 + \varepsilon & \text{species = Adelie} \\ \beta_0 + \beta_1 + \varepsilon & \text{species = Chinstrap} \\ \beta_0 + \beta_2 + \varepsilon & \text{species = Gentoo} \end{cases}$$
+
+.question[
+How can I write this more concisely?
+]
 ]
 
 ---
@@ -232,6 +240,10 @@ How many parameters are in the model?
 \text{Price per carat} &= \beta_0 + \beta_1 \ \text{IsSI1} + \beta_2 \ \text{IsSI2} + \beta_3 \ \text{IsSI3} + \beta_4 \ \text{IsVS1} \\
 & \hspace{1cm} + \beta_5 \ \text{IsVS2} + \beta_6 \ \text{IsVVS1} + \beta_7 \ \text{IsVVS2} + \varepsilon
 \end{align}
+]
+
+.large[
+[https://sta112-s22.github.io/class_activities/ca_lecture_17.html](https://sta112-s22.github.io/class_activities/ca_lecture_17.html)
 ]
 
 ---
@@ -498,6 +510,10 @@ $$\sum \limits_{i=1}^n (\text{bill length}_i - \widehat{\text{bill length}}_i)^2
 ---
 
 ### Class activity, Part II
+
+.large[
+[https://sta112-s22.github.io/class_activities/ca_lecture_17.html](https://sta112-s22.github.io/class_activities/ca_lecture_17.html)
+]
 
 ---
 

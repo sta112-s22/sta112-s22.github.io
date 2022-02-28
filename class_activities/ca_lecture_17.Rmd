@@ -1,0 +1,70 @@
+---
+title: "Class Activity, February 28"
+output: 
+  tufte::tufte_html:
+    css: "../labs/lab.css"
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+In this activity, you will practice fitting a regression model with a quantitative response and a single categorical predictor.
+
+## Setup
+
+Download the activity template: [activity template](https://sta112-s22.github.io/class_activities/ca_lecture_17_template.Rmd)
+
+In this class activity, we will look at data from AwesomeGems.com on the price and characteristics of 351 diamonds. The data are contained in the `Diamonds` dataset in the `Stat2Data` package, with information on their total price, price per carat, carat, color, clarity, and depth. 
+
+In alphabetical order, the levels of clarity in the `Diamonds` data are IF (internally flawless), SI1, SI2, SI3 (slightly included), VS1, VS2 (very slightly included), VVS1, VVS2 (very very slightly included). To be consistent with R, we will use this order for our regression model, with IF the baseline and indicator variables IsSI1, IsSI2, IsSI3, IsVS1, IsVS2, IsVVS1, and IsVVS2. Our model is
+
+\begin{align}
+\text{Price per carat} &= \beta_0 + \beta_1 \ \text{IsSI1} + \beta_2 \ \text{IsSI2} + \beta_3 \ \text{IsSI3} + \beta_4 \ \text{IsVS1} \\
+& \hspace{1cm} + \beta_5 \ \text{IsVS2} + \beta_6 \ \text{IsVVS1} + \beta_7 \ \text{IsVVS2} + \varepsilon
+\end{align}
+
+# Part I
+
+1. Using the `lm` function in R, fit the regression with clarity as the explanatory variable and price per carat as the response.
+
+<SCRIPT>
+function ShowAndHide(divid) {
+    var x = document.getElementById(divid);
+    if (x.style.display == 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
+}
+</SCRIPT>
+
+<BUTTON ONCLICK="ShowAndHide('q1_solution')">Solution</BUTTON>
+
+<DIV ID="q1_solution" STYLE="display:none">
+```r
+diamond_lm <- lm(PricePerCt ~ Clarity, data = Diamonds)
+summary(diamond_lm)
+```
+</DIV>
+
+
+2. What is the estimated mean price for a diamond of clarity level SI3?
+
+Just as we used $R^2$ and $R^2_{adj}$ to summarize the fit of a polynomial regression model, we can also use $R^2$ and $R^2_{adj}$ for regression with a categorical predictor.
+
+3. What is the $R^2$ and $R^2_{adj}$ for the fitted model?
+
+4. Why is $R^2_{adj} < R^2$?
+
+
+# Part II
+
+We can use an ANOVA table to summarize the between-group and within-group variance for the Diamonds data. The ANOVA table below has MSModel and MSE filled in:
+
+| Source | df | SS | MS | F |
+| --- | --- | --- | --- | --- |
+| Model |  |  | 15.49 |  |
+| Residual |  |  | 8.24 | |
+| Total |   |  | | |
+
+5. Complete the ANOVA table (remember that there are 351 diamonds in the data).
