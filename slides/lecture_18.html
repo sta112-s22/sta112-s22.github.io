@@ -171,10 +171,12 @@ Can I translate this into null and alternative hypotheses about one or more mode
 
 **Reduced model ( `\(H_0\)` ):**
 
-`$$\text{bill length} = \beta_0 + \beta_1 \text{IsChinstrap} + \beta_2 \text{IsGentoo} + \varepsilon$$`
+`$$\text{bill length} = \beta_0 + \varepsilon$$`
+
 **Full model ( `\(H_A\)` ):**
 
-`$$\text{bill length} = \beta_0 + \varepsilon$$`
+`$$\text{bill length} = \beta_0 + \beta_1 \text{IsChinstrap} + \beta_2 \text{IsGentoo} + \varepsilon$$`
+
 .question[
 To test these hypotheses, we need a test statistic.
 ]
