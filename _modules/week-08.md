@@ -10,6 +10,7 @@ February 28
 
 March 2
 : Hypothesis testing
+  : [Slides](https://sta112-s22.github.io/slides/lecture_18.html), [Class activity](https://sta112-s22.github.io/class_activities/ca_lecture_18.html)
 
 March 4
 : Lab
