@@ -177,6 +177,17 @@ penguins_no_nas %>%
 
 ### Class activity, Part I
 
+.large[
+\begin{align}
+\text{Price per carat} &= \beta_0 + \beta_1 \ \text{IsSI1} + \beta_2 \ \text{IsSI2} + \beta_3 \ \text{IsSI3} + \beta_4 \ \text{IsVS1} \\
+& \hspace{1cm} + \beta_5 \ \text{IsVS2} + \beta_6 \ \text{IsVVS1} + \beta_7 \ \text{IsVVS2} + \varepsilon
+\end{align}
+]
+
+.large[
+[https://sta112-s22.github.io/class_activities/ca_lecture_18.html](https://sta112-s22.github.io/class_activities/ca_lecture_18.html)
+]
+
 ---
 
 ### Class activity
@@ -375,6 +386,10 @@ anova(species_lm)
 ---
 
 ### Class Activity, Part II
+
+.large[
+[https://sta112-s22.github.io/class_activities/ca_lecture_18.html](https://sta112-s22.github.io/class_activities/ca_lecture_18.html)
+]
 
 ---
 

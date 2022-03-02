@@ -1,0 +1,53 @@
+---
+title: "Class Activity, March 2"
+output: 
+  tufte::tufte_html:
+    css: "../labs/lab.css"
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+In this activity, you will practice fitting a regression model with a quantitative response and a single categorical predictor.
+
+## Setup
+
+Download the activity template: [activity template](https://sta112-s22.github.io/class_activities/ca_lecture_18_template.Rmd)
+
+In this class activity, we will look at data from AwesomeGems.com on the price and characteristics of 351 diamonds. The data are contained in the `Diamonds` dataset in the `Stat2Data` package, with information on their total price, price per carat, carat, color, clarity, and depth. 
+
+In alphabetical order, the levels of clarity in the `Diamonds` data are IF (internally flawless), SI1, SI2, SI3 (slightly included), VS1, VS2 (very slightly included), VVS1, VVS2 (very very slightly included). To be consistent with R, we will use this order for our regression model, with IF the baseline and indicator variables IsSI1, IsSI2, IsSI3, IsVS1, IsVS2, IsVVS1, and IsVVS2. Our model is
+
+\begin{align}
+\text{Price per carat} &= \beta_0 + \beta_1 \ \text{IsSI1} + \beta_2 \ \text{IsSI2} + \beta_3 \ \text{IsSI3} + \beta_4 \ \text{IsVS1} \\
+& \hspace{1cm} + \beta_5 \ \text{IsVS2} + \beta_6 \ \text{IsVVS1} + \beta_7 \ \text{IsVVS2} + \varepsilon
+\end{align}
+
+# Part I
+
+We can use an ANOVA table to summarize the between-group and within-group variance for the Diamonds data. The ANOVA table below has MSModel and MSE filled in:
+
+| Source | df | SS | MS | F |
+| --- | --- | --- | --- | --- |
+| Model |  |  | 15.49 |  |
+| Residual |  |  | 8.24 | |
+| Total |   |  | | |
+
+1. Complete the ANOVA table (remember that there are 351 diamonds in the data).
+
+
+# Part II
+
+Now let's think about hypothesis testing. We want to test whether there is a relationship between Clarity and price per carat. 
+
+2. Write down null and alternative hypotheses, in terms of one or more model parameters (i.e. $\beta$s) that allow you to test whether there is a relationship between Clarity and price per carat.
+
+To test these hypotheses, we need to calculate a test statistic and a p-value.
+
+3. Run the code below to calculate the ANOVA table and p-value in R. What are my degrees of freedom for the $F$ distribution? What is the resulting p-value?
+
+```{r eval=F}
+diamond_lm <- lm(PricePerCt ~ Clarity, data = Diamonds)
+anova(diamond_lm)
+```
+
