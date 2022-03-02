@@ -15,6 +15,16 @@ class: center, middle, inverse, title-slide
 ---
 
 
+### Agenda
+
+.large[
+* Recap of categorical predictors and ANOVA
+* Hypothesis testing
+* Time permitting: multiple linear regression
+]
+
+---
+
 ### Recap: Categorical predictor
 
 &lt;img src="lecture_18_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" /&gt;
@@ -290,6 +300,47 @@ anova(species_lm)
 
 ### Class Activity
 
+.large[
+`\begin{align}
+\text{Price per carat} &amp;= \beta_0 + \beta_1 \ \text{IsSI1} + \beta_2 \ \text{IsSI2} + \beta_3 \ \text{IsSI3} + \beta_4 \ \text{IsVS1} \\
+&amp; \hspace{1cm} + \beta_5 \ \text{IsVS2} + \beta_6 \ \text{IsVVS1} + \beta_7 \ \text{IsVVS2} + \varepsilon
+\end{align}`
+
+We want to test whether there is a relationship between Clarity and price per carat.
+
+.question[
+What are my null and alternative hypotheses, in terms of one or more model parameters?
+]
+]
+
+--
+
+.large[
+`\(H_0: \beta_1 = \beta_2 = \cdots = \beta_7 = 0\)`
+
+`\(H_A: \text{at least one of } \beta_1, \beta_2, ..., \beta_7 \neq 0\)`
+]
+
+---
+
+### Class Activity
+
+.large[
+.question[
+Use R to create the ANOVA table, calculate the `\(F\)` statistic and degrees of freedom, and calculate the p-value.
+]
+]
+
+--
+
+.large[
+`\(F = 1.88\)`
+
+To calculate a p-value, we compare to an `\(F_{7, 343}\)` distribution.
+
+p-value: 0.072
+]
+
 ---
 
 ### Relationships between &gt; 2 variables
@@ -329,6 +380,161 @@ How can we model the relationship between body mass, species, and bill length?
 .center[
 `\(\text{bill length} = \beta_0 + \beta_1 \text{IsChinstrap} + \beta_2 \text{IsGentoo} + \varepsilon\)`
 ]
+]
+
+---
+
+### Regression with `\(&gt; 2\)` variables
+
+.large[
+`\(\text{bill length} = \beta_0 + \beta_1 \text{body mass} + \varepsilon\)`
+
+`\(\text{bill length} = \beta_0 + \beta_1 \text{IsChinstrap} + \beta_2 \text{IsGentoo} + \varepsilon\)`
+
+.question[
+How can we include both species *and* body mass in the model?
+]
+]
+
+---
+
+## Multiple regression
+
+&lt;img src="lecture_18_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+
+
+.large[
+**Model:**
+
+`\begin{align}
+\text{bill length} &amp;= \beta_0 + \beta_1 \text{IsChinstrap} + \beta_2 \text{IsGentoo} \\
+&amp; \hspace{0.5cm} + \beta_3 \text{body mass} + \varepsilon
+\end{align}`
+]
+
+---
+
+### Multiple regression model
+
+.large[
+`\begin{align}
+\text{bill length} &amp;= \beta_0 + \beta_1 \text{IsChinstrap} + \beta_2 \text{IsGentoo} \\
+&amp; \hspace{0.5cm} + \beta_3 \text{body mass} + \varepsilon
+\end{align}`
+
+**This gives us a separate regression line for each species of penguin.**
+
+.question[
+What is the regression line for Adelie penguins?
+]
+]
+
+--
+
+.large[
+`\(\text{bill length} = \beta_0 + \beta_3 \text{body mass} + \varepsilon\)`
+
+.question[
+What about for Chinstrap and Gentoo penguins?
+]
+]
+
+---
+
+### Multiple regression model
+
+.large[
+`\begin{align}
+\text{bill length} &amp;= \beta_0 + \beta_1 \text{IsChinstrap} + \beta_2 \text{IsGentoo} \\
+&amp; \hspace{0.5cm} + \beta_3 \text{body mass} + \varepsilon
+\end{align}`
+
+**This gives us a separate regression line for each species of penguin:**
+
+`$$\text{bill length} = \begin{cases} \beta_0 + \beta_3 \text{body mass} +  \varepsilon &amp; \text{species = Adelie} \\ \beta_0 + \beta_1 + \beta_3 \text{body mass} + \varepsilon &amp; \text{species = Chinstrap} \\ \beta_0 + \beta_2 + \beta_3 \text{body mass} +  \varepsilon &amp; \text{species = Gentoo} \end{cases}$$`
+
+]
+
+---
+
+### Fitted model
+
+.large[
+`\begin{align}
+\widehat{\text{bill length}} &amp;= 24.91 + 9.91 \ \text{IsChinstrap} + 3.54 \ \text{IsGentoo} \\
+&amp; \hspace{0.5cm} + 0.0038 \ \text{body mass}
+\end{align}`
+
+.question[
+How would I interpret `\(\widehat{\beta}_0 = 24.91\)`?
+]
+]
+
+--
+
+.large[
+The estimated bill length for an Adelie penguin weighing 0g. (not that meaningful)
+
+.question[
+What about `\(\widehat{\beta}_1 = 9.91\)` and `\(\widehat{\beta}_2 = 3.54\)`?
+]
+]
+
+---
+
+### Interpreting regression coefficients
+
+&lt;img src="lecture_18_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+
+
+.large[
+
+* `\(9.91 =\)` estimated mean difference in bill length for a Chinstrap and Adelie penguin with the same body mass
+* `\(3.54 =\)` estimated mean difference in bill length for a Gentoo and Adelie penguin with the same body mass
+]
+
+---
+
+### Interpreting regression coefficients
+
+.large[
+`\begin{align}
+\widehat{\text{bill length}} &amp;= 24.91 + 9.91 \ \text{IsChinstrap} + 3.54 \ \text{IsGentoo} \\
+&amp; \hspace{0.5cm} + 0.0038 \ \text{body mass}
+\end{align}`
+
+.question[
+How would I interpret `\(\widehat{\beta}_3 = 0.0038\)`?
+]
+]
+
+--
+
+.large[
+The average change in bill length associated with an increase of 1g in body mass, holding species constant.
+
+*Note that we assume the slope is the same for each species!*
+]
+
+---
+
+### Predictions
+
+.large[
+`\begin{align}
+\widehat{\text{bill length}} &amp;= 24.91 + 9.91 \ \text{IsChinstrap} + 3.54 \ \text{IsGentoo} \\
+&amp; \hspace{0.5cm} + 0.0038 \ \text{body mass}
+\end{align}`
+
+.question[
+What is the predicted bill length for a Gentoo penguin with a body mass of 5000 g?
+]
+]
+
+--
+
+.large[
+`\(24.91 + 3.54 + 0.0038(5000) = 47.45\)`
 ]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

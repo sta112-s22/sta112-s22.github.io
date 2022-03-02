@@ -12,6 +12,16 @@ editor_options:
   chunk_output_type: console
 ---
 
+### Agenda
+
+.large[
+* Recap of categorical predictors and ANOVA
+* Hypothesis testing
+* Time permitting: multiple linear regression
+]
+
+---
+
 ### Recap: Categorical predictor
 
 ```{r echo=F, message=F, warning=F, fig.align='center', fig.width=6, fig.height=4}
@@ -370,6 +380,47 @@ anova(species_lm)
 
 ### Class Activity
 
+.large[
+\begin{align}
+\text{Price per carat} &= \beta_0 + \beta_1 \ \text{IsSI1} + \beta_2 \ \text{IsSI2} + \beta_3 \ \text{IsSI3} + \beta_4 \ \text{IsVS1} \\
+& \hspace{1cm} + \beta_5 \ \text{IsVS2} + \beta_6 \ \text{IsVVS1} + \beta_7 \ \text{IsVVS2} + \varepsilon
+\end{align}
+
+We want to test whether there is a relationship between Clarity and price per carat.
+
+.question[
+What are my null and alternative hypotheses, in terms of one or more model parameters?
+]
+]
+
+--
+
+.large[
+$H_0: \beta_1 = \beta_2 = \cdots = \beta_7 = 0$
+
+$H_A: \text{at least one of } \beta_1, \beta_2, ..., \beta_7 \neq 0$
+]
+
+---
+
+### Class Activity
+
+.large[
+.question[
+Use R to create the ANOVA table, calculate the $F$ statistic and degrees of freedom, and calculate the p-value.
+]
+]
+
+--
+
+.large[
+$F = 1.88$
+
+To calculate a p-value, we compare to an $F_{7, 343}$ distribution.
+
+p-value: 0.072
+]
+
 ---
 
 ### Relationships between > 2 variables
@@ -446,4 +497,206 @@ penguins %>%
 .center[
 $\text{bill length} = \beta_0 + \beta_1 \text{IsChinstrap} + \beta_2 \text{IsGentoo} + \varepsilon$
 ]
+]
+
+---
+
+### Regression with $> 2$ variables
+
+.large[
+$\text{bill length} = \beta_0 + \beta_1 \text{body mass} + \varepsilon$
+
+$\text{bill length} = \beta_0 + \beta_1 \text{IsChinstrap} + \beta_2 \text{IsGentoo} + \varepsilon$
+
+.question[
+How can we include both species *and* body mass in the model?
+]
+]
+
+---
+
+## Multiple regression
+
+```{r echo=F, message=F, warning=F, fig.align='center', fig.width=7, fig.height=4.5}
+
+penguins_no_nas <- penguins %>%
+  drop_na()
+
+length_lm <- lm(bill_length_mm ~ species + body_mass_g, 
+                data = penguins_no_nas)
+
+penguins_no_nas %>%
+  mutate(yhat = predict(length_lm)) %>%
+  ggplot(aes(x = body_mass_g,
+             y = bill_length_mm,
+             color = species)) +
+  geom_point(size = 2, alpha = 0.5) +
+  geom_line(aes(y = yhat), 
+            lwd = 1.5) +
+  labs(x = "Body mass (g)",
+       y = "Bill length (mm)",
+       color = "Species") +
+  theme_bw() +
+  theme(text = element_text(size = 25))
+```
+
+
+.large[
+**Model:**
+
+\begin{align}
+\text{bill length} &= \beta_0 + \beta_1 \text{IsChinstrap} + \beta_2 \text{IsGentoo} \\
+& \hspace{0.5cm} + \beta_3 \text{body mass} + \varepsilon
+\end{align}
+]
+
+---
+
+### Multiple regression model
+
+.large[
+\begin{align}
+\text{bill length} &= \beta_0 + \beta_1 \text{IsChinstrap} + \beta_2 \text{IsGentoo} \\
+& \hspace{0.5cm} + \beta_3 \text{body mass} + \varepsilon
+\end{align}
+
+**This gives us a separate regression line for each species of penguin.**
+
+.question[
+What is the regression line for Adelie penguins?
+]
+]
+
+--
+
+.large[
+$\text{bill length} = \beta_0 + \beta_3 \text{body mass} + \varepsilon$
+
+.question[
+What about for Chinstrap and Gentoo penguins?
+]
+]
+
+---
+
+### Multiple regression model
+
+.large[
+\begin{align}
+\text{bill length} &= \beta_0 + \beta_1 \text{IsChinstrap} + \beta_2 \text{IsGentoo} \\
+& \hspace{0.5cm} + \beta_3 \text{body mass} + \varepsilon
+\end{align}
+
+**This gives us a separate regression line for each species of penguin:**
+
+$$\text{bill length} = \begin{cases} \beta_0 + \beta_3 \text{body mass} +  \varepsilon & \text{species = Adelie} \\ \beta_0 + \beta_1 + \beta_3 \text{body mass} + \varepsilon & \text{species = Chinstrap} \\ \beta_0 + \beta_2 + \beta_3 \text{body mass} +  \varepsilon & \text{species = Gentoo} \end{cases}$$
+
+]
+
+---
+
+### Fitted model
+
+.large[
+\begin{align}
+\widehat{\text{bill length}} &= 24.91 + 9.91 \ \text{IsChinstrap} + 3.54 \ \text{IsGentoo} \\
+& \hspace{0.5cm} + 0.0038 \ \text{body mass}
+\end{align}
+
+.question[
+How would I interpret $\widehat{\beta}_0 = 24.91$?
+]
+]
+
+--
+
+.large[
+The estimated bill length for an Adelie penguin weighing 0g. (not that meaningful)
+
+.question[
+What about $\widehat{\beta}_1 = 9.91$ and $\widehat{\beta}_2 = 3.54$?
+]
+]
+
+---
+
+### Interpreting regression coefficients
+
+```{r echo=F, message=F, warning=F, fig.align='center', fig.width=7, fig.height=4.5}
+library(latex2exp)
+penguins_no_nas %>%
+  mutate(yhat = predict(length_lm)) %>%
+  ggplot(aes(x = body_mass_g,
+             y = bill_length_mm)) +
+  geom_point(size = 2, alpha = 0) +
+  geom_line(aes(y = yhat, color = species), 
+            lwd = 1.5) +
+  labs(x = "Body mass (g)",
+       y = "Bill length (mm)",
+       color = "Species") +
+  geom_segment(aes(x = 3500, y = 38,
+                   xend = 3500, yend = 48),
+               arrow = arrow(length = unit(0.3, "cm"))) +
+  geom_segment(aes(x = 4500, y = 42,
+                   xend = 4500, yend = 45),
+               arrow = arrow(length = unit(0.3, "cm"))) +
+  annotate("text", x = 3000, y = 41, 
+           label = TeX("$9.91", output='character'), 
+           parse=TRUE, size = 7) +
+  annotate("text", x = 5000, y = 44, 
+           label = TeX("$3.54", output='character'), 
+           parse=TRUE, size = 7) +
+  theme_bw() +
+  theme(text = element_text(size = 25))
+```
+
+
+.large[
+
+* $9.91 =$ estimated mean difference in bill length for a Chinstrap and Adelie penguin with the same body mass
+* $3.54 =$ estimated mean difference in bill length for a Gentoo and Adelie penguin with the same body mass
+]
+
+---
+
+### Interpreting regression coefficients
+
+.large[
+\begin{align}
+\widehat{\text{bill length}} &= 24.91 + 9.91 \ \text{IsChinstrap} + 3.54 \ \text{IsGentoo} \\
+& \hspace{0.5cm} + 0.0038 \ \text{body mass}
+\end{align}
+
+.question[
+How would I interpret $\widehat{\beta}_3 = 0.0038$?
+]
+]
+
+--
+
+.large[
+The average change in bill length associated with an increase of 1g in body mass, holding species constant.
+
+*Note that we assume the slope is the same for each species!*
+]
+
+---
+
+### Predictions
+
+.large[
+\begin{align}
+\widehat{\text{bill length}} &= 24.91 + 9.91 \ \text{IsChinstrap} + 3.54 \ \text{IsGentoo} \\
+& \hspace{0.5cm} + 0.0038 \ \text{body mass}
+\end{align}
+
+.question[
+What is the predicted bill length for a Gentoo penguin with a body mass of 5000 g?
+]
+]
+
+--
+
+.large[
+$24.91 + 3.54 + 0.0038(5000) = 47.45$
 ]
