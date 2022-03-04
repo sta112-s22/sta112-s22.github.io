@@ -13,8 +13,9 @@ March 2
   : [Slides](https://sta112-s22.github.io/slides/lecture_18.html), [Class activity](https://sta112-s22.github.io/class_activities/ca_lecture_18.html)
 
 March 4
-: Lab
+: HW 4 work day
 
 : **Project 1, part 3 due**{: .label .label-red }
 
 : **HW 4 released**{: .label .label-yellow }
+  : [HW 4](https://sta112-s22.github.io/homework/homework_4.html)
