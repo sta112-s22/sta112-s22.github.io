@@ -1,0 +1,67 @@
+---
+---
+---
+title: "Homework 4"
+author: "Your Name"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(Stat2Data)
+data("MetroCommutes")
+```
+
+### Question 1
+
+```{r}
+
+```
+
+### Question 2
+
+```{r}
+
+```
+
+
+### Question 3
+
+
+
+### Question 4
+
+```{r}
+
+```
+
+
+### Question 5
+
+```{r}
+
+```
+
+### Question 6
+
+```{r}
+
+```
+
+### Question 7
+
+```{r}
+
+```
+
+
+### Question 8
+
+
+### Question 9
+
+```{r}
+
+```
+
