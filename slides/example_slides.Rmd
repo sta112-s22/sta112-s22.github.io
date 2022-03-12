@@ -1,0 +1,35 @@
+---
+title: Example slides
+output:
+  xaringan::moon_reader:
+    css: "lab-slides.css"
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
+---
+
+### Here is an example slide
+
+Some text goes here...
+
+---
+
+### Another example slide
+
+More text...
+
+.large[
+Larger text
+]
+
+.question[
+Asking a question
+]
+
+--
+
+We can use `--` to build slides

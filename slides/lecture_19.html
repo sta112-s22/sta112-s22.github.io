@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Introduction to multiple linear regression</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.10/header-attrs.js"></script>
+    <link rel="stylesheet" href="lab-slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introduction to multiple linear regression
+
+---
+
+
+### Agenda
+
+.large[
+* Mask policy
+* Statistics classes next semester
+* Multiple linear regression
+]
+
+---
+
+### Masks
+
+---
+
+### Statistics classes next semester
+
+.large[
+* STA 214 (Generalized linear models)
+  * Requires MST 111 (Calc 1)
+* STA 310 (Probability)
+  * Requires MST 112 (Calc 2)
+* STA 362 (Multivariate statistics)
+  * Requires MST 121 or MST 205 (Linear algebra)
+* STA 363 (Statistical learning)
+  * Requires MST 121 or MST 205 (Linear algebra)
+]
+
+---
+
+### Relationships between &gt; 2 variables
+
+&lt;img src="lecture_19_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" /&gt;
+
+.large[
+.question[
+How can we model the relationship between body mass, species, and bill length?
+]
+]
+
+---
+
+### Regression with a single quantitative predictor
+
+&lt;img src="lecture_19_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
+
+.large[
+**Model:**
+
+.center[
+`\(\text{bill length} = \beta_0 + \beta_1 \text{body mass} + \varepsilon\)`
+]
+]
+
+---
+
+### Regression with a single categorical predictor
+
+&lt;img src="lecture_19_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+
+
+.large[
+**Model:**
+
+.center[
+`\(\text{bill length} = \beta_0 + \beta_1 \text{IsChinstrap} + \beta_2 \text{IsGentoo} + \varepsilon\)`
+]
+]
+
+---
+
+### Regression with `\(&gt; 2\)` variables
+
+.large[
+`\(\text{bill length} = \beta_0 + \beta_1 \text{body mass} + \varepsilon\)`
+
+`\(\text{bill length} = \beta_0 + \beta_1 \text{IsChinstrap} + \beta_2 \text{IsGentoo} + \varepsilon\)`
+
+.question[
+How can we include both species *and* body mass in the model?
+]
+]
+
+---
+
+## Multiple regression
+
+&lt;img src="lecture_19_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+
+
+.large[
+**Model:**
+
+`\begin{align}
+\text{bill length} &amp;= \beta_0 + \beta_1 \text{IsChinstrap} + \beta_2 \text{IsGentoo} \\
+&amp; \hspace{0.5cm} + \beta_3 \text{body mass} + \varepsilon
+\end{align}`
+]
+
+---
+
+### Multiple regression model
+
+.large[
+`\begin{align}
+\text{bill length} &amp;= \beta_0 + \beta_1 \text{IsChinstrap} + \beta_2 \text{IsGentoo} \\
+&amp; \hspace{0.5cm} + \beta_3 \text{body mass} + \varepsilon
+\end{align}`
+
+**This gives us a separate regression line for each species of penguin.**
+
+.question[
+What is the regression line for Adelie penguins?
+]
+]
+
+--
+
+.large[
+`\(\text{bill length} = \beta_0 + \beta_3 \text{body mass} + \varepsilon\)`
+
+.question[
+What about for Chinstrap and Gentoo penguins?
+]
+]
+
+---
+
+### Multiple regression model
+
+.large[
+`\begin{align}
+\text{bill length} &amp;= \beta_0 + \beta_1 \text{IsChinstrap} + \beta_2 \text{IsGentoo} \\
+&amp; \hspace{0.5cm} + \beta_3 \text{body mass} + \varepsilon
+\end{align}`
+
+**This gives us a separate regression line for each species of penguin:**
+
+`$$\text{bill length} = \begin{cases} \beta_0 + \beta_3 \text{body mass} +  \varepsilon &amp; \text{species = Adelie} \\ \beta_0 + \beta_1 + \beta_3 \text{body mass} + \varepsilon &amp; \text{species = Chinstrap} \\ \beta_0 + \beta_2 + \beta_3 \text{body mass} +  \varepsilon &amp; \text{species = Gentoo} \end{cases}$$`
+
+]
+
+---
+
+### Fitted model
+
+.large[
+`\begin{align}
+\widehat{\text{bill length}} &amp;= 24.91 + 9.91 \ \text{IsChinstrap} + 3.54 \ \text{IsGentoo} \\
+&amp; \hspace{0.5cm} + 0.0038 \ \text{body mass}
+\end{align}`
+
+.question[
+How would I interpret `\(\widehat{\beta}_0 = 24.91\)`?
+]
+]
+
+--
+
+.large[
+The estimated bill length for an Adelie penguin weighing 0g. (not that meaningful)
+
+.question[
+What about `\(\widehat{\beta}_1 = 9.91\)` and `\(\widehat{\beta}_2 = 3.54\)`?
+]
+]
+
+---
+
+### Interpreting regression coefficients
+
+&lt;img src="lecture_19_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+
+
+.large[
+
+* `\(9.91 =\)` estimated mean difference in bill length for a Chinstrap and Adelie penguin with the same body mass
+* `\(3.54 =\)` estimated mean difference in bill length for a Gentoo and Adelie penguin with the same body mass
+]
+
+---
+
+### Interpreting regression coefficients
+
+.large[
+`\begin{align}
+\widehat{\text{bill length}} &amp;= 24.91 + 9.91 \ \text{IsChinstrap} + 3.54 \ \text{IsGentoo} \\
+&amp; \hspace{0.5cm} + 0.0038 \ \text{body mass}
+\end{align}`
+
+.question[
+How would I interpret `\(\widehat{\beta}_3 = 0.0038\)`?
+]
+]
+
+--
+
+.large[
+The average change in bill length associated with an increase of 1g in body mass, holding species constant.
+
+*Note that we assume the slope is the same for each species!*
+]
+
+---
+
+### Predictions
+
+.large[
+`\begin{align}
+\widehat{\text{bill length}} &amp;= 24.91 + 9.91 \ \text{IsChinstrap} + 3.54 \ \text{IsGentoo} \\
+&amp; \hspace{0.5cm} + 0.0038 \ \text{body mass}
+\end{align}`
+
+.question[
+What is the predicted bill length for a Gentoo penguin with a body mass of 5000 g?
+]
+]
+
+--
+
+.large[
+`\(24.91 + 3.54 + 0.0038(5000) = 47.45\)`
+]
+
+---
+
+### Fitting the model in R
+
+.large[
+
+```r
+m1 &lt;- lm(bill_length_mm ~ species + body_mass_g, 
+                 data = penguins_no_nas)
+```
+
+* `bill_length_mm ~ species + body_mass_g` is a `formula` in R
+* Still `response ~ predictor(s)`
+* `+` means "include more variables in the model"
+* Need to remove missing values before fitting the model
+]
+
+---
+
+### Fitting the model in R
+
+.large[
+
+```r
+m1 &lt;- lm(bill_length_mm ~ species + body_mass_g, 
+                 data = penguins_no_nas)
+summary(m1)
+```
+
+```
+...
+##                   Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      24.908763   1.089730  22.858  &lt; 2e-16 ***
+## speciesChinstrap  9.908762   0.355289  27.889  &lt; 2e-16 ***
+## speciesGentoo     3.539179   0.499814   7.081 8.71e-12 ***
+## body_mass_g       0.003755   0.000289  12.991  &lt; 2e-16 ***
+...
+```
+
+`\begin{align}
+\widehat{\text{bill length}} &amp;= 24.91 + 9.91 \ \text{IsChinstrap} + 3.54 \ \text{IsGentoo} \\
+&amp; \hspace{0.5cm} + 0.0038 \ \text{body mass}
+\end{align}`
+]
+
+---
+
+### Class activity
+
+---
+
+### Class activity
+
+.large[
+.question[
+What is the population regression model?
+]
+]
+
+--
+
+.large[
+`\begin{align}
+\text{Weight} &amp;= \beta_0 + \beta_1 \text{IsEnlarged} + \beta_2 \text{IsReduced} + \\
+&amp; \hspace{1cm} \beta_3 \text{WingLength} + \varepsilon
+\end{align}`
+]
+
+---
+
+### Class activity
+
+.large[
+.question[
+What is the equation of the fitted regression model?
+]
+]
+
+--
+
+.large[
+`\begin{align}
+\widehat{\text{Weight}} &amp;= 1.94 - 0.46 \text{IsEnlarged} + 0.90 \text{IsReduced} + \\
+&amp; \hspace{1cm} 0.45 \text{WingLength}
+\end{align}`
+]
+
+---
+
+### Class activity
+
+.large[
+
+`\begin{align}
+\widehat{\text{Weight}} &amp;= 1.94 - 0.46 \text{IsEnlarged} + 0.90 \text{IsReduced} + \\
+&amp; \hspace{1cm} 0.45 \text{WingLength}
+\end{align}`
+
+.question[
+What is the average change in weight associated with a 1mm increase in wing length, for sparrows from enlarged nests?
+]
+]
+
+--
+
+.large[
+Answer: 0.45
+
+(We fit the same slope for each group of sparrows, and it is estimated to be 0.45)
+]
+
+---
+
+### Class activity
+
+.large[
+
+`\begin{align}
+\widehat{\text{Weight}} &amp;= 1.94 - 0.46 \text{IsEnlarged} + 0.90 \text{IsReduced} + \\
+&amp; \hspace{1cm} 0.45 \text{WingLength}
+\end{align}`
+
+.question[
+What is the estimated difference in weight for sparrows from enlarged vs. control nests, with the same wing length?
+]
+]
+
+--
+
+.large[
+We estimate that sparrows from enlarged nests weigh 0.46g less, on average, than sparrows from control nests with the same wing length
+]
+
+---
+
+### Benefits of multiple linear regression
+
+.large[
+.question[
+What are some benefits of including multiple predictors in my regression model?
+]
+]
+
+--
+
+.large[
+Two main reasons:
+
+* Improve the ability to predict the response
+* Account for other variables that may change the relationship (e.g., penguin species)
+]
+
+---
+
+### Improving model fit
+
+&lt;img src="lecture_19_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+
+.large[
+`$$\widehat{\text{bill length}} = 27.15 + 0.004 \ \text{body mass}$$`
+
+.question[
+How do I measure how well body mass predicts bill length?
+]
+]
+
+---
+
+### Improving model fit
+
+&lt;img src="lecture_19_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+
+.large[
+`$$\widehat{\text{bill length}} = 27.15 + 0.004 \ \text{body mass}$$`
+
+`\(R^2 = 0.348\)`, `\(R^2_{adj} = 0.346\)`
+]
+
+---
+
+### Improving model fit
+
+&lt;img src="lecture_19_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+
+.large[
+But we should probably fit a line for each species...
+]
+
+---
+
+### Improving model fit
+
+&lt;img src="lecture_19_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+
+.large[
+`\begin{align}
+\widehat{\text{bill length}} &amp;= 24.91 + 9.91 \ \text{IsChinstrap} + 3.54 \ \text{IsGentoo} \\
+&amp; \hspace{0.5cm} + 0.0038 \ \text{body mass}
+\end{align}`
+]
+
+.large[
+`\(R^2 = 0.806\)`, `\(R^2_{adj} = 0.804\)`
+]
+
+---
+
+### Improving model fit
+
+.pull-left[
+&lt;img src="lecture_19_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+
+.large[
+`\(R^2_{adj} = 0.346\)`
+]
+]
+
+.pull-right[
+&lt;img src="lecture_19_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+
+.large[
+`\(R^2_{adj} = 0.804\)`
+]
+]
+
+.large[
+* Our ability to predict bill length increases substantially when we add Species to the model
+* Make sure to compare `\(R^2_{adj}\)` (rather than `\(R^2\)` ) when comparing models
+]
+
+---
+
+### Accounting for other variables
+
+.pull-left[
+&lt;img src="lecture_19_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right[
+&lt;img src="lecture_19_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+.large[
+The slope looks pretty similar regardless of whether we add Species to the model. But that isn't always the case...
+]
+
+---
+
+### Accounting for other variables
+
+&lt;img src="lecture_19_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
+
+.large[
+There appears to be a weak, negative relationship between culmen length and culmen depth.
+]
+
+---
+
+### Accounting for other variables
+
+&lt;img src="lecture_19_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
+
+.large[
+But when we include Species in the model, we see *positive* relationships between culmen length and culmen depth.
+]
+
+---
+
+### Simpson's paradox
+
+.pull-left[
+&lt;img src="lecture_19_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="lecture_19_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.large[
+**Simpson's paradox:** The apparent relationship between variables changes when you look within groups
+]
+
+---
+
+### Accounting for other variables
+
+.pull-left[
+&lt;img src="lecture_19_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="lecture_19_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.large[
+* The model *without* Species estimates the relationship between culmen length and culmen depth in the population of all Adelie, Chinstrap, and Gentoo penguins
+* The model *with* Species estimates the relationship between culmen length and culmen depth *after accounting for species*
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

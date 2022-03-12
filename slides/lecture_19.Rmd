@@ -1,0 +1,789 @@
+---
+title: Introduction to multiple linear regression
+output:
+  xaringan::moon_reader:
+    css: "lab-slides.css"
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
+---
+
+### Agenda
+
+.large[
+* Mask policy
+* Statistics classes next semester
+* Multiple linear regression
+]
+
+---
+
+### Masks
+
+---
+
+### Statistics classes next semester
+
+.large[
+* STA 214 (Generalized linear models)
+  * Requires MST 111 (Calc 1)
+* STA 310 (Probability)
+  * Requires MST 112 (Calc 2)
+* STA 362 (Multivariate statistics)
+  * Requires MST 121 or MST 205 (Linear algebra)
+* STA 363 (Statistical learning)
+  * Requires MST 121 or MST 205 (Linear algebra)
+]
+
+---
+
+### Relationships between > 2 variables
+
+```{r echo=F, message=F, warning=F, fig.align='center', fig.width=8, fig.height=5}
+library(palmerpenguins)
+library(tidyverse)
+library(latex2exp)
+library(Stat2Data)
+library(knitr)
+
+penguins %>%
+  drop_na() %>%
+  ggplot(aes(x = body_mass_g,
+             y = bill_length_mm,
+             color = species)) +
+  geom_point(size = 2) +
+  labs(x = "Body mass (g)",
+       y = "Bill length (mm)",
+       color = "Species") +
+  theme_bw() +
+  theme(text = element_text(size = 25))
+
+hook_output <- knit_hooks$get("output")
+knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+```
+
+.large[
+.question[
+How can we model the relationship between body mass, species, and bill length?
+]
+]
+
+---
+
+### Regression with a single quantitative predictor
+
+```{r echo=F, message=F, warning=F, fig.align='center', fig.width=6, fig.height=4}
+
+penguins %>%
+  drop_na() %>%
+  ggplot(aes(x = body_mass_g,
+             y = bill_length_mm)) +
+  geom_point() +
+  labs(x = "Body mass (g)",
+       y = "Bill length (mm)") +
+  theme_bw() +
+  theme(text = element_text(size = 20))
+```
+
+.large[
+**Model:**
+
+.center[
+$\text{bill length} = \beta_0 + \beta_1 \text{body mass} + \varepsilon$
+]
+]
+
+---
+
+### Regression with a single categorical predictor
+
+```{r echo=F, message=F, warning=F, fig.align='center', fig.width=6, fig.height=4}
+
+penguins %>%
+  drop_na() %>%
+  ggplot(aes(x = species,
+             y = bill_length_mm)) +
+  geom_boxplot() +
+  labs(x = "Species",
+       y = "Bill length (mm)") +
+  theme_bw() +
+  theme(text = element_text(size = 20))
+```
+
+
+.large[
+**Model:**
+
+.center[
+$\text{bill length} = \beta_0 + \beta_1 \text{IsChinstrap} + \beta_2 \text{IsGentoo} + \varepsilon$
+]
+]
+
+---
+
+### Regression with $> 2$ variables
+
+.large[
+$\text{bill length} = \beta_0 + \beta_1 \text{body mass} + \varepsilon$
+
+$\text{bill length} = \beta_0 + \beta_1 \text{IsChinstrap} + \beta_2 \text{IsGentoo} + \varepsilon$
+
+.question[
+How can we include both species *and* body mass in the model?
+]
+]
+
+---
+
+## Multiple regression
+
+```{r echo=F, message=F, warning=F, fig.align='center', fig.width=7, fig.height=4.5}
+
+penguins_no_nas <- penguins %>%
+  drop_na()
+
+length_lm <- lm(bill_length_mm ~ species + body_mass_g, 
+                data = penguins_no_nas)
+
+penguins_no_nas %>%
+  mutate(yhat = predict(length_lm)) %>%
+  ggplot(aes(x = body_mass_g,
+             y = bill_length_mm,
+             color = species)) +
+  geom_point(size = 2, alpha = 0.5) +
+  geom_line(aes(y = yhat), 
+            lwd = 1.5) +
+  labs(x = "Body mass (g)",
+       y = "Bill length (mm)",
+       color = "Species") +
+  theme_bw() +
+  theme(text = element_text(size = 25))
+```
+
+
+.large[
+**Model:**
+
+\begin{align}
+\text{bill length} &= \beta_0 + \beta_1 \text{IsChinstrap} + \beta_2 \text{IsGentoo} \\
+& \hspace{0.5cm} + \beta_3 \text{body mass} + \varepsilon
+\end{align}
+]
+
+---
+
+### Multiple regression model
+
+.large[
+\begin{align}
+\text{bill length} &= \beta_0 + \beta_1 \text{IsChinstrap} + \beta_2 \text{IsGentoo} \\
+& \hspace{0.5cm} + \beta_3 \text{body mass} + \varepsilon
+\end{align}
+
+**This gives us a separate regression line for each species of penguin.**
+
+.question[
+What is the regression line for Adelie penguins?
+]
+]
+
+--
+
+.large[
+$\text{bill length} = \beta_0 + \beta_3 \text{body mass} + \varepsilon$
+
+.question[
+What about for Chinstrap and Gentoo penguins?
+]
+]
+
+---
+
+### Multiple regression model
+
+.large[
+\begin{align}
+\text{bill length} &= \beta_0 + \beta_1 \text{IsChinstrap} + \beta_2 \text{IsGentoo} \\
+& \hspace{0.5cm} + \beta_3 \text{body mass} + \varepsilon
+\end{align}
+
+**This gives us a separate regression line for each species of penguin:**
+
+$$\text{bill length} = \begin{cases} \beta_0 + \beta_3 \text{body mass} +  \varepsilon & \text{species = Adelie} \\ \beta_0 + \beta_1 + \beta_3 \text{body mass} + \varepsilon & \text{species = Chinstrap} \\ \beta_0 + \beta_2 + \beta_3 \text{body mass} +  \varepsilon & \text{species = Gentoo} \end{cases}$$
+
+]
+
+---
+
+### Fitted model
+
+.large[
+\begin{align}
+\widehat{\text{bill length}} &= 24.91 + 9.91 \ \text{IsChinstrap} + 3.54 \ \text{IsGentoo} \\
+& \hspace{0.5cm} + 0.0038 \ \text{body mass}
+\end{align}
+
+.question[
+How would I interpret $\widehat{\beta}_0 = 24.91$?
+]
+]
+
+--
+
+.large[
+The estimated bill length for an Adelie penguin weighing 0g. (not that meaningful)
+
+.question[
+What about $\widehat{\beta}_1 = 9.91$ and $\widehat{\beta}_2 = 3.54$?
+]
+]
+
+---
+
+### Interpreting regression coefficients
+
+```{r echo=F, message=F, warning=F, fig.align='center', fig.width=7, fig.height=4.5}
+library(latex2exp)
+penguins_no_nas %>%
+  mutate(yhat = predict(length_lm)) %>%
+  ggplot(aes(x = body_mass_g,
+             y = bill_length_mm)) +
+  geom_point(size = 2, alpha = 0) +
+  geom_line(aes(y = yhat, color = species), 
+            lwd = 1.5) +
+  labs(x = "Body mass (g)",
+       y = "Bill length (mm)",
+       color = "Species") +
+  geom_segment(aes(x = 3500, y = 38,
+                   xend = 3500, yend = 48),
+               arrow = arrow(length = unit(0.3, "cm"))) +
+  geom_segment(aes(x = 4500, y = 42,
+                   xend = 4500, yend = 45),
+               arrow = arrow(length = unit(0.3, "cm"))) +
+  annotate("text", x = 3000, y = 41, 
+           label = TeX("$9.91", output='character'), 
+           parse=TRUE, size = 7) +
+  annotate("text", x = 5000, y = 44, 
+           label = TeX("$3.54", output='character'), 
+           parse=TRUE, size = 7) +
+  theme_bw() +
+  theme(text = element_text(size = 25))
+```
+
+
+.large[
+
+* $9.91 =$ estimated mean difference in bill length for a Chinstrap and Adelie penguin with the same body mass
+* $3.54 =$ estimated mean difference in bill length for a Gentoo and Adelie penguin with the same body mass
+]
+
+---
+
+### Interpreting regression coefficients
+
+.large[
+\begin{align}
+\widehat{\text{bill length}} &= 24.91 + 9.91 \ \text{IsChinstrap} + 3.54 \ \text{IsGentoo} \\
+& \hspace{0.5cm} + 0.0038 \ \text{body mass}
+\end{align}
+
+.question[
+How would I interpret $\widehat{\beta}_3 = 0.0038$?
+]
+]
+
+--
+
+.large[
+The average change in bill length associated with an increase of 1g in body mass, holding species constant.
+
+*Note that we assume the slope is the same for each species!*
+]
+
+---
+
+### Predictions
+
+.large[
+\begin{align}
+\widehat{\text{bill length}} &= 24.91 + 9.91 \ \text{IsChinstrap} + 3.54 \ \text{IsGentoo} \\
+& \hspace{0.5cm} + 0.0038 \ \text{body mass}
+\end{align}
+
+.question[
+What is the predicted bill length for a Gentoo penguin with a body mass of 5000 g?
+]
+]
+
+--
+
+.large[
+$24.91 + 3.54 + 0.0038(5000) = 47.45$
+]
+
+---
+
+### Fitting the model in R
+
+.large[
+```{r}
+m1 <- lm(bill_length_mm ~ species + body_mass_g, 
+                 data = penguins_no_nas)
+```
+
+* `bill_length_mm ~ species + body_mass_g` is a `formula` in R
+* Still `response ~ predictor(s)`
+* `+` means "include more variables in the model"
+* Need to remove missing values before fitting the model
+]
+
+---
+
+### Fitting the model in R
+
+.large[
+```{r, output.lines = 10:14}
+m1 <- lm(bill_length_mm ~ species + body_mass_g, 
+                 data = penguins_no_nas)
+summary(m1)
+```
+
+\begin{align}
+\widehat{\text{bill length}} &= 24.91 + 9.91 \ \text{IsChinstrap} + 3.54 \ \text{IsGentoo} \\
+& \hspace{0.5cm} + 0.0038 \ \text{body mass}
+\end{align}
+]
+
+---
+
+### Class activity
+
+---
+
+### Class activity
+
+.large[
+.question[
+What is the population regression model?
+]
+]
+
+--
+
+.large[
+\begin{align}
+\text{Weight} &= \beta_0 + \beta_1 \text{IsEnlarged} + \beta_2 \text{IsReduced} + \\
+& \hspace{1cm} \beta_3 \text{WingLength} + \varepsilon
+\end{align}
+]
+
+---
+
+### Class activity
+
+.large[
+.question[
+What is the equation of the fitted regression model?
+]
+]
+
+--
+
+.large[
+\begin{align}
+\widehat{\text{Weight}} &= 1.94 - 0.46 \text{IsEnlarged} + 0.90 \text{IsReduced} + \\
+& \hspace{1cm} 0.45 \text{WingLength}
+\end{align}
+]
+
+---
+
+### Class activity
+
+.large[
+
+\begin{align}
+\widehat{\text{Weight}} &= 1.94 - 0.46 \text{IsEnlarged} + 0.90 \text{IsReduced} + \\
+& \hspace{1cm} 0.45 \text{WingLength}
+\end{align}
+
+.question[
+What is the average change in weight associated with a 1mm increase in wing length, for sparrows from enlarged nests?
+]
+]
+
+--
+
+.large[
+Answer: 0.45
+
+(We fit the same slope for each group of sparrows, and it is estimated to be 0.45)
+]
+
+---
+
+### Class activity
+
+.large[
+
+\begin{align}
+\widehat{\text{Weight}} &= 1.94 - 0.46 \text{IsEnlarged} + 0.90 \text{IsReduced} + \\
+& \hspace{1cm} 0.45 \text{WingLength}
+\end{align}
+
+.question[
+What is the estimated difference in weight for sparrows from enlarged vs. control nests, with the same wing length?
+]
+]
+
+--
+
+.large[
+We estimate that sparrows from enlarged nests weigh 0.46g less, on average, than sparrows from control nests with the same wing length
+]
+
+---
+
+### Benefits of multiple linear regression
+
+.large[
+.question[
+What are some benefits of including multiple predictors in my regression model?
+]
+]
+
+--
+
+.large[
+Two main reasons:
+
+* Improve the ability to predict the response
+* Account for other variables that may change the relationship (e.g., penguin species)
+]
+
+---
+
+### Improving model fit
+
+```{r echo=F, message=F, warning=F, fig.width=7, fig.height=4.5, fig.align='center'}
+penguins_no_nas %>%
+  ggplot(aes(x = body_mass_g, y = bill_length_mm)) +
+  geom_point(size=2) +
+  geom_smooth(se=F, method="lm", lwd=1.5) +
+  labs(x = "Body mass (g)",
+       y = "Bill length (mm)") +
+  theme_bw() +
+  theme(text = element_text(size = 25))
+```
+
+.large[
+$$\widehat{\text{bill length}} = 27.15 + 0.004 \ \text{body mass}$$
+
+.question[
+How do I measure how well body mass predicts bill length?
+]
+]
+
+---
+
+### Improving model fit
+
+```{r echo=F, message=F, warning=F, fig.width=7, fig.height=4.5, fig.align='center'}
+penguins_no_nas %>%
+  ggplot(aes(x = body_mass_g, y = bill_length_mm)) +
+  geom_point(size=2) +
+  geom_smooth(se=F, method="lm", lwd=1.5) +
+  labs(x = "Body mass (g)",
+       y = "Bill length (mm)") +
+  theme_bw() +
+  theme(text = element_text(size = 25))
+```
+
+.large[
+$$\widehat{\text{bill length}} = 27.15 + 0.004 \ \text{body mass}$$
+
+$R^2 = 0.348$, $R^2_{adj} = 0.346$
+]
+
+---
+
+### Improving model fit
+
+```{r echo=F, message=F, warning=F, fig.width=7, fig.height=4.5, fig.align='center'}
+length_lm <- lm(bill_length_mm ~ species + body_mass_g, 
+                data = penguins_no_nas)
+
+penguins_no_nas %>%
+  mutate(yhat = predict(length_lm)) %>%
+  ggplot(aes(x = body_mass_g,
+             y = bill_length_mm,
+             color = species)) +
+  geom_point(size = 2, alpha = 0.5) +
+  geom_line(aes(y = yhat), 
+            lwd = 1.5) +
+  labs(x = "Body mass (g)",
+       y = "Bill length (mm)",
+       color = "Species") +
+  theme_bw() +
+  theme(text = element_text(size = 25))
+```
+
+.large[
+But we should probably fit a line for each species...
+]
+
+---
+
+### Improving model fit
+
+```{r echo=F, message=F, warning=F, fig.width=7, fig.height=4.5, fig.align='center'}
+length_lm <- lm(bill_length_mm ~ species + body_mass_g, 
+                data = penguins_no_nas)
+
+penguins_no_nas %>%
+  mutate(yhat = predict(length_lm)) %>%
+  ggplot(aes(x = body_mass_g,
+             y = bill_length_mm,
+             color = species)) +
+  geom_point(size = 2, alpha = 0.5) +
+  geom_line(aes(y = yhat), 
+            lwd = 1.5) +
+  labs(x = "Body mass (g)",
+       y = "Bill length (mm)",
+       color = "Species") +
+  theme_bw() +
+  theme(text = element_text(size = 25))
+```
+
+.large[
+\begin{align}
+\widehat{\text{bill length}} &= 24.91 + 9.91 \ \text{IsChinstrap} + 3.54 \ \text{IsGentoo} \\
+& \hspace{0.5cm} + 0.0038 \ \text{body mass}
+\end{align}
+]
+
+.large[
+$R^2 = 0.806$, $R^2_{adj} = 0.804$
+]
+
+---
+
+### Improving model fit
+
+.pull-left[
+```{r echo=F, message=F, warning=F, fig.width=6, fig.height=4, fig.align='center'}
+penguins_no_nas %>%
+  ggplot(aes(x = body_mass_g, y = bill_length_mm)) +
+  geom_point(size=2) +
+  geom_smooth(se=F, method="lm", lwd=1.5) +
+  labs(x = "Body mass (g)",
+       y = "Bill length (mm)") +
+  theme_bw() +
+  theme(text = element_text(size = 25))
+```
+
+.large[
+$R^2_{adj} = 0.346$
+]
+]
+
+.pull-right[
+```{r echo=F, message=F, warning=F, fig.width=6, fig.height=4, fig.align='center'}
+
+penguins_no_nas %>%
+  mutate(yhat = predict(length_lm)) %>%
+  ggplot(aes(x = body_mass_g,
+             y = bill_length_mm,
+             color = species)) +
+  geom_point(size = 2, alpha = 0.5) +
+  geom_line(aes(y = yhat), 
+            lwd = 1.5) +
+  labs(x = "Body mass (g)",
+       y = "Bill length (mm)",
+       color = "Species") +
+  theme_bw() +
+  theme(text = element_text(size = 25))
+```
+
+.large[
+$R^2_{adj} = 0.804$
+]
+]
+
+.large[
+* Our ability to predict bill length increases substantially when we add Species to the model
+* Make sure to compare $R^2_{adj}$ (rather than $R^2$ ) when comparing models
+]
+
+---
+
+### Accounting for other variables
+
+.pull-left[
+```{r echo=F, message=F, warning=F, fig.width=6, fig.height=4, fig.align='center'}
+penguins_no_nas %>%
+  ggplot(aes(x = body_mass_g, y = bill_length_mm)) +
+  geom_point(size=2) +
+  geom_smooth(se=F, method="lm", lwd=1.5) +
+  labs(x = "Body mass (g)",
+       y = "Bill length (mm)") +
+  theme_bw() +
+  theme(text = element_text(size = 25))
+```
+
+]
+
+.pull-right[
+```{r echo=F, message=F, warning=F, fig.width=6, fig.height=4, fig.align='center'}
+
+penguins_no_nas %>%
+  mutate(yhat = predict(length_lm)) %>%
+  ggplot(aes(x = body_mass_g,
+             y = bill_length_mm,
+             color = species)) +
+  geom_point(size = 2, alpha = 0.5) +
+  geom_line(aes(y = yhat), 
+            lwd = 1.5) +
+  labs(x = "Body mass (g)",
+       y = "Bill length (mm)",
+       color = "Species") +
+  theme_bw() +
+  theme(text = element_text(size = 25))
+```
+
+]
+
+.large[
+The slope looks pretty similar regardless of whether we add Species to the model. But that isn't always the case...
+]
+
+---
+
+### Accounting for other variables
+
+```{r echo=F, message=F, warning=F, fig.width=7, fig.height=5, fig.align='center'}
+penguins_raw_no_nas <- penguins_raw %>%
+  mutate(species_short = ifelse(Species == "Adelie Penguin (Pygoscelis adeliae)", "Adelie",
+                                ifelse(Species == "Gentoo penguin (Pygoscelis papua)", "Gentoo", "Chinstrap"))) %>%
+  select(`Culmen Length (mm)`, `Culmen Depth (mm)`, species_short) %>%
+  drop_na()
+
+penguins_raw_no_nas %>%
+  ggplot(aes(x = `Culmen Length (mm)`, y = `Culmen Depth (mm)`)) +
+  geom_point(size=2) +
+  geom_smooth(se=F, method="lm", lwd=1.5) +
+  theme_bw() +
+  theme(text = element_text(size=25))
+```
+
+.large[
+There appears to be a weak, negative relationship between culmen length and culmen depth.
+]
+
+---
+
+### Accounting for other variables
+
+```{r echo=F, message=F, warning=F, fig.width=7, fig.height=5, fig.align='center'}
+penguins_raw_no_nas %>%
+  ggplot(aes(x = `Culmen Length (mm)`, y = `Culmen Depth (mm)`,
+             color = species_short)) +
+  geom_point(size=2, alpha = 0.5) +
+  geom_smooth(se=F, method="lm", lwd=1.5) +
+  labs(color = "Species") +
+  theme_bw() +
+  theme(text = element_text(size=25))
+```
+
+.large[
+But when we include Species in the model, we see *positive* relationships between culmen length and culmen depth.
+]
+
+---
+
+### Simpson's paradox
+
+.pull-left[
+```{r echo=F, message=F, warning=F, fig.width=6, fig.height=4, fig.align='center'}
+
+penguins_raw_no_nas %>%
+  ggplot(aes(x = `Culmen Length (mm)`, y = `Culmen Depth (mm)`)) +
+  geom_point(size=2) +
+  geom_smooth(se=F, method="lm", lwd=1.5) +
+  theme_bw() +
+  theme(text = element_text(size=25))
+```
+]
+
+.pull-right[
+```{r echo=F, message=F, warning=F, fig.width=6, fig.height=4, fig.align='center'}
+penguins_raw_no_nas %>%
+  ggplot(aes(x = `Culmen Length (mm)`, y = `Culmen Depth (mm)`,
+             color = species_short)) +
+  geom_point(size=2, alpha = 0.5) +
+  geom_smooth(se=F, method="lm", lwd=1.5) +
+  labs(color = "Species") +
+  theme_bw() +
+  theme(text = element_text(size=25))
+```
+]
+
+.large[
+**Simpson's paradox:** The apparent relationship between variables changes when you look within groups
+]
+
+---
+
+### Accounting for other variables
+
+.pull-left[
+```{r echo=F, message=F, warning=F, fig.width=6, fig.height=4, fig.align='center'}
+
+penguins_raw_no_nas %>%
+  ggplot(aes(x = `Culmen Length (mm)`, y = `Culmen Depth (mm)`)) +
+  geom_point(size=2) +
+  geom_smooth(se=F, method="lm", lwd=1.5) +
+  theme_bw() +
+  theme(text = element_text(size=25))
+```
+]
+
+.pull-right[
+```{r echo=F, message=F, warning=F, fig.width=6, fig.height=4, fig.align='center'}
+penguins_raw_no_nas %>%
+  ggplot(aes(x = `Culmen Length (mm)`, y = `Culmen Depth (mm)`,
+             color = species_short)) +
+  geom_point(size=2, alpha = 0.5) +
+  geom_smooth(se=F, method="lm", lwd=1.5) +
+  labs(color = "Species") +
+  theme_bw() +
+  theme(text = element_text(size=25))
+```
+]
+
+.large[
+* The model *without* Species estimates the relationship between culmen length and culmen depth in the population of all Adelie, Chinstrap, and Gentoo penguins
+* The model *with* Species estimates the relationship between culmen length and culmen depth *after accounting for species*
+]
