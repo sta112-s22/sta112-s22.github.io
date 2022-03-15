@@ -1,0 +1,40 @@
+---
+title: "Class Activity, March 16"
+output: 
+  tufte::tufte_html:
+    css: "../labs/lab.css"
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+In this activity, you will practice fitting a multiple linear regression model with two quantitative predictors.
+
+## Setup
+
+Download the activity template: [activity template](https://sta112-s22.github.io/class_activities/ca_lecture_20_template.Rmd)
+
+In this class activity, we will try to predict a student's GPA in their first year of college, using their high school GPA and their SAT verbal score. The `FirstYearGPA` dataset, part of the `Stat2Data` package, includes the following variables on 219 students:
+
+* `GPA`: First-year college GPA on a 0.0 to 4.0 scale
+* `HSGPA`: High school GPA on a 0.0 to 4.0 scale
+* `SATV`: Verbal/critical reading SAT score (between 200 and 800)
+
+## Questions
+
+We are interested in the regression model
+
+$\text{GPA} = \beta_0 + \beta_1 \ \text{HSGPA} + \beta_2 \ \text{SATV} + \varepsilon$
+
+1. Run the following code to fit the regression line, then report the equation of the fitted model:
+
+```{r eval=F}
+m1 <- lm(GPA ~ HSGPA + SATV, data = FirstYearGPA)
+summary(m1)
+```
+
+2. What is the estimated college GPA for a student with a high school GPA of 3.5, and a verbal SAT score of 600?
+
+3. Is there any verbal SAT score for which we would predict a college GPA of at least 3.5, for a student with a high school GPA of 3.5?
+
+4. Interpret the estimated slopes 0.498 and 0.0012.

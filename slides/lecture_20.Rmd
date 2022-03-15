@@ -14,6 +14,13 @@ editor_options:
 
 ### Agenda
 
+.large[
+* Reminder: HW 4 due Friday
+* Recap: multiple linear regression
+* Multiple quantitative predictors
+* Beginning interactions
+]
+
 ---
 
 ### Recap: multiple linear regression
@@ -410,6 +417,10 @@ $-3.98 + 0.00055(5000) + 0.227(200) = 44.17$
 ---
 
 ### Class activity
+
+.large[
+[https://sta112-s22.github.io/class_activities/ca_lecture_20.html](https://sta112-s22.github.io/class_activities/ca_lecture_20.html)
+]
 
 ---
 
