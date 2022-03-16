@@ -10,6 +10,7 @@ March 14
 
 March 16
 : Multiple regression models
+  : [Slides](https://sta112-s22.github.io/slides/lecture_20.html), [Class activity](https://sta112-s22.github.io/class_activities/ca_lecture_20.html)
 
 : Textbook 3.1, 3.3
 
