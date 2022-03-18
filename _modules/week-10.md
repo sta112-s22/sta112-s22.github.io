@@ -16,6 +16,7 @@ March 16
 
 March 18
 : Interactions
+  : [Slides](https://sta112-s22.github.io/slides/lecture_21.html), [Class activity](https://sta112-s22.github.io/class_activities/ca_lecture_21.html)
 
 : Textbook 3.3, 3.4
 
