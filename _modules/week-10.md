@@ -23,3 +23,4 @@ March 18
 : **HW 4 due**{: .label .label-red }
 
 : **HW 5 released**{: .label .label-yellow }
+  : [HW 5](https://sta112-s22.github.io/homework/homework_5.html)
