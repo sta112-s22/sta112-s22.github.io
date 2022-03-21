@@ -1,0 +1,89 @@
+---
+title: "Lab 4"
+output: 
+  tufte::tufte_html:
+    css: "lab.css"
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+**Learning goals:** So far, we have examined interactions between a categorical variable and a quantitative variable, and interactions between two quantitative variables. In this lab, we will look at interactions between two *categorical* variables in a multiple regression model.
+
+# Setup
+
+**Template file:** [lab_04_template.Rmd](https://sta112-s22.github.io/labs/lab_04_template.Rmd)
+
+## Data
+
+Student evaluations of professors can provide valuable feedback on the professor's course and teaching. However, researchers have raised concerns that student evaluations may sometimes depend in part on other factors, such as the instructor's age, physical appearance, and gender. In this lab, we will work with data from student evaluations of 94 professors across 463 courses at the University of Texas at Austin. Each row represents a different course, and the columns contain information on the courses and professors. This lab will focus on the following variables:
+
+* `score`: Average professor evaluation score: (1) very unsatisfactory - (5) excellent.
+* `rank`: Rank of professor: teaching, tenure track, tenured.
+* `gender`: Gender of professor (collected as a binary variable at the time of the study): female, male.
+
+## Getting the data
+
+First, install the `moderndive` package:
+
+```{r eval=F}
+install.packages("moderndive")
+```
+
+Next, load the package and the data:
+
+```{r eval=F}
+library(moderndive)
+data("evals")
+```
+
+# Questions
+
+Let's begin by visualizing the data.
+
+1. Create a plot showing the distribution of scores for professors in each rank, broken down by gender. Describe the plot -- do you see any differences in score based on rank or gender?
+
+Now let's fit a model. To start, we will use only rank as a predictor (we will add gender later). 
+
+2. Use the code below to fit a regression model with score as the response, and rank as the predictor. Report the equation of your fitted model, and the $R^2_{adj}$.
+
+```{r eval=F}
+eval_lm1 <- lm(score ~ rank, data = evals)
+summary(eval_lm1)
+```
+
+3. What is the average score for professors in each rank?
+
+Now, let's add gender as a predictor. We won't use any interaction terms yet.
+
+4. Use the code below to fit a regression model with score as the response, and both rank and gender as predictors (no interaction). Report the equation of your fitted model, and the $R^2_{adj}$.
+
+```{r eval=F}
+eval_lm2 <- lm(score ~ rank + gender, data = evals)
+summary(eval_lm2)
+```
+
+5. What is the average score for male teaching professors?
+
+6. Interpret the coefficient on $\text{IsMale}$ in your fitted model.
+
+Because we didn't include an interaction, our model assumes that the difference in scores between male and female professors is the same for each rank.
+
+7. Look at the plot from exercise 1. Does this assumption seem reasonable?
+
+Now let's incorporate an interaction between gender and rank.
+
+8. Use the code below to fit a regression model with score as the response, and both rank and gender as predictors, with an interaction between rank and gender. Report the equation of your fitted model, and the $R^2_{adj}$.
+
+```{r eval=F}
+eval_lm3 <- lm(score ~ rank*gender, data = evals)
+summary(eval_lm3)
+```
+
+9. What is the average score for male teaching professors?
+
+10. What is the average difference in scores for male and female teaching professors?
+
+11. What is the average difference in scores for male and female *tenured* professors?
+
+12. Based on the plot from exercise 1, and the $R^2_{adj}$ values from your different models, do you think it is important to include an interaction between rank and gender?

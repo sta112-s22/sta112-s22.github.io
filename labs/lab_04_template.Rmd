@@ -1,0 +1,72 @@
+---
+---
+---
+title: "Lab 4"
+author: "Your Name"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(moderndive)
+data("evals")
+```
+
+## Exercise 1
+
+```{r}
+
+```
+
+## Exercise 2
+
+```{r}
+
+```
+
+## Exercise 3
+
+
+
+## Exercise 4
+
+```{r}
+
+```
+
+## Exercise 5
+
+
+
+
+## Exercise 6
+
+
+
+## Exercise 7
+
+
+
+## Exercise 8
+
+```{r}
+
+```
+
+## Exercise 9
+
+
+
+## Exercise 10
+
+
+
+
+## Exercise 11
+
+
+
+## Exercise 12
+
+
