@@ -1,0 +1,95 @@
+---
+title: "Lab 4 Solutions"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(moderndive)
+data("evals")
+```
+
+## Exercise 1
+
+```{r}
+evals %>%
+  ggplot(aes(x = rank, y = score, color = gender)) +
+  geom_boxplot() +
+  theme_bw()
+```
+
+For male professors, it looks like teaching professors get higher scores than tenure-track and tenured professors. For female professors, on the other hand, it looks like teaching professors get lower scores than tenure-track and tenured professors. Female teaching and tenure-track professors appear to get lower scores than their male counterparts, whereas tenured professors from both genders seem to score the same.
+
+## Exercise 2
+
+```{r}
+eval_lm1 <- lm(score ~ rank, data = evals)
+summary(eval_lm1)
+```
+
+$$\widehat{\text{Score}} = 4.28 - 0.13 \text{IsTenureTrack} - 0.15 \text{IsTenured}$$
+
+$R^2_{adj} = 0.0073$ (we explain very little variability in score by differences in rank)
+
+## Exercise 3
+
+Teaching professors: the average score is 4.28 (the intercept in our fitted model)
+
+Tenure track professors: the average score is $4.28 - 0.13 = 4.15$
+
+Tenured professors: the average score is $4.28 - 0.15 = 4.13$
+
+## Exercise 4
+
+```{r}
+eval_lm2 <- lm(score ~ rank + gender, data = evals)
+summary(eval_lm2)
+```
+
+$$\widehat{\text{Score}} = 4.20 - 0.10 \ \text{IsTenureTrack} - 0.18 \ \text{IsTenured} + 0.17 \ \text{IsMale}$$
+
+$R^2_{adj} = 0.0266$ (we explain a little more variability in score by adding gender to the model)
+
+## Exercise 5
+
+The predicted average score for male teaching professors is $4.2 + 0.17 = 4.37$
+
+
+## Exercise 6
+
+On average, male professors score 0.17 points higher than female professors of the same rank.
+
+## Exercise 7
+
+No -- the plot from exercise 1 suggests that we need an interaction. There is a noticeable difference in scores for male and female teaching professors, but male and female tenured professors have very similar scores.
+
+## Exercise 8
+
+```{r}
+eval_lm3 <- lm(score ~ rank*gender, data = evals)
+summary(eval_lm3)
+```
+
+$$\widehat{\text{Score}} = 4.038 + 0.059 \ \text{IsTenureTrack} + 0.087 \ \text{IsTenured} + 0.483 \ \text{IsMale} - 0.324 \ \text{IsTenureTrack} \cdot \text{IsMale} - 0.463 \ \text{IsTenured} \cdot \text{IsMale}$$
+$R^2_{adj} = 0.050$
+
+## Exercise 9
+
+The estimated average score for male teaching professors is $4.038 + 0.483 = 4.521$
+
+
+## Exercise 10
+
+On average, male teaching professors score 0.483 points higher than female teaching professors.
+
+
+## Exercise 11
+
+On average, male tenured professors score $0.483 - 0.463 = 0.02$ points higher than female tenured professors.
+
+## Exercise 12
+
+I would argue that it is important to include an interaction. While $R^2_{adj}$ is still low, adding the interaction improved $R^2_{adj}$ by as much as adding gender to the model. Furthermore, the plot for exercise 1 suggests an interaction is needed, because the difference between male and female professors depends on rank.
