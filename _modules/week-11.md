@@ -8,6 +8,7 @@ March 21
 
 March 23
 : Nested F-tests
+  : [Slides](https://sta112-s22.github.io/slides/lecture_22.html), [Class activity](https://sta112-s22.github.io/class_activities/ca_lecture_22.html)
 
 : Textbook 3.3, 3.6
 

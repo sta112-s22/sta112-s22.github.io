@@ -406,6 +406,10 @@ Note that the reduced model is *nested* inside the full model.
 
 ### Class activity
 
+.large[
+[https://sta112-s22.github.io/class_activities/ca_lecture_22.html](https://sta112-s22.github.io/class_activities/ca_lecture_22.html)
+]
+
 ---
 
 ### Class activity
