@@ -21,3 +21,4 @@ March 25
 : **Project 1, part 4 released**{: .label .label-green }
 
 : **HW 6 released**{: .label .label-yellow }
+  : [HW 6](https://sta112-s22.github.io/homework/homework_6.html)

@@ -1,0 +1,98 @@
+---
+title: "Homework 6"
+output: 
+  rmdformats::robobook:
+    css: "homework.css"
+    highlight: pygments
+link-citations: yes
+---
+
+**Due:** Friday, April 1, 12:00pm (noon) on Canvas
+
+**Instructions:** 
+
+* A template R Markdown file is provided in the setup below
+* When you are done with the assignment, knit and submit the HTML on Canvas
+* When making plots, make sure to nicely label all axes, provide units where applicable, and add a title
+* Remember to acknowledge any collaborators, and to cite outside sources
+
+# Setup
+
+### Template
+
+A template R Markdown file, which loads the data and packages you will need for the assignment, is provided: [hw_06_template.Rmd](https://sta112-s22.github.io/homework/hw_06_template.Rmd)
+
+We will continue working with the group performance data from HW 5.
+
+### Data
+
+When a group works together to accomplish a task, a variety of factors may be related to their success. How do diversity and hormone levels impact group performance? The study of group dynamics in the social sciences has often examined these group characteristics, but it is also of interest to explore how they interact. In the paper ["Hormone-Diversity Fit: Collective Testosterone Moderates the Effect of Diversity on Group Performance"](https://journals.sagepub.com/doi/pdf/10.1177/0956797617744282) (Akinola *et al.* 2018, *Psychological Science*), the authors hypothesize that increased group diversity is positively associated with performance when group testosterone levels are low, but increased diversity is negatively associated with performance when testosterone levels are high. Their reasoning is that low-testosterone groups are better at cooperating than high-testosterone groups, so diverse perspectives are beneficial for low-testosterone groups but not for high-testosterone groups.
+
+To investigate their hypothesis, the researchers collected data on 74 groups of MBA students at Columbia University. Each group had 3--6 members, and was tasked with completing a week-long project on maximizing financial performance of a fictional blood-testing laboratory. The data here represents a subset of the data made available by the researchers. Each row in the data represents one group, with the following information:
+
+* *performance*: the final performance of the group in the project
+* *size*: the number of group members (between 3 and 6)
+* *females*: the number of female group members
+* *diversity*: a measure of group diversity that summarizes information on the gender, ethnicity, and country of origin for the group members. Takes on values between 0 and 1 (in this data, the values range from 0.25 to 0.65). Higher diversity scores mean the group is more diverse.
+* *testosterone*: the average testosterone levels (in pg/mL) for the group members
+
+The researchers want to look at the relationship between performance, diversity, and testosterone. Because group size and the number of female group members are potential confounding variables, the researchers will also include *size* and *females* as predictors in their model.
+
+### Loading the data
+
+To load the data, run
+
+```r
+team_data <- read_csv("https://sta112-s22.github.io/homework/team_data.csv")
+```
+
+# Questions
+
+To investigate their hypothesis, the researchers use a model with an interaction between diversity and testosterone:
+
+$\text{performance} = \beta_0 + \beta_1 \text{size} + \beta_2 \text{females} + \beta_3 \text{diversity} + \beta_4 \text{testosterone} \\ \hspace{3cm} + \beta_5 \text{diversity} \cdot \text{testosterone} + \varepsilon$
+
+
+:::{.question}
+#### Question 1
+
+Is the relationship between group diversity and performance different for different levels of group testosterone? Write down null and alternative hypotheses, in terms of one or more model parameters.
+:::
+
+
+
+:::{.question}
+#### Question 2
+
+One method for testing the hypotheses in Question 1 is with a nested F-test. Write down the full and reduced models for the nested F-test, corresponding to your hypotheses.
+:::
+
+:::{.question}
+#### Question 3
+
+What are the numerator and denominator degrees of freedom for the F test of the hypotheses in Question 1?
+:::
+
+:::{.question}
+#### Question 4
+
+Carry out the nested F-test for your hypotheses in Question 1, and report the F-statistic and p-value. What do you conclude about the hypothesis that the relationship between group diversity and performance depends on testosterone?
+:::
+
+:::{.question}
+#### Question 5
+
+Since we’re only testing a single parameter, we can perform a t-test instead of a nested F-test. Report the degrees of freedom, t-statistic, and p-value, and note that the p-value is the same as Question 4.
+:::
+
+:::{.question}
+#### Question 6
+
+What is the relationship between the t-statistic in Question 5, and the F-statistic in Question 4?
+:::
+
+:::{.question}
+#### Question 7
+
+Calculate and interpret a confidence interval for the interaction parameter, $\beta_5$, in the model.
+:::

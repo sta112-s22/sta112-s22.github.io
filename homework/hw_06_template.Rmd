@@ -1,0 +1,41 @@
+---
+---
+---
+title: "Homework 6"
+author: "Your Name"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+team_data <- read_csv("https://sta112-s22.github.io/homework/team_data.csv")
+```
+
+### Question 1
+
+
+
+### Question 2
+
+
+
+### Question 3
+
+
+
+### Question 4
+
+
+
+### Question 5
+
+
+
+### Question 6
+
+
+
+### Question 7
+
+
