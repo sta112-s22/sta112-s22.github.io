@@ -1,0 +1,108 @@
+---
+title: "Class Activity, March 25"
+output: 
+  tufte::tufte_html:
+    css: "../labs/lab.css"
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+In this class activity, we will continue working with the `Kids198` data from the `Stat2Data` package, which examines the relationship between Age and Height for children between the ages of 8 and 18. We are also interested in how that relationship differs for boys and girls. The `Kids198` dataset includes the following variables on 198 children:
+
+* `Height`: Height (in inches)
+* `Age`: Age (in months)
+* `Sex`: 0=male, 1 = female
+
+## Part I
+
+Researchers want to know whether there is *any* relationship between Age and Height, after accounting for Sex. They believe that the relationship between Age and Height depends on Sex, so they fit the model
+
+$$\text{Height} = \beta_0 + \beta_1 Age + \beta_2 \text{IsMale} + \beta_3 \text{Age} \cdot \text{IsMale} + \varepsilon$$
+
+Their hypotheses are
+
+$H_0: \beta_1 = \beta_3 = 0 \hspace{1cm} H_A: \text{at least one of } \beta_1, \beta_3 \neq 0$ ,
+
+which yields the following nested models.
+
+**Full model:** 
+
+$$\text{Height} = \beta_0 + \beta_1 Age + \beta_2 \text{IsMale} + \beta_3 \text{Age} \cdot \text{IsMale} + \varepsilon$$
+
+**Reduced model:** 
+
+$$\text{Height} = \beta_0 + \beta_1 \text{IsMale} + \varepsilon$$
+
+1. Fit the full and reduced models in R. Call them `m1` and `m2` respectively.
+
+<SCRIPT>
+function ShowAndHide(divid) {
+    var x = document.getElementById(divid);
+    if (x.style.display == 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
+}
+</SCRIPT>
+
+<BUTTON ONCLICK="ShowAndHide('q1_solution')">Solution</BUTTON>
+
+<DIV ID="q1_solution" STYLE="display:none">
+```{r eval=F}
+m1 <- lm(Height ~ Age*Sex, data = Kids198)
+m2 <- lm(Height ~ Sex, data = Kids198)
+```
+</DIV>
+
+To test their hypotheses, the researchers will use the test statistic
+
+$$F = \dfrac{\frac{1}{\# \ \text{parameters tested}}(SSE_{reduced} - SSE_{full})}{\frac{1}{n-p} SSE_{full}}$$
+
+2. To calculate this test statistic, we need $SSE_{full}$ and $SSE_{reduced}$. We can get this with the `anova()` function in R. Run the following code:
+
+```{r eval=F}
+anova(m1)
+anova(m2)
+```
+
+The `Residuals` line in the `anova` output gives the SSE (under `Sum Sq`).
+
+3. Use the `anova` output to calculate the test statistic.
+
+Under $H_0$, the test statistic follows an $F_{\# \ \text{parameters tested}, \ n-p}$ distribution.
+
+4. Calculate $n - p$ and the number of parameters tested, for this data and these models.
+
+Finally, we can calculate a p-value. To calculate a p-value for an F distribution, we use
+
+```{r eval=F}
+pf(..., df1 = ..., df2 = ..., lower.tail=F)
+```
+
+where the first argument is our test statistic (from exercise 3), and our second and third arguments arguments are the numerator and denominator degrees of freedom (from question 4).
+
+5. Calculate a p-value for the hypothesis test.
+
+# Part II
+
+The researchers are still using the model
+
+$$\text{Height} = \beta_0 + \beta_1 Age + \beta_2 \text{IsMale} + \beta_3 \text{Age} \cdot \text{IsMale} + \varepsilon$$
+
+But this time, they want to know whether the slope on Age the same for both boys and girls. They will test the hypotheses
+
+$H_0: \beta_3 = 0 \hspace{1cm} H_A: \beta_3 \neq 0$
+
+The full and reduced models are
+
+**Full model:** 
+
+$$\text{Height} = \beta_0 + \beta_1 Age + \beta_2 \text{IsMale} + \beta_3 \text{Age} \cdot \text{IsMale} + \varepsilon$$
+
+**Reduced model:** 
+
+$$\text{Height} = \beta_0 + \beta_1 Age + \beta_2 \text{IsMale} + \varepsilon$$
+
+6. Test the hypotheses. Do you have evidence that the slope is different for boys and girls?

@@ -1,0 +1,258 @@
+---
+title: Hypothesis testing with multiple regression
+output:
+  xaringan::moon_reader:
+    css: "lab-slides.css"
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
+---
+
+### Agenda
+
+---
+
+### Recap: hypothesis tests and nested models
+
+.large[
+**Data:** Height, age, and gender for 198 children between the ages of 8 and 18. Researchers think the relationship between age and height might depend on gender.
+
+**Research question:** Is there *any* relationship between Age and Height, after accounting for gender?
+
+**Full model:** 
+
+$$\text{Height} = \beta_0 + \beta_1 Age + \beta_2 \text{IsMale} + \beta_3 \text{Age} \cdot \text{IsMale} + \varepsilon$$
+
+**Reduced model:** 
+
+$$\text{Height} = \beta_0 + \beta_1 \text{IsMale} + \varepsilon$$
+
+]
+
+---
+
+### Recap: hypothesis tests and nested models
+
+.large[
+**Data:** Height, age, and gender for 198 children between the ages of 8 and 18. Researchers think the relationship between age and height might depend on gender.
+
+
+**Research question:** Is the slope on Age the same for both boys and girls?
+
+**Full model:** 
+
+$$\text{Height} = \beta_0 + \beta_1 Age + \beta_2 \text{IsMale} + \beta_3 \text{Age} \cdot \text{IsMale} + \varepsilon$$
+
+**Reduced model:** 
+
+$$\text{Height} = \beta_0 + \beta_1 Age + \beta_2 \text{IsMale} + \varepsilon$$
+]
+
+---
+
+### Nested F test
+
+.large[
+To compare *any* two **nested** models:
+
+**Test statistic:** $F = \dfrac{\frac{1}{\# \ \text{parameters tested}}(SSE_{reduced} - SSE_{full})}{\frac{1}{n-p} SSE_{full}}$
+
+**Distribution:** $F_{\# \ \text{parameters tested}, \ n-p}$
+
+* $n =$ number of observations in data
+* $p =$ number of parameters in full model
+]
+
+--
+
+.large[
+**Intuition:**  $SSE_{reduced} - SSE_{full}$ is large when the full model fits the data better than the reduced model
+]
+
+---
+
+### Class activity, Part I
+
+---
+
+### Class activity
+
+.large[
+$$F = \dfrac{\frac{1}{\# \ \text{parameters tested}}(SSE_{reduced} - SSE_{full})}{\frac{1}{n-p} SSE_{full}}$$
+
+.question[
+Calculate the test statistic.
+]
+]
+
+---
+
+### Class activity
+
+.large[
+$$F = \dfrac{\frac{1}{\# \ \text{parameters tested}}(SSE_{reduced} - SSE_{full})}{\frac{1}{n-p} SSE_{full}}$$
+
+```{r include=F}
+library(tidyverse)
+library(Stat2Data)
+library(knitr)
+data("Kids198")
+
+hook_output <- knit_hooks$get("output")
+knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+m1 <- lm(Height ~ Age*Sex, data = Kids198)
+m2 <- lm(Height ~ Sex, data = Kids198)
+```
+
+```{r output.lines=8:9}
+anova(m1)
+```
+
+```{r output.lines=6:7}
+anova(m2)
+```
+]
+
+---
+
+### Class activity
+
+.large[
+$$F = \dfrac{\frac{1}{\# \ \text{parameters tested}}(SSE_{reduced} - SSE_{full})}{\frac{1}{n-p} SSE_{full}}$$
+```{r echo=F, output.lines=8:9}
+anova(m1)
+```
+
+```{r echo=F, output.lines=6:7}
+anova(m2)
+```
+
+$$F = \dfrac{\frac{1}{2}(6733.9 - 1686.3)}{\frac{1}{194}1686.3} = 290.35$$
+
+]
+
+---
+
+### Class activity
+
+.large[
+.question[
+What is the p-value for this test?
+]
+
+```{r}
+pf(290.35, df1 = 2, df2 = 194, lower.tail=F)
+```
+
+The p-value is basically 0, so we have strong evidence that there is a relationship between Age and Height, after accounting for Sex.
+]
+
+---
+
+### Testing in R
+
+.large[
+We can do comparisons between nested models a little more efficiently:
+
+```{r}
+m1 <- lm(Height ~ Age*Sex, data = Kids198)
+m2 <- lm(Height ~ Sex, data = Kids198)
+
+anova(m2, m1)
+```
+]
+
+---
+
+### Class activity, Part II
+
+---
+
+### Class activity
+
+.large[
+.question[
+Do you have evidence that the slope is different for boys and girls?
+]
+]
+
+--
+
+.large[
+```{r}
+m1 <- lm(Height ~ Age*Sex, data = Kids198)
+m2 <- lm(Height ~ Age + Sex, data = Kids198)
+
+anova(m2, m1)
+```
+]
+
+---
+
+### Class activity
+
+
+.large[
+```{r}
+m1 <- lm(Height ~ Age*Sex, data = Kids198)
+m2 <- lm(Height ~ Age + Sex, data = Kids198)
+
+anova(m2, m1)
+```
+
+Yes, we have strong evidence that the slope on Age is different for boys and girls.
+]
+
+---
+
+### Testing a single parameter
+
+.large[
+$$\text{Height} = \beta_0 + \beta_1 Age + \beta_2 \text{IsMale} + \beta_3 \text{Age} \cdot \text{IsMale} + \varepsilon$$
+$H_0: \beta_3 = 0 \hspace{1cm} H_A: \beta_3 \neq 0$
+
+.question[
+How did we test a single coefficient in simple linear regression?
+]
+]
+
+--
+
+.large[
+With a t-test!
+]
+
+---
+
+### Testing a single parameter
+
+.large[
+$$\text{Height} = \beta_0 + \beta_1 Age + \beta_2 \text{IsMale} + \beta_3 \text{Age} \cdot \text{IsMale} + \varepsilon$$
+
+$H_0: \beta_3 = 0 \hspace{1cm} H_A: \beta_3 \neq 0$
+
+$t = \dfrac{\widehat{\beta}_3 - 0}{SSE_{\widehat{\beta}_3} \sim t_{?}$
+]
