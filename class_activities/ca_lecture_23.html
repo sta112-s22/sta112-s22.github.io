@@ -143,14 +143,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
+<div id="setup" class="section level2">
+<h2>Setup</h2>
+<p>Download the activity template: <a href="https://sta112-s22.github.io/class_activities/ca_lecture_23_template.Rmd">activity template</a></p>
 <p>In this class activity, we will continue working with the <code>Kids198</code> data from the <code>Stat2Data</code> package, which examines the relationship between Age and Height for children between the ages of 8 and 18. We are also interested in how that relationship differs for boys and girls. The <code>Kids198</code> dataset includes the following variables on 198 children:</p>
 <ul>
 <li><code>Height</code>: Height (in inches)</li>
 <li><code>Age</code>: Age (in months)</li>
 <li><code>Sex</code>: 0=male, 1 = female</li>
 </ul>
-<div id="part-i" class="section level2">
-<h2>Part I</h2>
+</div>
+<div id="part-i" class="section level1">
+<h1>Part I</h1>
 <p>Researchers want to know whether there is <em>any</em> relationship between Age and Height, after accounting for Sex. They believe that the relationship between Age and Height depends on Sex, so they fit the model</p>
 <p><span class="math display">\[\text{Height} = \beta_0 + \beta_1 Age + \beta_2 \text{IsMale} + \beta_3 \text{Age} \cdot \text{IsMale} + \varepsilon\]</span></p>
 <p>Their hypotheses are</p>
@@ -182,22 +186,20 @@ Solution
 </div>
 <p>To test their hypotheses, the researchers will use the test statistic</p>
 <p><span class="math display">\[F = \dfrac{\frac{1}{\# \ \text{parameters tested}}(SSE_{reduced} - SSE_{full})}{\frac{1}{n-p} SSE_{full}}\]</span></p>
+<p>where <span class="math inline">\(n\)</span> is the number of observations in the data, and <span class="math inline">\(p\)</span> is the number of parameters in the full model.</p>
 <ol start="2" style="list-style-type: decimal">
-<li>To calculate this test statistic, we need <span class="math inline">\(SSE_{full}\)</span> and <span class="math inline">\(SSE_{reduced}\)</span>. We can get this with the <code>anova()</code> function in R. Run the following code:</li>
+<li><p>First, we need the degrees of freedom. Calculate <span class="math inline">\(n - p\)</span> and the number of parameters tested, for this data and these models.</p></li>
+<li><p>To calculate this test statistic, we also need <span class="math inline">\(SSE_{full}\)</span> and <span class="math inline">\(SSE_{reduced}\)</span>. We can get this with the <code>anova()</code> function in R. Run the following code:</p></li>
 </ol>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m1)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m2)</span></code></pre></div>
 <p>The <code>Residuals</code> line in the <code>anova</code> output gives the SSE (under <code>Sum Sq</code>).</p>
-<ol start="3" style="list-style-type: decimal">
+<ol start="4" style="list-style-type: decimal">
 <li>Use the <code>anova</code> output to calculate the test statistic.</li>
 </ol>
-<p>Under <span class="math inline">\(H_0\)</span>, the test statistic follows an <span class="math inline">\(F_{\# \ \text{parameters tested}, \ n-p}\)</span> distribution.</p>
-<ol start="4" style="list-style-type: decimal">
-<li>Calculate <span class="math inline">\(n - p\)</span> and the number of parameters tested, for this data and these models.</li>
-</ol>
-<p>Finally, we can calculate a p-value. To calculate a p-value for an F distribution, we use</p>
+<p>Finally, we can calculate a p-value. Under <span class="math inline">\(H_0\)</span>, the test statistic follows an <span class="math inline">\(F_{\# \ \text{parameters tested}, \ n-p}\)</span> distribution. To calculate a p-value for an F distribution, we use</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pf</span>(..., <span class="at">df1 =</span> ..., <span class="at">df2 =</span> ..., <span class="at">lower.tail=</span>F)</span></code></pre></div>
-<p>where the first argument is our test statistic (from exercise 3), and our second and third arguments arguments are the numerator and denominator degrees of freedom (from question 4).</p>
+<p>where the first argument is our test statistic (from exercise 4), and our second and third arguments arguments are the numerator and denominator degrees of freedom (from exercise 2).</p>
 <ol start="5" style="list-style-type: decimal">
 <li>Calculate a p-value for the hypothesis test.</li>
 </ol>

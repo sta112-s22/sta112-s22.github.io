@@ -8,13 +8,17 @@ output:
 link-citations: yes
 ---
 
+## Setup
+
+Download the activity template: [activity template](https://sta112-s22.github.io/class_activities/ca_lecture_23_template.Rmd)
+
 In this class activity, we will continue working with the `Kids198` data from the `Stat2Data` package, which examines the relationship between Age and Height for children between the ages of 8 and 18. We are also interested in how that relationship differs for boys and girls. The `Kids198` dataset includes the following variables on 198 children:
 
 * `Height`: Height (in inches)
 * `Age`: Age (in months)
 * `Sex`: 0=male, 1 = female
 
-## Part I
+# Part I
 
 Researchers want to know whether there is *any* relationship between Age and Height, after accounting for Sex. They believe that the relationship between Age and Height depends on Sex, so they fit the model
 
@@ -60,7 +64,11 @@ To test their hypotheses, the researchers will use the test statistic
 
 $$F = \dfrac{\frac{1}{\# \ \text{parameters tested}}(SSE_{reduced} - SSE_{full})}{\frac{1}{n-p} SSE_{full}}$$
 
-2. To calculate this test statistic, we need $SSE_{full}$ and $SSE_{reduced}$. We can get this with the `anova()` function in R. Run the following code:
+where $n$ is the number of observations in the data, and $p$ is the number of parameters in the full model.
+
+2. First, we need the degrees of freedom. Calculate $n - p$ and the number of parameters tested, for this data and these models.
+
+3. To calculate this test statistic, we also need $SSE_{full}$ and $SSE_{reduced}$. We can get this with the `anova()` function in R. Run the following code:
 
 ```{r eval=F}
 anova(m1)
@@ -69,19 +77,15 @@ anova(m2)
 
 The `Residuals` line in the `anova` output gives the SSE (under `Sum Sq`).
 
-3. Use the `anova` output to calculate the test statistic.
+4. Use the `anova` output to calculate the test statistic.
 
-Under $H_0$, the test statistic follows an $F_{\# \ \text{parameters tested}, \ n-p}$ distribution.
-
-4. Calculate $n - p$ and the number of parameters tested, for this data and these models.
-
-Finally, we can calculate a p-value. To calculate a p-value for an F distribution, we use
+Finally, we can calculate a p-value. Under $H_0$, the test statistic follows an $F_{\# \ \text{parameters tested}, \ n-p}$ distribution. To calculate a p-value for an F distribution, we use
 
 ```{r eval=F}
 pf(..., df1 = ..., df2 = ..., lower.tail=F)
 ```
 
-where the first argument is our test statistic (from exercise 3), and our second and third arguments arguments are the numerator and denominator degrees of freedom (from question 4).
+where the first argument is our test statistic (from exercise 4), and our second and third arguments arguments are the numerator and denominator degrees of freedom (from exercise 2).
 
 5. Calculate a p-value for the hypothesis test.
 
