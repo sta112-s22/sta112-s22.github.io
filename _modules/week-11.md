@@ -13,9 +13,8 @@ March 23
 : Textbook 3.3, 3.6
 
 March 25
-: Assumptions and diagnostics
-
-: Textbook 3.2
+: F tests, t tests, and confidence intervals
+  : [Slides](https://sta112-s22.github.io/slides/lecture_23.html), [Class activity](https://sta112-s22.github.io/class_activities/ca_lecture_23.html)
 
 : **HW 5 due**{: .label .label-red }
 

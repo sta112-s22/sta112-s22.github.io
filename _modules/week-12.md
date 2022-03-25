@@ -3,9 +3,9 @@ title: Wrapping up multiple linear regression
 ---
 
 March 28
-: Multicollinearity and variance inflation factors
+: Assumptions and diagnostics
 
-: Textbook 3.5
+: Textbook 3.2
 
 March 30
 : Multicollinearity and variance inflation factors
