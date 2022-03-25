@@ -19,6 +19,7 @@ March 25
 : **HW 5 due**{: .label .label-red }
 
 : **Project 1, part 4 released**{: .label .label-green }
+  : [Project 1, part 4](https://sta112-s22.github.io/projects/project_1_part_4.html)
 
 : **HW 6 released**{: .label .label-yellow }
   : [HW 6](https://sta112-s22.github.io/homework/homework_6.html)

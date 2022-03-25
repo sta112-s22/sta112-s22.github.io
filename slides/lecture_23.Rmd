@@ -15,7 +15,7 @@ editor_options:
 ### Agenda
 
 .large[
-* HW 6 and Project 1, Part 4 released tonight (both short)
+* HW 6 and Project 1, Part 4 released (both short)
 * Today:
   * Introduce Project 1, Part 4
   * Hypothesis testing

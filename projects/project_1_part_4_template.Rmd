@@ -1,0 +1,19 @@
+---
+---
+---
+title: "Project 1, Part 4"
+author: "Your Name"
+output: html_document
+---
+
+
+## Modeling
+
+
+
+## Assumptions and Diagnostics
+
+
+
+
+## Inference
