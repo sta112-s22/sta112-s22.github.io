@@ -1,0 +1,73 @@
+---
+title: "Homework 5 Solutions"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+team_data <- read_csv("https://sta112-s22.github.io/homework/team_data.csv")
+```
+
+### Question 1 (1 pts)
+
+```{r}
+performance_lm_additive <- lm(performance ~ size + females + 
+                       diversity + testosterone, 
+                     data = team_data)
+summary(performance_lm_additive)
+```
+
+
+### Question 2 (3 pts)
+
+$\widehat{performance} = -0.883 + 0.311 \ size - 0.426 \ females - 0.326 \ diversity + 0.002 \ testosterone$
+
+$R^2_{adj} = 0.038$
+
+**Grading:** Lose 1 pt for incorrect notation (e.g., missing hats, or adding $\varepsilon$ )
+
+### Question 3 (3 pts)
+
+Holding size, females, and testosterone fixed, an increase of one unit in diversity is associated with a decrease of 0.326 units in group performance.
+
+Holding size, females, and diversity fixed, an increase of one unit in testosterone is associated with an increase of 0.002 units in group performance.
+
+**Grading:** Lose 1 pt if they don't hold other variables fixed in their interpretation.
+
+
+### Question 4 (2 pts)
+
+The model in question 1 assumes that the relationship between diversity and performance is the same for any level of testosterone (i.e., doesn't depend on testosterone).
+
+### Question 5 (2 pts)
+
+The interaction term allows the relationship between diversity and performance to depend on testosterone.
+
+### Question 6 (4 pts)
+
+```{r}
+performance_lm_interaction <- lm(performance ~ size + females + 
+                       diversity*testosterone, 
+                     data = team_data)
+summary(performance_lm_interaction)
+```
+
+$\widehat{performance} = -9.00 + 0.278 \ size - 0.344 \ females + 16.13 \ diversity + 0.076 \ testosterone - 0.148 \ diversity \cdot testosterone$
+
+$R^2_{adj} = 0.255$. We are explaining an additional 20% - 25% of the variability in performance by adding the interaction term. This is a pretty big change!
+
+
+### Question 7 (4 pts)
+
+When testosterone = 70 pg/mL, the slope is $16.13 - 0.148(70) = 5.77$
+
+When testosterone = 160 pg/mL, the slope is $16.13 - 0.148(160) = -7.55$
+
+
+### Question 8 (3 pts)
+
+
+Yes, the fitted model supports the researcher's hypothesis. The slope on diversity is positive when testosterone is low, which means diversity is positively associated with performance when testosterone is low. But diversity is negatively associated with performance when testosterone is high.
