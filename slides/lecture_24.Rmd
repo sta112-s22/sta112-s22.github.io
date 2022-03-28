@@ -467,6 +467,10 @@ $$VIF_i = \dfrac{1}{1 - R_i^2}$$
 
 ### Class activity
 
+.large[
+[https://sta112-s22.github.io/class_activities/ca_lecture_24.html](https://sta112-s22.github.io/class_activities/ca_lecture_24.html)
+]
+
 ---
 
 ### Class activity

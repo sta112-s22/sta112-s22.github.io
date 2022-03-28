@@ -4,6 +4,7 @@ title: Wrapping up multiple linear regression
 
 March 28
 : Assumptions and diagnostics
+  : [Slides](https://sta112-s22.github.io/slides/lecture_24.html), [Class activity](https://sta112-s22.github.io/class_activities/ca_lecture_24.html)
 
 : Textbook 3.2
 
