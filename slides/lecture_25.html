@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Multicollinearity, and choosing a model</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.10/header-attrs.js"></script>
+    <link rel="stylesheet" href="lab-slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Multicollinearity, and choosing a model
+
+---
+
+
+### Agenda
+
+.large[
+* Reminders:
+  * Project 1, Part 4 due Friday
+  * HW 6 due Friday
+* Today: 
+  * Finish multicollinearity
+  * Start discussing model choice
+]
+
+---
+
+### Project data
+
+.large[
+
+* `CONTROL`: whether the school is public or private
+* `SATVRMID`: midpoint of SAT critical reading scores of students attending the school
+* `SATMTMID`: midpoint of SAT math scores
+* `SATWRMID`: midpoint of SAT writing scores
+* `ACTCMMID`: midpoint of the ACT cumulative scores
+* `ACTENMID`: midpoint of ACT English scores
+* `ACTMTMID`: midpoint of ACT math scores
+* `+` others...
+
+.question[
+Which predictors might exhibit multicollinearity?
+]
+]
+
+---
+
+### Project data
+
+.large[
+
+* `CONTROL`: whether the school is public or private
+* `SATVRMID`: midpoint of SAT critical reading scores of students attending the school
+* `SATMTMID`: midpoint of SAT math scores
+* `SATWRMID`: midpoint of SAT writing scores
+* `ACTCMMID`: midpoint of the ACT cumulative scores
+* `ACTENMID`: midpoint of ACT English scores
+* `ACTMTMID`: midpoint of ACT math scores
+* `+` others...
+
+There is probably multicollinearity with all the test score variables
+]
+
+---
+
+### Project data
+
+.large[
+
+* `CONTROL`: whether the school is public or private
+* `SATVRMID`: midpoint of SAT critical reading scores of students attending the school
+* `SATMTMID`: midpoint of SAT math scores
+* `SATWRMID`: midpoint of SAT writing scores
+* `ACTCMMID`: midpoint of the ACT cumulative scores
+* `ACTENMID`: midpoint of ACT English scores
+* `ACTMTMID`: midpoint of ACT math scores
+* `+` others...
+
+.question[
+How can we visually investigate correlated predictors?
+]
+]
+
+---
+
+### Pairs plot
+
+.large[
+A *pairs plot* lets us vizualize the relationships between pairs of variables:
+]
+
+&lt;img src="lecture_25_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Pairs plot
+
+&lt;img src="lecture_25_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
+
+.large[
+.question[
+What does this pairs plot tell us?
+]
+]
+
+---
+
+### Pairs plot
+
+&lt;img src="lecture_25_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+
+.large[
+As expected, all the test score variables are super highly correlated
+]
+
+---
+
+### Multicollinearity
+
+.large[
+Suppose I fit the model
+
+`$$\text{Earnings} = \beta_0 + \beta_1 \text{SATVerbal} + \beta_2 \text{SATWriting} + \beta_3 \text{SATMath} \\  + \beta_4 \text{ACTCumulative} + \beta_5 \text{ACTEnglish} \\ + \beta_7 \text{ACTMath} + \beta_9 \text{ACTWriting} + \varepsilon$$`
+
+.question[
+How do I measure the multicollinearity of the predictors?
+]
+]
+
+--
+
+.large[
+With variance inflation factors!
+]
+
+---
+
+### VIFs in R
+
+.large[
+Fortunately, R makes it easy to calculate VIFs:
+
+
+```r
+library(car)
+m1 &lt;- lm(MD_EARN_WNE_P10 ~ SATVRMID + SATMTMID + 
+           SATWRMID + ACTCMMID + ACTENMID + 
+           ACTMTMID + ACTWRMID,
+         data = scorecard)
+vif(m1)
+```
+
+```
+## SATVRMID SATMTMID SATWRMID ACTCMMID ACTENMID ACTMTMID ACTWRMID 
+## 29.78240 17.69560 27.89062 27.68832 21.90292 17.26265  1.88147
+```
+
+* The `vif` function (from the `car` package) calculates a VIF for each predictor
+* The variance inflation factor for SAT verbal score is 29.78, e.g.
+]
+
+---
+
+### Handling multicollinearity
+
+.large[
+We have a few options for handling multicollinearity:
+
+* Remove variables
+  * Example: just pick one of the test score variables, and discard the rest, since they are so highly correlated
+]
+
+---
+
+### Handling multicollinearity
+
+.large[
+We have a few options for handling multicollinearity:
+
+* Remove variables
+  * Example: just pick one of the test score variables, and discard the rest, since they are so highly correlated
+* Create a new variable
+  * Example: take an average or sum of the test score variables, instead of using all of them individually
+]
+
+---
+
+### Handling multicollinearity
+
+.large[
+We have a few options for handling multicollinearity:
+
+* Remove variables
+  * Example: just pick one of the test score variables, and discard the rest, since they are so highly correlated
+* Create a new variable
+  * Example: take an average or sum of the test score variables, instead of using all of them individually
+* Ignore it
+  * If we don't care about interpreting coefficients or doing inference, multicollinearity doesn't matter as much
+]
+
+---
+
+### Multiple regression so far
+
+.large[
+* Polynomial regression and categorical predictors
+* Model interpretation and interaction terms
+* Prediction and inference
+* Assumptions, diagnostics, and multicollinearity
+
+.question[
+Final topic in multiple regression: how do you know which model to use?
+]
+
+* Today: choosing a model for inference (hypothesis testing)
+* Friday: automatic variable selection techniques
+]
+
+---
+
+### Class activity
+
+.large[
+[https://sta112-s22.github.io/class_activities/ca_lecture_25.html](https://sta112-s22.github.io/class_activities/ca_lecture_25.html)
+]
+
+---
+
+### Class activity
+
+.large[
+.question[
+What model can the researchers use to investigate their research questions?
+]
+]
+
+--
+
+.large[
+`$$\text{genetic diversity} = \beta_0 + \beta_1 \text{mass} + \beta_2 \text{latitude} + \\ \hspace{4cm} \beta_3 \text{IsMigratory} + \beta_4 \text{breeding range} +\\ \hspace{4cm} \beta_5 \text{breeding range} \cdot \text{IsMigratory} + \varepsilon$$`
+]
+
+---
+
+### Class activity
+
+.large[
+
+`$$\text{genetic diversity} = \beta_0 + \beta_1 \text{mass} + \beta_2 \text{latitude} + \\ \hspace{4cm} \beta_3 \text{IsMigratory} + \beta_4 \text{breeding range} +\\ \hspace{4cm} \beta_5 \text{breeding range} \cdot \text{IsMigratory} + \varepsilon$$`
+
+.question[
+Which hypotheses allow the researchers to test whether there is any relationship between breeding range and genetic diversity, after accounting for migratory status, body size, and latitude?
+]
+]
+
+--
+
+.large[
+`\(H_0: \beta_4 = \beta_5 = 0\)`
+
+`\(H_A: \text{ at least one of } \beta_4, \beta_5 \neq 0\)`
+]
+
+---
+
+### Class activity
+
+.large[
+
+`\(H_0: \beta_4 = \beta_5 = 0\)`
+
+`\(H_A: \text{ at least one of } \beta_4, \beta_5 \neq 0\)`
+
+.question[
+What test can the researchers use the test these hypotheses?
+]
+]
+
+--
+
+.large[
+A nested F test
+
+.question[
+What will be the degrees of freedom?
+]
+]
+
+--
+
+.large[
+2 and 391
+]
+
+---
+
+### Class activity
+
+.large[
+
+`$$\text{genetic diversity} = \beta_0 + \beta_1 \text{mass} + \beta_2 \text{latitude} + \\ \hspace{4cm} \beta_3 \text{IsMigratory} + \beta_4 \text{breeding range} +\\ \hspace{4cm} \beta_5 \text{breeding range} \cdot \text{IsMigratory} + \varepsilon$$`
+
+.question[
+Which hypotheses allow the researchers to test whether the slope of the relationship between breeding range and genetic diversity is different for migratory and non-migratory species, after accounting for body size and latitude?
+]
+]
+
+--
+
+.large[
+`\(H_0: \beta_5 = 0\)`
+
+`\(H_A: \beta_5 \neq 0\)`
+]
+
+---
+
+### Class activity
+
+.large[
+
+`\(H_0: \beta_5 = 0\)`
+
+`\(H_A: \beta_5 \neq 0\)`
+
+.question[
+What test can the researchers use the test these hypotheses?
+]
+]
+
+--
+
+.large[
+A nested F test or a t test
+
+.question[
+What will be the degrees of freedom?
+]
+]
+
+--
+
+.large[
+F test: 1 and 391
+
+t test: 391
+]
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

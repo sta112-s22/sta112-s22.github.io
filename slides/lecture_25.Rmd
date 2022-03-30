@@ -1,0 +1,375 @@
+---
+title: Multicollinearity, and choosing a model
+output:
+  xaringan::moon_reader:
+    css: "lab-slides.css"
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
+---
+
+### Agenda
+
+.large[
+* Reminders:
+  * Project 1, Part 4 due Friday
+  * HW 6 due Friday
+* Today: 
+  * Finish multicollinearity
+  * Start discussing model choice
+]
+
+---
+
+### Project data
+
+.large[
+
+* `CONTROL`: whether the school is public or private
+* `SATVRMID`: midpoint of SAT critical reading scores of students attending the school
+* `SATMTMID`: midpoint of SAT math scores
+* `SATWRMID`: midpoint of SAT writing scores
+* `ACTCMMID`: midpoint of the ACT cumulative scores
+* `ACTENMID`: midpoint of ACT English scores
+* `ACTMTMID`: midpoint of ACT math scores
+* `+` others...
+
+.question[
+Which predictors might exhibit multicollinearity?
+]
+]
+
+---
+
+### Project data
+
+.large[
+
+* `CONTROL`: whether the school is public or private
+* `SATVRMID`: midpoint of SAT critical reading scores of students attending the school
+* `SATMTMID`: midpoint of SAT math scores
+* `SATWRMID`: midpoint of SAT writing scores
+* `ACTCMMID`: midpoint of the ACT cumulative scores
+* `ACTENMID`: midpoint of ACT English scores
+* `ACTMTMID`: midpoint of ACT math scores
+* `+` others...
+
+There is probably multicollinearity with all the test score variables
+]
+
+---
+
+### Project data
+
+.large[
+
+* `CONTROL`: whether the school is public or private
+* `SATVRMID`: midpoint of SAT critical reading scores of students attending the school
+* `SATMTMID`: midpoint of SAT math scores
+* `SATWRMID`: midpoint of SAT writing scores
+* `ACTCMMID`: midpoint of the ACT cumulative scores
+* `ACTENMID`: midpoint of ACT English scores
+* `ACTMTMID`: midpoint of ACT math scores
+* `+` others...
+
+.question[
+How can we visually investigate correlated predictors?
+]
+]
+
+---
+
+### Pairs plot
+
+.large[
+A *pairs plot* lets us vizualize the relationships between pairs of variables:
+]
+
+```{r, echo=F, message=F, warning=F, fig.align='center', fig.width=9, fig.height=6}
+library(tidyverse)
+library(GGally)
+
+scorecard <- read_csv("https://sta112-s22.github.io/projects/scorecard.csv")
+
+scorecard %>%
+  dplyr::select(SATVRMID, SATMTMID, SATWRMID, ACTCMMID, ACTENMID, ACTMTMID) %>%
+  ggpairs(lower = list(continuous = "cor"),
+          upper = list(continuous = "points")) +
+  theme_minimal()
+```
+
+---
+
+### Pairs plot
+
+```{r, echo=F, message=F, warning=F, fig.align='center', fig.width=8, fig.height=5}
+library(tidyverse)
+library(GGally)
+
+scorecard <- read_csv("https://sta112-s22.github.io/projects/scorecard.csv")
+
+scorecard %>%
+  dplyr::select(SATVRMID, SATMTMID, SATWRMID, ACTCMMID, ACTENMID, ACTMTMID) %>%
+  ggpairs(lower = list(continuous = "cor"),
+          upper = list(continuous = "points")) +
+  theme_minimal()
+```
+
+.large[
+.question[
+What does this pairs plot tell us?
+]
+]
+
+---
+
+### Pairs plot
+
+```{r, echo=F, message=F, warning=F, fig.align='center', fig.width=8, fig.height=5}
+library(tidyverse)
+library(GGally)
+
+scorecard <- read_csv("https://sta112-s22.github.io/projects/scorecard.csv")
+
+scorecard %>%
+  dplyr::select(SATVRMID, SATMTMID, SATWRMID, ACTCMMID, ACTENMID, ACTMTMID) %>%
+  ggpairs(lower = list(continuous = "cor"),
+          upper = list(continuous = "points")) +
+  theme_minimal()
+```
+
+.large[
+As expected, all the test score variables are super highly correlated
+]
+
+---
+
+### Multicollinearity
+
+.large[
+Suppose I fit the model
+
+$$\text{Earnings} = \beta_0 + \beta_1 \text{SATVerbal} + \beta_2 \text{SATWriting} + \beta_3 \text{SATMath} \\  + \beta_4 \text{ACTCumulative} + \beta_5 \text{ACTEnglish} \\ + \beta_7 \text{ACTMath} + \beta_9 \text{ACTWriting} + \varepsilon$$
+
+.question[
+How do I measure the multicollinearity of the predictors?
+]
+]
+
+--
+
+.large[
+With variance inflation factors!
+]
+
+---
+
+### VIFs in R
+
+.large[
+Fortunately, R makes it easy to calculate VIFs:
+
+```{r message=F, warning=F}
+library(car)
+m1 <- lm(MD_EARN_WNE_P10 ~ SATVRMID + SATMTMID + 
+           SATWRMID + ACTCMMID + ACTENMID + 
+           ACTMTMID + ACTWRMID,
+         data = scorecard)
+vif(m1)
+```
+
+* The `vif` function (from the `car` package) calculates a VIF for each predictor
+* The variance inflation factor for SAT verbal score is 29.78, e.g.
+]
+
+---
+
+### Handling multicollinearity
+
+.large[
+We have a few options for handling multicollinearity:
+
+* Remove variables
+  * Example: just pick one of the test score variables, and discard the rest, since they are so highly correlated
+]
+
+---
+
+### Handling multicollinearity
+
+.large[
+We have a few options for handling multicollinearity:
+
+* Remove variables
+  * Example: just pick one of the test score variables, and discard the rest, since they are so highly correlated
+* Create a new variable
+  * Example: take an average or sum of the test score variables, instead of using all of them individually
+]
+
+---
+
+### Handling multicollinearity
+
+.large[
+We have a few options for handling multicollinearity:
+
+* Remove variables
+  * Example: just pick one of the test score variables, and discard the rest, since they are so highly correlated
+* Create a new variable
+  * Example: take an average or sum of the test score variables, instead of using all of them individually
+* Ignore it
+  * If we don't care about interpreting coefficients or doing inference, multicollinearity doesn't matter as much
+]
+
+---
+
+### Multiple regression so far
+
+.large[
+* Polynomial regression and categorical predictors
+* Model interpretation and interaction terms
+* Prediction and inference
+* Assumptions, diagnostics, and multicollinearity
+
+.question[
+Final topic in multiple regression: how do you know which model to use?
+]
+
+* Today: choosing a model for inference (hypothesis testing)
+* Friday: automatic variable selection techniques
+]
+
+---
+
+### Class activity
+
+.large[
+[https://sta112-s22.github.io/class_activities/ca_lecture_25.html](https://sta112-s22.github.io/class_activities/ca_lecture_25.html)
+]
+
+---
+
+### Class activity
+
+.large[
+.question[
+What model can the researchers use to investigate their research questions?
+]
+]
+
+--
+
+.large[
+$$\text{genetic diversity} = \beta_0 + \beta_1 \text{mass} + \beta_2 \text{latitude} + \\ \hspace{4cm} \beta_3 \text{IsMigratory} + \beta_4 \text{breeding range} +\\ \hspace{4cm} \beta_5 \text{breeding range} \cdot \text{IsMigratory} + \varepsilon$$
+]
+
+---
+
+### Class activity
+
+.large[
+
+$$\text{genetic diversity} = \beta_0 + \beta_1 \text{mass} + \beta_2 \text{latitude} + \\ \hspace{4cm} \beta_3 \text{IsMigratory} + \beta_4 \text{breeding range} +\\ \hspace{4cm} \beta_5 \text{breeding range} \cdot \text{IsMigratory} + \varepsilon$$
+
+.question[
+Which hypotheses allow the researchers to test whether there is any relationship between breeding range and genetic diversity, after accounting for migratory status, body size, and latitude?
+]
+]
+
+--
+
+.large[
+$H_0: \beta_4 = \beta_5 = 0$
+
+$H_A: \text{ at least one of } \beta_4, \beta_5 \neq 0$
+]
+
+---
+
+### Class activity
+
+.large[
+
+$H_0: \beta_4 = \beta_5 = 0$
+
+$H_A: \text{ at least one of } \beta_4, \beta_5 \neq 0$
+
+.question[
+What test can the researchers use the test these hypotheses?
+]
+]
+
+--
+
+.large[
+A nested F test
+
+.question[
+What will be the degrees of freedom?
+]
+]
+
+--
+
+.large[
+2 and 391
+]
+
+---
+
+### Class activity
+
+.large[
+
+$$\text{genetic diversity} = \beta_0 + \beta_1 \text{mass} + \beta_2 \text{latitude} + \\ \hspace{4cm} \beta_3 \text{IsMigratory} + \beta_4 \text{breeding range} +\\ \hspace{4cm} \beta_5 \text{breeding range} \cdot \text{IsMigratory} + \varepsilon$$
+
+.question[
+Which hypotheses allow the researchers to test whether the slope of the relationship between breeding range and genetic diversity is different for migratory and non-migratory species, after accounting for body size and latitude?
+]
+]
+
+--
+
+.large[
+$H_0: \beta_5 = 0$
+
+$H_A: \beta_5 \neq 0$
+]
+
+---
+
+### Class activity
+
+.large[
+
+$H_0: \beta_5 = 0$
+
+$H_A: \beta_5 \neq 0$
+
+.question[
+What test can the researchers use the test these hypotheses?
+]
+]
+
+--
+
+.large[
+A nested F test or a t test
+
+.question[
+What will be the degrees of freedom?
+]
+]
+
+--
+
+.large[
+F test: 1 and 391
+
+t test: 391
+]
+
