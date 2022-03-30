@@ -9,7 +9,8 @@ March 28
 : Textbook 3.2
 
 March 30
-: Multicollinearity and variance inflation factors
+: Multicollinearity and model choice
+  : [Slides](https://sta112-s22.github.io/slides/lecture_25.html), [Class activity](https://sta112-s22.github.io/class_activities/ca_lecture_25.html)
 
 : Textbook 3.5
 
@@ -22,6 +23,4 @@ April 1
 
 : **Project 1, part 4 due**{: .label .label-red }
 
-: **Project 1, part 5 released**{: .label .label-green } (due in 1 week)
-
-: **Project 1, part 6 released**{: .label .label-green } (due in 2 weeks)
+: **Project 1, part 5 released**{: .label .label-green } (due in 2 weeks)
