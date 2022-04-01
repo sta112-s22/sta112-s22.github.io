@@ -1,0 +1,82 @@
+---
+title: "Class Activity, April 1"
+output: 
+  tufte::tufte_html:
+    css: "lab.css"
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+scorecard <- read_csv("https://sta112-s22.github.io/projects/scorecard.csv")
+```
+
+## Setup
+
+In this class activity, you will experiment with model selection techniques (trying to choose which predictors to include in the model). You will work with the college scorecard data from Project 1.
+
+**Activity template:** [activity template](https://sta112-s22.github.io/class_activities/ca_lecture_26_template.Rmd)
+
+# Part I
+
+First, you will need to load the data:
+
+```{r eval=F}
+scorecard <- read_csv("https://sta112-s22.github.io/projects/scorecard.csv")
+```
+
+Next, we want to run best subset selection. This requires the `regsubsets` function from the `leaps` package, so let's install and load the `leaps` package. Run the following code in your console:
+
+```{r eval=F}
+install.packages("leaps")
+library(leaps)
+```
+
+Finally, we can run best subset selection:
+
+```{r eval=F}
+model_select <- regsubsets(MD_EARN_WNE_P10 ~ ., 
+                           data = scorecard, 
+                           nvmax = 3, 
+                           method="exhaustive")
+```
+
+1. You should get a warning message, and an error message, when you run this code. What are the two messages?
+
+2. What do you think the error message means?
+
+3. What do you think the warning means?
+
+# Part II
+
+In the second part of this activity, we will use Mallows' $C_p$ instead of $R^2_{adj}$ to choose the "best" model. But first, let's make the changes we made in the slides: removing variables with high multicollinearity, and changing `nvmax`.
+
+Run the following code:
+
+```{r eval=F}
+scorecard_small <- scorecard %>%
+  dplyr::select(-c(INSTNM, STABBR, RPY_3YR_70,
+                   SATVRMID, SATMTMID, SATWRMID,
+                   ACTENMID, ACTMTMID, ACTWRMID))
+
+model_select <- regsubsets(MD_EARN_WNE_P10 ~ ., 
+                           data = scorecard_small, 
+                           nvmax = 8, 
+                           method="exhaustive",
+                           really.big = T)
+```
+
+Now let's look at the variables which minimize $C_p$. Run
+
+```{r eval=F}
+plot(model_select, scale="Cp")
+```
+
+4. Which variables are in the model that minimizes $C_p$?
+
+5. Is the model which maximizes $R^2_{adj}$ the same as the model which minimizes Mallows' $C_p$?
+
+6. Can I use the model from exercise 4 to test whether there is a relationship between school cost and graduate earnings?

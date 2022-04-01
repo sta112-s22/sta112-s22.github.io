@@ -1,0 +1,47 @@
+---
+---
+---
+title: "Class Activity, April 1"
+author: "Your Name"
+output: html_document
+---
+
+## Setup
+
+Run the setup chunk:
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+library(tidyverse)
+scorecard <- read_csv("https://sta112-s22.github.io/projects/scorecard.csv")
+```
+
+## Question 1
+
+```{r}
+
+```
+
+## Question 2
+
+
+
+
+## Question 3
+
+
+
+## Question 4
+
+```{r}
+
+```
+
+
+## Question 5
+
+
+
+## Question 6
+
+

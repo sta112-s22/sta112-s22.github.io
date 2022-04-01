@@ -15,7 +15,8 @@ March 30
 : Textbook 3.5
 
 April 1
-: Choosing a model
+: Best subset selection
+  : [Slides](https://sta112-s22.github.io/slides/lecture_26.html), [Class activity](https://sta112-s22.github.io/class_activities/ca_lecture_26.html)
 
 : Textbook 4.2
 

@@ -1,0 +1,571 @@
+---
+title: Best subset selection
+output:
+  xaringan::moon_reader:
+    css: "lab-slides.css"
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
+---
+
+### Project data
+
+.large[
+
+* `CONTROL`: whether the school is public or private
+* `UGDS`: number of undergraduate students at the school
+* `NPT4`: average cost to attend the school
+* `PCTFLOAN`: fraction of undergraduates receiving a federal student loan
+* `MD_EARN_WNE_P10`: median salary of students 10 years after graduation
+* `SATVRMID`: midpoint of SAT critical reading scores of students attending the school
+* `+` others...
+
+**Question:** Which variables are the most important for predicting student earnings after graduation?
+]
+
+---
+
+### Project data
+
+.large[
+**Question:** Which variables are the most important for predicting student earnings after graduation?
+
+.question[
+How could we measure how well a model predicts student earnings?
+]
+]
+
+--
+
+.large[
+With $R^2_{adj}$ (earnings as the response variable)
+
+.question[
+How can I choose a model which maximizes $R^2_{adj}$?
+]
+]
+
+--
+
+.large[
+Try different combinations of predictors
+]
+
+---
+
+### Best subset selection
+
+.large[
+**Goal:** Find the model with the highest $R^2_{adj}$, from a set of possible models
+
+**Method:** 
+
+* Fit each possible model
+* Pick the one with the highest $R^2_{adj}$
+
+**Result:** The "best subset" of predictors -- i.e., the variables in the "best" model
+]
+
+---
+
+### Best subset selection in R
+
+.large[
+```{r eval=F}
+library(leaps)
+
+model_select <- regsubsets(MD_EARN_WNE_P10 ~ ., 
+                           data = scorecard, 
+                           nvmax = 3, 
+                           method="exhaustive")
+```
+
+* `regsubsets` performs best subset selection
+* `MD_EARN_WNE_P10` is our response variable
+* `~ .` means "consider all other variables as predictors"
+* `nvmax = 3` means "consider models with up to three predictors"
+* `method="exhaustive"` means "do best subset selection
+]
+
+---
+
+### Class activity, Part I
+
+.large[
+
+[https://sta112-s22.github.io/class_activities/ca_lecture_26.html](https://sta112-s22.github.io/class_activities/ca_lecture_26.html)
+
+```{r eval=F}
+library(leaps)
+
+model_select <- regsubsets(MD_EARN_WNE_P10 ~ ., 
+                           data = scorecard, 
+                           nvmax = 3, 
+                           method="exhaustive")
+```
+]
+
+---
+
+### Class activity
+
+.large[
+```{r eval=F}
+library(leaps)
+
+model_select <- regsubsets(MD_EARN_WNE_P10 ~ ., 
+                           data = scorecard, 
+                           nvmax = 3, 
+                           method="exhaustive")
+```
+
+.question[
+What error do you get when you run the code?
+]
+]
+
+---
+
+### Class activity
+
+.large[
+```{r include=F}
+library(leaps)
+library(tidyverse)
+scorecard <- read_csv("https://sta112-s22.github.io/projects/scorecard.csv")
+```
+
+```{r error=T}
+model_select <- regsubsets(MD_EARN_WNE_P10 ~ ., 
+                           data = scorecard, 
+                           nvmax = 3, 
+                           method="exhaustive")
+```
+
+.question[
+What do you think the error message (`Exhaustive search will be S L O W`) means?
+]
+]
+
+--
+
+.large[
+Checking all combinations of predictors is really expensive!
+]
+
+---
+
+### Class activity
+
+.large[
+```{r include=F}
+library(leaps)
+library(tidyverse)
+scorecard <- read_csv("https://sta112-s22.github.io/projects/scorecard.csv")
+```
+
+```{r error=T}
+model_select <- regsubsets(MD_EARN_WNE_P10 ~ ., 
+                           data = scorecard, 
+                           nvmax = 3, 
+                           method="exhaustive")
+```
+
+.question[
+What do you think the warning (`58 linear dependencies`) means?
+]
+]
+
+--
+
+.large[
+Multicollinearity is making it hard to fit the model!
+]
+
+---
+
+### Handling the issues
+
+.large[
+
+```{r error=T}
+model_select <- regsubsets(MD_EARN_WNE_P10 ~ ., 
+                           data = scorecard, 
+                           nvmax = 3, 
+                           method="exhaustive",
+                           really.big = T)
+```
+
+* Use `really.big = T` when you have a lot of variables
+
+.question[
+How can we deal with multicollinearity here?
+]
+]
+
+--
+
+.large[
+Let's remove some of the variables
+]
+
+---
+
+### Handling the issues
+
+.large[
+
+```{r error=T}
+model_select <- regsubsets(MD_EARN_WNE_P10 ~ ., 
+                           data = scorecard, 
+                           nvmax = 3, 
+                           method="exhaustive",
+                           really.big = T)
+```
+
+.question[
+Which variables should we remove?
+]
+]
+
+--
+
+.large[
+* probably some test score variables
+* `STABBR` (too many levels)
+* `INSTNM` (this is unique for each institution!)
+]
+
+---
+
+### Removing variables
+
+.large[
+```{r}
+scorecard_small <- scorecard %>%
+  dplyr::select(-c(INSTNM, STABBR, 
+                   SATVRMID, SATMTMID, SATWRMID,
+                   ACTENMID, ACTMTMID, ACTWRMID))
+```
+
+* `select` can be used to remove columns (the `-` means "remove")
+* we're removing all the test score variables except for cumulative ACT score
+]
+
+---
+
+### Running best subsets selection
+
+.large[
+```{r error=T}
+model_select <- regsubsets(MD_EARN_WNE_P10 ~ ., 
+                           data = scorecard_small, 
+                           nvmax = 3, 
+                           method="exhaustive",
+                           really.big = T)
+```
+
+* Use the data with the problem columns removed
+* Now we don't get errors
+]
+
+---
+
+### Looking at the results
+
+.large[
+```{r fig.align='center', fig.width=7, fig.height=4}
+plot(model_select, scale="adjr2")
+```
+
+* Variables on the x-axis
+* $R^2_{adj}$ on the y-axis
+* If the square is black, it means the variables is included
+]
+
+---
+
+### Looking at the results
+
+.large[
+```{r echo=F, fig.align='center', fig.width=7, fig.height=3.5}
+plot(model_select, scale="adjr2")
+```
+
+* Variables on the x-axis
+* $R^2_{adj}$ on the y-axis
+* If the square is black, it means the variables is included
+
+.question[
+Which variables are included in the model which maximizes $R^2_{adj}$?
+]
+]
+
+---
+
+### Looking at the results
+
+.large[
+```{r echo=F, fig.align='center', fig.width=7, fig.height=4}
+plot(model_select, scale="adjr2")
+```
+
+* Variables on the x-axis
+* $R^2_{adj}$ on the y-axis
+* If the square is black, it means the variables is included
+
+The "best" model includes `ACTCMMID`, `RPY_3YR_RT_SUPP`, and `RPY_3YR_70`
+]
+
+---
+
+### Looking at the results
+
+.large[
+```{r echo=F, fig.align='center', fig.width=7, fig.height=4}
+plot(model_select, scale="adjr2")
+```
+
+The "best" model includes `ACTCMMID`, `RPY_3YR_RT_SUPP`, and `RPY_3YR_70`
+
+.question[
+Do we want both `RPY_3YR_RT_SUPP` (proportion of students actively repaying loans) and `RPY_3YR_70` (whether the proportion is > 70%) in the model?
+]
+]
+
+---
+
+### Removing another column
+
+.large[
+```{r}
+scorecard_small <- scorecard %>%
+  dplyr::select(-c(INSTNM, STABBR, RPY_3YR_70,
+                   SATVRMID, SATMTMID, SATWRMID,
+                   ACTENMID, ACTMTMID, ACTWRMID))
+```
+
+`RPY_3YR_RT_SUPP` and `RPY_3YR_70` capture similar information -- let's take out `RPY_3YR_70`
+]
+
+---
+
+### Running best subsets selection
+
+.large[
+```{r fig.align='center', fig.width=7, fig.height=4}
+model_select <- regsubsets(MD_EARN_WNE_P10 ~ ., 
+                           data = scorecard_small, 
+                           nvmax = 3, 
+                           method="exhaustive",
+                           really.big = T)
+
+plot(model_select, scale="adjr2")
+```
+]
+
+---
+
+### Looking at the results
+
+.large[
+```{r fig.align='center', fig.width=7, fig.height=4}
+plot(model_select, scale="adjr2")
+```
+
+.question[
+Why do we have at most three variables in the model?
+]
+]
+
+--
+
+.large[
+Because we only considered models with at most three variables!
+]
+
+---
+
+### Changing the number of variables
+
+.large[
+```{r eval=F}
+model_select <- regsubsets(MD_EARN_WNE_P10 ~ ., 
+                           data = scorecard_small, 
+                           nvmax = 3, 
+                           method="exhaustive",
+                           really.big = T)
+```
+
+.question[
+How do I change the code to allow more variables in the models?
+]
+]
+
+---
+
+### Changing the number of variables
+
+.large[
+```{r eval=F}
+model_select <- regsubsets(MD_EARN_WNE_P10 ~ ., 
+                           data = scorecard_small, 
+                           nvmax = 8, 
+                           method="exhaustive",
+                           really.big = T)
+```
+
+* `nvmax` specifies the maximum number of predictors considered
+]
+
+---
+
+### Looking at the results
+
+.large[
+```{r echo=F, fig.align='center', fig.width=7, fig.height=5}
+plot(model_select, scale="adjr2")
+```
+
+.question[
+Which variables are included in the model which maximizes $R^2_{adj}$?
+]
+]
+
+---
+
+### Looking at the results
+
+.large[
+```{r echo=F, fig.align='center', fig.width=7, fig.height=5}
+plot(model_select, scale="adjr2")
+```
+
+`ACTCMMID`, `PCTFLOAN`, `GRAD_DEBT_MDN_SUPP`, `RPY_3YR_RT_SUPP`
+]
+
+---
+
+### Optimality criteria
+
+.large[
+What defines the "best" model?
+
+**Option 1:** maximize $R^2_{adj}$
+
+$$R^2_{adj} = 1 - \dfrac{SSE/(n-p)}{SSTotal/(n-1)}$$
+* Motivation: Want SSE low, but penalize the number of parameters
+]
+
+---
+
+### Optimality criteria
+
+.large[
+What defines the "best" model?
+
+**Option 2:** minimize Mallows' $C_p$:
+
+$$C_p = \dfrac{SSE_q}{MSE_p} -n + 2q$$
+* $SSE_q$ = sum of squared residuals for the model with $q$ parameters
+* $MSE_p$ = mean squared error for full model with all $p$ possible parameters
+* Motivation: Want SSE low, but penalize the number of parameters
+]
+
+---
+
+### Class activity, Part II
+
+.large[
+[https://sta112-s22.github.io/class_activities/ca_lecture_26.html](https://sta112-s22.github.io/class_activities/ca_lecture_26.html)
+]
+
+---
+
+### Class activity
+
+.large[
+```{r echo=F, fig.align='center', fig.width=7, fig.height=5}
+plot(model_select, scale="Cp")
+```
+
+.question[
+Which variables are in the model that minimizes $C_p$?
+]
+]
+
+---
+
+### Class activity
+
+.large[
+```{r echo=F, fig.align='center', fig.width=7, fig.height=5}
+plot(model_select, scale="Cp")
+```
+
+`ACTCMMID`, `PCTFLOAN`, `GRAD_DEBT_MDN_SUPP`, `RPY_3YR_RT_SUPP`
+]
+
+---
+
+### Class activity
+
+.large[
+.question[
+Is the model which  maximizes $R^2_{adj}$ the same as the model which minimizes Mallows' $C_p$?
+]
+]
+
+--
+
+.large[
+In this case, yet -- but not always
+]
+
+---
+
+### Class activity
+
+.large[
+.question[
+Can I use the model from best subset selection to test whether there is a relationship between school cost and graduate earnings?
+]
+]
+
+--
+
+.large[
+No -- cost (`NPT4`) isn't even in the model!
+]
+
+---
+
+### Cautions about best subset selection
+
+.large[
+* Think carefully about the variables you consider (e.g., consider removing variables with multicollinearity issues)
+* Best subset selection is not a substitute for checking assumptions and experimenting with variable transformations
+* Model selection with transformed variables can give different results to model selection with untransformed variables
+* Different optimality criteria (e.g., $R^2_{adj}$ vs. $C_p$ ) can give different "best" models
+]
+
+---
+
+### When to use best subset selection
+
+.large[
+**Use best subset selection when:** 
+
+* You want to identify variables which are important for predicting the response
+* You want to build a model which is good at predicting the response
+
+**Do not use best subset selection when:**
+
+* Your research question is focused on specific variables
+* You want to do inference (hypothesis testing, confidence intervals, etc.)
+
+]
