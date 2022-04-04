@@ -23,5 +23,3 @@ April 1
 : **HW 6 due**{: .label .label-red }
 
 : **Project 1, part 4 due**{: .label .label-red }
-
-: **Project 1, part 5 released**{: .label .label-green } (due in 2 weeks)

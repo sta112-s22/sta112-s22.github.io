@@ -7,6 +7,10 @@ April 18
 
 : Textbook 9.3
 
+: **Project 1, part 5 due**{: .label .label-red }
+
+: **HW 7 released**{: .label .label-yellow }
+
 April 20
 : Fitting logistic regression
 
@@ -16,7 +20,3 @@ April 22
 : Logistic regression inference
 
 : Textbook 9.4
-
-: **HW 7 due**{: .label .label-red }
-
-: **Project 2**{: .label .label-green }

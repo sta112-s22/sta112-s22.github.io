@@ -12,7 +12,3 @@ April 13
 
 April 15
 : **No class**{: .label .label-blue }
-
-: **Project 1, part 5 due**{: .label .label-red }
-
-: **HW 7 released**{: .label .label-yellow }

@@ -5,6 +5,10 @@ title: Wrap-up
 April 25
 : Wrapping up logistic regression
 
+: **HW 7 due**{: .label .label-red }
+
+: **Project 2 released**{: .label .label-green }
+
 April 27
 : Regression beyond 112, project work day
 
