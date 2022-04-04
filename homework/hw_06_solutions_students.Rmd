@@ -1,0 +1,83 @@
+---
+title: "Homework 6 Solutions"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+team_data <- read_csv("https://sta112-s22.github.io/homework/team_data.csv")
+```
+
+### Question 1
+
+$H_0: \beta_5 = 0 \hspace{1cm} H_A: \beta_5 \neq 0$
+
+### Question 2
+
+**Full model:**
+
+$\text{performance} = \beta_0 + \beta_1 \text{size} + \beta_2 \text{females} + \beta_3 \text{diversity} + \beta_4 \text{testosterone} \\ \hspace{3cm} + \beta_5 \text{diversity} \cdot \text{testosterone} + \varepsilon$
+
+**Reduced model:**
+
+$\text{performance} = \beta_0 + \beta_1 \text{size} + \beta_2 \text{females} + \beta_3 \text{diversity} + \beta_4 \text{testosterone} + \varepsilon$
+
+
+### Question 3 
+
+Numerator degrees of freedom: 1 (we are only testing a single parameter)
+
+Denominator degrees of freedom: 68 (= 74 - 6, because there are 74 observations and 6 parameters in the full model)
+
+
+
+### Question 4 
+
+```{r}
+m1 <- lm(performance ~ size + females + diversity*testosterone,
+         data = team_data)
+m0 <- lm(performance ~ size + females + diversity + testosterone,
+         data = team_data)
+anova(m0, m1)
+```
+
+Test statistic: $F = 21.1$ 
+
+p-value: $1.94 \times 10^{-5}$
+
+conclusion: we have strong evidence that the relationship between diversity and group performance depends on the level of testosterone
+
+### Question 5
+
+```{r}
+summary(m1)
+```
+
+Degrees of freedom: 68
+
+Test statistic: $t = -4.594$
+
+p-value: $1.94 \times 10^{-5}$
+
+### Question 6 
+
+The $F = 21.1 = (-4.594)^2 = t^2$
+
+
+### Question 7 
+
+We'll do a 95% confidence interval (you could do a different level if you want). The critical value $t^*$ (from a $t_{68}$ distribution) is 2.00:
+
+```{r}
+qt(0.025, 68, lower.tail=F)
+```
+
+So, our confidence interval is 
+
+$$-0.148 \pm 2.00 \cdot 0.0322 = (-0.212, -0.084)$$
+
+We are 95% confident that for a one-unit increase in testosterone, the slope on diversity decreases by between 0.084 and 0.212 units. 
+
+
+

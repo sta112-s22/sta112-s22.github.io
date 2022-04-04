@@ -21,6 +21,7 @@ editor_options:
   * Closed notes
 * Project 1, Part 5 released
   * Due April 18
+* Solutions to HW 6 posted on Canvas
 ]
 
 ---
