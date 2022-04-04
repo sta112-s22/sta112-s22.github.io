@@ -428,6 +428,12 @@ model_select <- regsubsets(MD_EARN_WNE_P10 ~ .,
 
 .large[
 ```{r echo=F, fig.align='center', fig.width=7, fig.height=5}
+model_select <- regsubsets(MD_EARN_WNE_P10 ~ ., 
+                           data = scorecard_small, 
+                           nvmax = 8, 
+                           method="exhaustive",
+                           really.big = T)
+
 plot(model_select, scale="adjr2")
 ```
 
