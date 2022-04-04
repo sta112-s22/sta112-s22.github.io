@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Review</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.10/header-attrs.js"></script>
+    <link rel="stylesheet" href="lab-slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Review
+
+---
+
+
+### Agenda
+
+.large[
+* Exam 2 on Wednesday
+  * 50 minutes, in-class exam
+  * Bring a calculator; no cell phones
+  * Closed notes
+* Project 1, Part 5 released
+  * Due April 18
+]
+
+---
+
+### Review activity
+
+.large[
+[https://sta112-s22.github.io/class_activities/ca_lecture_27.html](https://sta112-s22.github.io/class_activities/ca_lecture_27.html)
+]
+
+---
+
+### Review activity
+
+.large[
+
+&lt;img src="lecture_27_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" /&gt;
+
+.question[
+Which model is the most appropriate, given this scatterplot?
+]
+]
+
+--
+
+.large[
+`\((3) \hspace{1cm} \text{oxygen} = \beta_0 + \beta_1 \text{IsShip} + \beta_2 \text{mass} + \beta_3 \text{IsShip} \cdot \text{mass} +  \varepsilon\)`
+]
+
+---
+
+### Review activity
+
+.large[
+`\((1) \hspace{1cm} \text{oxygen} = \beta_0 + \beta_1 \text{mass} + \varepsilon\)`
+
+.question[
+What would a scatterplot look like for this model?
+]
+]
+
+--
+
+&lt;img src="lecture_27_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Review activity
+
+.large[
+`\((2) \hspace{1cm} \text{oxygen} = \beta_0 + \beta_1 \text{IsShip} + \beta_2 \text{mass} + \varepsilon\)`
+
+.question[
+What would a scatterplot look like for this model?
+]
+]
+
+--
+
+&lt;img src="lecture_27_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Review activity
+
+.large[
+`\(\widehat{\text{oxygen}} = 52.06 + 257.38 \ \text{IsShip} + 1.92 \ \text{mass} - 4.05 \ \text{IsShip} \cdot \text{mass}\)`
+
+.question[
+Using the estimated equation for the model you chose in question 1, what is the predicted rate of oxygen consumption for a 40g crab exposed to ocean noise? What about for a 40g crab exposed to ship noise?
+]
+]
+
+--
+
+.large[
+**Exposed to ocean noise:**
+
+`\(52.06 + 1.92 \cdot 40 = 128.86\)`
+
+**Exposed to ship noise:**
+
+`\(52.06 + 257.38 + (1.92 - 4.05) \cdot 40 = 224.24\)`
+]
+
+---
+
+### Review activity
+
+.large[
+`\(\widehat{\text{oxygen}} = 52.06 + 257.38 \ \text{IsShip} + 1.92 \ \text{mass} - 4.05 \ \text{IsShip} \cdot \text{mass}\)`
+
+.question[
+What is the estimated change in oxygen consumption associated with a 1g increase in Mass, for crabs exposed to ship noise?
+]
+]
+
+--
+
+.large[
+The slope on mass is `\(1.92 - 4.05 \cdot \text{IsShip}\)`. So for crabs exposed to ship noise, the slope is 
+
+`\(1.92 - 4.05 = -2.13\)`
+]
+
+---
+
+### Review activity
+
+.large[
+`\(\text{oxygen} = \beta_0 + \beta_1 \text{IsShip} + \beta_2 \text{mass} + \beta_3 \text{IsShip} \cdot \text{mass} +  \varepsilon\)`
+
+.question[
+The researchers want to test whether there is any relationship between ship noise and oxygen consumption, after accounting for mass. Write down a null and alternative hypothesis for this test, in terms of one or more parameters from the model.
+]
+]
+
+--
+
+.large[
+`\(H_0: \beta_1 = \beta_3 = 0\)`
+
+`\(H_A: \text{at least one of } \beta_1, \beta_3 \neq 0\)`
+]
+
+---
+
+### Review activity
+
+.large[
+`\(\text{oxygen} = \beta_0 + \beta_1 \text{IsShip} + \beta_2 \text{mass} + \beta_3 \text{IsShip} \cdot \text{mass} +  \varepsilon\)`
+
+`\(H_0: \beta_1 = \beta_3 = 0\)`
+
+`\(H_A: \text{at least one of } \beta_1, \beta_3 \neq 0\)`
+
+.question[
+What test can the researchers use to test their hypotheses? Explain your reasoning, and provide the degrees of freedom.
+]
+]
+
+--
+
+.large[
+* Test: a nested F test (because we are testing more than one parameter)
+* Degrees of freedom: 2 and 96
+]
+
+---
+
+### Review activity
+
+.large[
+
+```
+## Analysis of Variance Table
+## 
+## Response: Oxygen
+##           Df Sum Sq Mean Sq F value Pr(&gt;F)
+## Mass       1    895  894.52  0.5351 0.4662
+## Residuals 98 163817 1671.61
+```
+
+
+```
+## Analysis of Variance Table
+## 
+## Response: Oxygen
+##            Df Sum Sq Mean Sq  F value  Pr(&gt;F)    
+## Mass        1    895     895   3.2786 0.07332 .  
+## Noise       1  71489   71489 262.0215 &lt; 2e-16 ***
+## Mass:Noise  1  66135   66135 242.3981 &lt; 2e-16 ***
+## Residuals  96  26192     273                     
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+]
+
+---
+
+### Review activity
+
+.large[
+**Test statistic:**
+
+`\begin{align}
+F &amp;= \dfrac{\frac{1}{\# \text{parameters tested}} (SSE_{reduced} - SSE_{full})}{\frac{1}{n-p} SSE_{full}} \\
+&amp;= \dfrac{\frac{1}{2}(163817 - 26192)}{\frac{1}{96} 26192} \\
+&amp;= 252.21
+\end{align}`
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
