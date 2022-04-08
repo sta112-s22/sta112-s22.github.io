@@ -12,9 +12,7 @@ April 4
 April 6
 : **Exam 2**{: .label .label-red }
 
-: **Extra Credit 2 released**
-
 April 8
-: Introduction to logistic regression, odds, odds ratios
+: Project work day
 
-: Textbook 9.1, 9.2
+: **Extra Credit 2 released**

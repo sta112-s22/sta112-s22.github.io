@@ -195,15 +195,15 @@ We will begin by looking at the relationship between drive type and fuel efficie
 \hline
 \textbf{Source} & \textbf{degrees of freedom (df)} & \textbf{Sum of Squares (SS)} & \textbf{Mean Squares (MS)} & \textbf{F} \\
 \hline
-\texttt{drive} & & 1878.8 & & $\hspace{1.5cm}$ \\
-Residuals & & 2341.5 & &  \\
+Model & & 1878.8 & & $\hspace{1.5cm}$ \\
+Residual & & 2341.5 & &  \\
 \hline
 Total & & & & \\
 \hline
 \end{tabular}
 \end{center}
 
-\vspace{5cm}
+\pagebreak
 
 \item Using your ANOVA table, what is the value of the test statistic you will use to test your hypotheses from Question 3? What distribution will you compare your test statistic with to calculate a p-value (give the name and degrees of freedom for the distribution).
 
@@ -221,7 +221,7 @@ The client is now interested in adding engine displacement to the model. In part
 
 \item Write down a population model that allows the client to answer this research question. Use appropriate notation, and explain your reasoning for choosing the model.
 
-\vspace{3cm}
+\vspace{5cm}
 
 \item The client fits your model, resulting in the following model output. Interpret the fitted coefficient $-2.07$ in context.
 
@@ -251,8 +251,27 @@ The client is now interested in adding engine displacement to the model. In part
 \vspace{3cm}
 
 
-\item Finally, you want to check assumptions to make sure your hypothesis tests are valid. Explain to the client which diagnostic plot you will use to assess the shape and constant variance assumptions. Then, sketch an example diagnostic plot in which both the shape \textit{and} constant variance assumptions are violated. Make sure to label the axes.
+\item Now you want to check assumptions to make sure your hypothesis tests are valid. Explain to the client which diagnostic plot you will use to assess the shape and constant variance assumptions. Then, sketch an example diagnostic plot in which both the shape \textit{and} constant variance assumptions are violated. Make sure to label the axes.
 
+
+\pagebreak
+
+\rule{\textwidth}{1pt}
+
+To compare nested regression models we use a nested F test, where the test statistic is given by
+
+$$F = \dfrac{\frac{1}{\# \text{parameters tested}} (SSE_{reduced} - SSE_{full})}{\frac{1}{n-p} SSE_{full}}$$
+
+where $n$ is the number of observations in the data, and $p$ is the number of parameters in the full model. $SSE_{reduced}$ and $SSE_{full}$ are the residual sum of squares for the reduced and full models; recall that
+
+$$SSE = \sum \limits_{i=1}^n (y_i - \widehat{y}_i)^2 \hspace{1cm} SSModel = \sum \limits_{i=1}^n (\widehat{y}_i - \overline{y})^2 \hspace{1cm} SSTotal = \sum \limits_{i=1}^n (y_i - \overline{y})^2 $$
+
+and $SSTotal = SSModel + SSE$.
+
+\rule{\textwidth}{1pt}
+
+
+\item The F test you calculated with the ANOVA table in Question 4 is a special case of the nested F test, when we are testing whether there is a relationship between a single categorical predictor and a quantitative response. Using the formula for the nested F statistic given here, explain why.
 
 \pagebreak
 
