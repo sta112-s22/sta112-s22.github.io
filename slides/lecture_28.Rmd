@@ -14,6 +14,13 @@ editor_options:
 
 ### Agenda
 
+.large[
+* Extra credit 2 released on course website
+* Project 1, Part 5 due next Monday
+* No class this Friday (holiday)
+* Today: begin logistic regression
+]
+
 ---
 
 ### Data
@@ -356,6 +363,10 @@ Comparings odds:
 ---
 
 ### Class activity
+
+.large[
+[https://sta112-s22.github.io/class_activities/ca_lecture_28.html](https://sta112-s22.github.io/class_activities/ca_lecture_28.html)
+]
 
 ---
 
