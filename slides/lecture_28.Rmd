@@ -17,6 +17,9 @@ editor_options:
 .large[
 * Extra credit 2 released on course website
 * Project 1, Part 5 due next Monday
+* Remaining assignments:
+  * One more HW
+  * Project 2
 * No class this Friday (holiday)
 * Today: begin logistic regression
 ]

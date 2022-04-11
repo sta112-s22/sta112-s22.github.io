@@ -20,3 +20,5 @@ April 22
 : Logistic regression inference
 
 : Textbook 9.4
+
+: **Project 2 released**{: .label .label-green }

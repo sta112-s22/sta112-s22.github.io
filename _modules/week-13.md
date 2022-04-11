@@ -1,5 +1,5 @@
 ---
-title: Beginning logistic regression
+title: Exam 2
 ---
 
 April 4
@@ -16,3 +16,4 @@ April 8
 : Project work day
 
 : **Extra Credit 2 released**
+  : [EC 2](https://sta112-s22.github.io/extra_credit/ec2.html)
