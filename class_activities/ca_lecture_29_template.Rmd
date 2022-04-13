@@ -1,0 +1,44 @@
+---
+---
+---
+title: "Class Activity, April 13"
+author: "Your Name"
+output: html_document
+---
+
+## Setup
+
+Run the setup chunk:
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(Stat2Data)
+data("MedGPA")
+```
+
+## Question 1
+
+
+## Question 2
+
+
+## Question 3
+
+
+## Question 4
+
+```{r}
+
+```
+
+
+## Question 5
+
+
+## Question 6
+
+
+## Question 7
+
+

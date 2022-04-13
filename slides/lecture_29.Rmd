@@ -14,9 +14,19 @@ editor_options:
 
 ### Agenda
 
+.large[
+* No class this Friday
+* No HW due this week
+* Today: interpreting logistic regression models
+]
+
 ---
 
 ### Class activity, Part I
+
+.large[
+[https://sta112-s22.github.io/class_activities/ca_lecture_29.html](https://sta112-s22.github.io/class_activities/ca_lecture_29.html)
+]
 
 ---
 
@@ -274,6 +284,10 @@ $\log \left( \dfrac{\widehat{\pi}}{1 - \widehat{\pi}} \right) = -19.21 + 5.45 \ 
 ---
 
 ### Class activity, Part II
+
+.large[
+[https://sta112-s22.github.io/class_activities/ca_lecture_29.html](https://sta112-s22.github.io/class_activities/ca_lecture_29.html)
+]
 
 ---
 

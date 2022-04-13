@@ -1,0 +1,54 @@
+---
+title: "Class Activity, April 13"
+output: 
+  tufte::tufte_html:
+    css: "lab.css"
+    tufte_variant: "envisioned"
+    highlight: pygments
+link-citations: yes
+---
+
+# GPA and med school acceptance
+
+In this class activity, you practice fitting and using a logistic regression model. 
+
+**Data:** We will use the `MedGPA` data, which is included in the `Stat2Data` package for our textbook. This data looks at the relationship between GPA, MCAT score, and admission to medical school. We have already examined the relationship between GPA and admission. In this class activity you will look at the relationship between MCAT score and admission.
+
+To import the data, run the following:
+
+```r
+library(Stat2Data)
+data("MedGPA")
+```
+
+**Activity template:** [activity template](https://sta112-s22.github.io/class_activities/ca_lecture_29_template.Rmd)
+
+## Part I
+
+The estimated logistic regression model for the relationship between GPA and acceptance to medical school is
+
+$\log \left( \dfrac{\widehat{\pi}}{1 - \widehat{\pi}} \right) = -19.21 + 5.45 \ \text{GPA},$
+
+where $\widehat{\pi}$ is the estimated probability of acceptance.
+
+1. What is the estimated odds of acceptance for a student with a GPA of 4.0? *(Hint: calculate on the log scale, then exponentiate. Remember that $\log$ here means natural log.)*
+
+2. Calculate the odds ratio comparing odds of acceptance for a student with a GPA of 4.0 to a student with a GPA of 3.0.
+
+3. Calculate the odds ratio comparing odds of acceptance for a student with a GPA of 3.8 to a student with a GPA of 2.8.
+
+## Part II
+
+4. Run the following code to fit a logistic regression model with MCAT score as the predictor and acceptance as the response:
+
+```r
+med_glm <- glm(Acceptance ~ MCAT, data = MedGPA, 
+               family = binomial)
+summary(med_glm)
+```
+
+5. What is the change in the odds of acceptance associated with an increase of 1 point on the MCAT?
+
+6. What is the estimated probability that a student with an MCAT score of 40 is accepted?
+
+7. For approximately what MCAT score would a student have a roughly 50-50 chance of being accepted to medical school?

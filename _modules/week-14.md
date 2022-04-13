@@ -10,6 +10,7 @@ April 11
 
 April 13
 : Logistic regression interpretation
+  : [Slides](https://sta112-s22.github.io/slides/lecture_29.html), [Class activity](https://sta112-s22.github.io/class_activities/ca_lecture_29.html)
 
 : Textbook 9.1, 9.2
 
