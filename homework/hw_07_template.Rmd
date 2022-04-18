@@ -1,0 +1,37 @@
+---
+---
+---
+title: "Homework 7"
+author: "Your Name"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(Stat2Data)
+data("Kershaw")
+```
+
+### Question 1
+
+
+
+### Question 2
+
+
+
+### Question 3
+
+
+
+### Question 4
+
+
+
+### Question 5
+
+
+
+
+

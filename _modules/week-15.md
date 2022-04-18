@@ -3,22 +3,25 @@ title: Likelihoods and inference
 ---
 
 April 18
-: Logistic regression assumptions
+: Fitting logistic regression
+  : [Slides](https://sta112-s22.github.io/slides/lecture_30.html), [Class activity](https://sta112-s22.github.io/class_activities/ca_lecture_30.html)
 
-: Textbook 9.3
+: Textbook 11.1
 
 : **Project 1, part 5 due**{: .label .label-red }
 
 : **HW 7 released**{: .label .label-yellow }
+  : [HW 7](https://sta112-s22.github.io/homework/homework_7.html)
 
 April 20
-: Fitting logistic regression
-
-: Textbook 11.1
-
-April 22
 : Logistic regression inference
 
 : Textbook 9.4
+
+
+April 22
+: Logistic regression assumptions
+
+: Textbook 9.3
 
 : **Project 2 released**{: .label .label-green }
