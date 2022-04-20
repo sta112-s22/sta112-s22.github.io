@@ -15,6 +15,7 @@ April 18
 
 April 20
 : Logistic regression inference
+  : [Slides](https://sta112-s22.github.io/slides/lecture_31.html), [Class activity](https://sta112-s22.github.io/class_activities/ca_lecture_31.html)
 
 : Textbook 9.4
 
