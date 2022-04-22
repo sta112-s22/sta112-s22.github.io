@@ -22,6 +22,10 @@ April 20
 
 April 22
 : Logistic regression assumptions
+  : [Slides](https://sta112-s22.github.io/slides/lecture_32.html)
+
+: **Lab 5**{: .label .label-purple }
+  : [Lab 5](https://sta112-s22.github.io/labs/lab_5.html)
 
 : Textbook 9.3
 
